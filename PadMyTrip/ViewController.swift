@@ -29,10 +29,12 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         locationManager.delegate = self
         getPermissions()
         setUpMap()
+        
+        writeOutputString(dataString: "Some data", fileName: "data", fileExtension: ".csv")
     }
     
     
-    
+     // MARK: Functions
     func setUpMap() {
         mapView.mapType = .standard
         // mapView.userTrackingMode = MKUserTrackingMode(rawValue: 2)!
@@ -54,6 +56,36 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         locationManager.startUpdatingLocation()
     }
     
+    // MARK: File Handling
+    func getDocumentsDirectory() -> URL {
+        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        // let public = FileManager
+        return paths[0]
+    }
+    
+    func createDirectory () {
+        let docDir = self.getDocumentsDirectory()
+        let url = docDir.appendingPathComponent("MyFolderName")
+        do {
+            try FileManager.default.createDirectory(atPath: url.absoluteString, withIntermediateDirectories: true, attributes: nil)
+        } catch let error as NSError {
+            print(error.localizedDescription);
+        }
+    }
+    
+    func writeOutputString (dataString: String, fileName: String, fileExtension: String) {
+        let longFileName = fileName + fileExtension
+        
+        let url = self.getDocumentsDirectory().appendingPathComponent(longFileName)
+        
+        do {
+            try dataString.write(to: url, atomically: true, encoding: .utf8)
+            let input = try String(contentsOf: url)
+            print(input)
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         //mapView.centerToLocation(location)
@@ -65,5 +97,4 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         mapView.setRegion(coordinateRegion, animated: true)
         locationManager.stopUpdatingLocation()
     }
-    
 }

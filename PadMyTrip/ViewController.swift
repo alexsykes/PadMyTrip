@@ -19,6 +19,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     // MARK: Properties
     var locationManager: CLLocationManager!
     var userLocation: CLLocation!
+    var trackFiles: [URL]!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -76,12 +77,12 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         // importFileMenu.dismiss(animated: true, completion: nil)
         
         if #available(iOS 13.0, *) {
-            print("File iOS 13+")
+           // print("File iOS 13+")
             importFileMenu.directoryURL = FileManager.default.containerURL(
                 forSecurityApplicationGroupIdentifier: "group.com.alexsykes.MapMyTrip")!
         } else {
             // Fallback on earlier versions
-            print("File iOS <=12")
+          //  print("File iOS <=12")
         }
         importFileMenu.modalPresentationStyle = .formSheet
         
@@ -92,7 +93,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         return paths[0]
     }
-    
+     
+    // Final stage when writing file
     func writeOutputString (dataString: String, fileName: String, fileExtension: String) {
         let longFileName = fileName + fileExtension
         
@@ -105,6 +107,69 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         } catch {
             print(error.localizedDescription)
         }
+    }
+    
+    // Read date from file(s) returned by documentPicker
+    // Need to add CSV filter
+    func readReturnedTracks() {
+        var polylines :[MKPolyline] = []
+        var csvURLs = trackFiles.filter{ $0.pathExtension == "csv"}
+        
+        for file in csvURLs {
+            var trackData = readFile(url :file)
+            let trackLocations :[CLLocation] = prepareLocations(trackData: trackData)
+         //   addOverlay()
+            
+        }
+    }
+    
+    func prepareLocations(trackData trackData: [String]) -> [CLLocation] {
+        var locations :[CLLocation] = []
+        var theLocation: CLLocation!
+        var elevation: Double!
+        var latitude: Double!
+        var longitude: Double!
+        var hacc: Double!
+        var vacc: Double!
+        var timestampS: String!
+        var coordinate: CLLocationCoordinate2D
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        
+        var values :[String] = []
+        
+        for point in trackData {
+            values  = point.components(separatedBy: ",")
+            latitude = Double(values[0])
+            longitude = Double(values[1])
+            hacc = Double(values[2])
+            vacc = Double(values[3])
+            elevation = Double(values[4])
+            timestampS = values[5]
+            
+            let date = formatter.date(from: timestampS)
+            coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+            theLocation = CLLocation(coordinate: coordinate, altitude: elevation, horizontalAccuracy: hacc, verticalAccuracy: vacc, timestamp: date ?? Date())
+            locations.append(theLocation)
+        }
+        return locations
+    }
+    
+    // Read trackdata from storage
+    // Return array of Strings
+    func readFile(url :URL) -> [String] {
+        var points:[String] = []
+        let path = url.path
+        let fileContents = FileManager.default.contents(atPath: path)
+        let fileContentsAsString = String(bytes: fileContents!, encoding: .utf8)
+        
+        // Split lines then append to array
+        let lines = fileContentsAsString!.split(separator: "\n")
+        for line in lines {
+            points.append(String(line))
+        }
+        return points
     }
     
     // MARK: Actions
@@ -128,13 +193,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     // Documents picked
     func documentPicker(_ controller: UIDocumentPickerViewController,
                         didPickDocumentsAt urls: [URL]) {
-        let count = urls.count
-        print("\(count) docs selected")
-        
-        for url in urls {
-            let name = url.lastPathComponent
-            print("Filename: \(name)")
-        }
-        return
-    }
+        trackFiles = urls
+        readReturnedTracks()
+         }
 }

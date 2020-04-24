@@ -113,17 +113,38 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     // Need to add CSV filter
     func readReturnedTracks() {
         var polylines :[MKPolyline] = []
-        var csvURLs = trackFiles.filter{ $0.pathExtension == "csv"}
+        let csvURLs = trackFiles.filter{ $0.pathExtension == "csv"}
         
         for file in csvURLs {
             var trackData = readFile(url :file)
             let trackLocations :[CLLocation] = prepareLocations(trackData: trackData)
-         //   addOverlay()
+            polylines  = convertToPolyline(trackLocations: trackLocations)
+            let count = trackLocations.count
+            print ("Number of CLLocations: \(count)")
             
         }
     }
+   
     
-    func prepareLocations(trackData trackData: [String]) -> [CLLocation] {
+    // MARK: Start here
+//    // Plots track loaded from visitedLocations array
+//    func plotCurrentTrack() {
+//        // if (visitedLocations.last as CLLocation?) != nil {
+//        var coordinates = track.map({(location: CLLocation) -> CLLocationCoordinate2D in return location.coordinate})
+//        polyline = MKPolyline(coordinates: &coordinates, count: coordinates.count)
+//        mapView.addOverlay(polyline)
+//        //  }
+//    }
+    
+    func convertToPolyline(trackLocations :[CLLocation]) -> [MKPolyline] {
+        var polylines :[MKPolyline] = []
+        
+        
+        
+        
+    }
+    
+    func prepareLocations(trackData: [String]) -> [CLLocation] {
         var locations :[CLLocation] = []
         var theLocation: CLLocation!
         var elevation: Double!

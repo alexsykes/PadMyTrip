@@ -19,7 +19,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     var locationManager: CLLocationManager!
     var userLocation: CLLocation!
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -28,23 +27,43 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         locationManager = CLLocationManager()
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.delegate = self
-        
-        let initialLocation = CLLocation(latitude: 21.282778, longitude: -157.829444)
-        mapView.centerToLocation(initialLocation)
+        getPermissions()
+        setUpMap()
     }
-
-
-}
-
-private extension MKMapView {
-  func centerToLocation(
-    _ location: CLLocation,
-    regionRadius: CLLocationDistance = 1000
-  ) {
-    let coordinateRegion = MKCoordinateRegion(
-      center: location.coordinate,
-      latitudinalMeters: regionRadius,
-      longitudinalMeters: regionRadius)
-    setRegion(coordinateRegion, animated: true)
-  }
+    
+    
+    
+    func setUpMap() {
+        mapView.mapType = .standard
+        // mapView.userTrackingMode = MKUserTrackingMode(rawValue: 2)!
+        // mapView.showsCompass = true
+    }
+    
+    
+    // Gets permisiions for location services
+    func getPermissions() {
+        // user activated automatic authorization info mode
+        let status = CLLocationManager.authorizationStatus()
+        if status == .notDetermined || status == .denied || status == .authorizedWhenInUse {
+            // present an alert indicating location authorization required
+            // and offer to take the user to Settings for the app via
+            // UIApplication -openUrl: and UIApplicationOpenSettingsURLString
+            locationManager.requestWhenInUseAuthorization()
+            locationManager.requestAlwaysAuthorization()
+        }
+        locationManager.startUpdatingLocation()
+    }
+    
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        //mapView.centerToLocation(location)
+        let location = locations.last! as CLLocation
+        let coordinateRegion = MKCoordinateRegion(
+            center: location.coordinate,
+            latitudinalMeters: 10000,
+            longitudinalMeters: 10000)
+        mapView.setRegion(coordinateRegion, animated: true)
+        locationManager.stopUpdatingLocation()
+    }
+    
 }

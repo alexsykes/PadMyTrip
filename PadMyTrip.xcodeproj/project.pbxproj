@@ -38,6 +38,7 @@
 		FA96A592245304FD001863CA /* PadMyTripTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PadMyTripTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA96A596245304FD001863CA /* PadMyTripTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PadMyTripTests.swift; sourceTree = "<group>"; };
 		FA96A598245304FD001863CA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FA96A5A1245348EB001863CA /* PadMyTrip.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PadMyTrip.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +80,7 @@
 		FA96A57E245304FC001863CA /* PadMyTrip */ = {
 			isa = PBXGroup;
 			children = (
+				FA96A5A1245348EB001863CA /* PadMyTrip.entitlements */,
 				FA96A57F245304FC001863CA /* AppDelegate.swift */,
 				FA96A581245304FC001863CA /* SceneDelegate.swift */,
 				FA96A583245304FC001863CA /* ViewController.swift */,
@@ -362,6 +364,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = PadMyTrip/PadMyTrip.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 88UXW8RGH2;
 				INFOPLIST_FILE = PadMyTrip/Info.plist;
@@ -380,6 +383,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = PadMyTrip/PadMyTrip.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 88UXW8RGH2;
 				INFOPLIST_FILE = PadMyTrip/Info.plist;

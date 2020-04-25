@@ -31,14 +31,13 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         locationManager.delegate = self
         getPermissions()
         setUpMap()
-      //  readFromPublic()
-        writeOutputString(dataString: "Some data", fileName: "data", fileExtension: ".csv")
     }
     
     
-     // MARK: Functions
+    // MARK: Functions
     func setUpMap() {
         mapView.mapType = .standard
+        mapView.delegate = self
         // mapView.userTrackingMode = MKUserTrackingMode(rawValue: 2)!
         // mapView.showsCompass = true
     }
@@ -59,30 +58,35 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     }
     
     // MARK: File Handling
+    /* Presents user with a dialog box u
+     user selects a file or files
+     then the documentPicker didPickDocumentsAt event is fired
+     */
+    // TODO: Add/check Cancel button
     func readFromPublic () {
         
         // open a document picker, select a file
         // documentTypes see - https://developer.apple.com/library/archive/documentation/Miscellaneous/Reference/UTIRef/Articles/System-DeclaredUniformTypeIdentifiers.html#//apple_ref/doc/uid/TP40009259-SW1
         
         let importFileMenu = UIDocumentPickerViewController(documentTypes: ["public.text"],
-                                                            in: UIDocumentPickerMode.open)
-   //     var cancelButton :UIBarButtonItem = UIBarButtonItem!
-      // cancelButton.title = "Cancel"
+                                                            in: UIDocumentPickerMode.import)
+        //     var cancelButton :UIBarButtonItem = UIBarButtonItem!
+        // cancelButton.title = "Cancel"
         
         importFileMenu.delegate = self
         importFileMenu.shouldShowFileExtensions = false
         importFileMenu.allowsMultipleSelection = true
-      //  importFileMenu.setToolbarItems([cancelButton]?, animated: traitCollection)
+        //  importFileMenu.setToolbarItems([cancelButton]?, animated: traitCollection)
         
         // importFileMenu.dismiss(animated: true, completion: nil)
         
         if #available(iOS 13.0, *) {
-           // print("File iOS 13+")
+            // print("File iOS 13+")
             importFileMenu.directoryURL = FileManager.default.containerURL(
                 forSecurityApplicationGroupIdentifier: "group.com.alexsykes.MapMyTrip")!
         } else {
             // Fallback on earlier versions
-          //  print("File iOS <=12")
+            //  print("File iOS <=12")
         }
         importFileMenu.modalPresentationStyle = .formSheet
         
@@ -93,7 +97,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         return paths[0]
     }
-     
+    
     // Final stage when writing file
     func writeOutputString (dataString: String, fileName: String, fileExtension: String) {
         let longFileName = fileName + fileExtension
@@ -103,45 +107,63 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         do {
             try dataString.write(to: url, atomically: true, encoding: .utf8)
             let input = try String(contentsOf: url)
-            print(input)
+          //  print(input)
         } catch {
             print(error.localizedDescription)
         }
     }
     
     // Read date from file(s) returned by documentPicker
-    // Need to add CSV filter
+    // Need to add CSV filter - done
     func readReturnedTracks() {
+        // Set up polylines to be returned
         var polylines :[MKPolyline] = []
+        // filter files for correct extension
         let csvURLs = trackFiles.filter{ $0.pathExtension == "csv"}
         
+        // For each file convert array of CLLocations
+        // into a single polyline
         for file in csvURLs {
-            var trackData = readFile(url :file)
-            let trackLocations :[CLLocation] = prepareLocations(trackData: trackData)
-            polylines  = convertToPolyline(trackLocations: trackLocations)
-            let count = trackLocations.count
-            print ("Number of CLLocations: \(count)")
-            
+            var trackData = readFile(url :file)     // trackData -> array of Strings : each line becomes one location in
+            let locations :[CLLocation] = prepareLocations(trackData: trackData) // trackLocations -> array of CLLocation to be converted to
+            let polyline = convertToPolyline(trackLocations: locations)
+            let count = polyline.pointCount
+          //  print("\(count)")
+            polylines.append(polyline)
+        }
+        showTracksOnMap(polylines: polylines)
+    }
+    
+    func showTracksOnMap(polylines: [MKPolyline]) {
+        for polyline in polylines {
+        mapView.addOverlay(polyline)
         }
     }
-   
+    
+    // Render track on map
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay!) -> MKOverlayRenderer! {
+        let renderer = MKPolylineRenderer(overlay: overlay)
+        renderer.strokeColor = UIColor.blue
+        renderer.lineWidth = 5
+        return renderer
+    }
     
     // MARK: Start here
-//    // Plots track loaded from visitedLocations array
-//    func plotCurrentTrack() {
-//        // if (visitedLocations.last as CLLocation?) != nil {
-//        var coordinates = track.map({(location: CLLocation) -> CLLocationCoordinate2D in return location.coordinate})
-//        polyline = MKPolyline(coordinates: &coordinates, count: coordinates.count)
-//        mapView.addOverlay(polyline)
-//        //  }
-//    }
+    //    // Plots track loaded from visitedLocations array
+    //    func plotCurrentTrack() {
+    //        // if (visitedLocations.last as CLLocation?) != nil {
+    //        var coordinates = track.map({(location: CLLocation) -> CLLocationCoordinate2D in return location.coordinate})
+    //        polyline = MKPolyline(coordinates: &coordinates, count: coordinates.count)
+    //        mapView.addOverlay(polyline)
+    //        //  }
+    //    }
     
-    func convertToPolyline(trackLocations :[CLLocation]) -> [MKPolyline] {
-        var polylines :[MKPolyline] = []
+    func convertToPolyline(trackLocations :[CLLocation]) -> MKPolyline {
         
-        
-        
-        
+        var coordinates = trackLocations.map({(location: CLLocation) -> CLLocationCoordinate2D in return location.coordinate})
+        let polyline = MKPolyline(coordinates: &coordinates, count: coordinates.count)
+         mapView.addOverlay(polyline)
+        return polyline
     }
     
     func prepareLocations(trackData: [String]) -> [CLLocation] {
@@ -215,6 +237,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     func documentPicker(_ controller: UIDocumentPickerViewController,
                         didPickDocumentsAt urls: [URL]) {
         trackFiles = urls
+        // Add check for zero return
         readReturnedTracks()
-         }
+    }
 }

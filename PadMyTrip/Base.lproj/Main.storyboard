@@ -18,7 +18,7 @@
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hci-EO-LKy">
                                 <rect key="frame" x="0.0" y="974" width="768" height="50"/>
                                 <items>
-                                    <barButtonItem title="Item" image="list.bullet" catalog="system" id="LwA-W5-hAI">
+                                    <barButtonItem title="Add" image="plus" catalog="system" id="LwA-W5-hAI">
                                         <connections>
                                             <action selector="fileButtonClicked:" destination="BYZ-38-t0r" id="RQR-fa-B1o"/>
                                         </connections>
@@ -75,6 +75,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="list.bullet" catalog="system" width="128" height="88"/>
+        <image name="plus" catalog="system" width="128" height="113"/>
     </resources>
 </document>

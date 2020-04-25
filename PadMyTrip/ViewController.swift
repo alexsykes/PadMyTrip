@@ -20,6 +20,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     var locationManager: CLLocationManager!
     var userLocation: CLLocation!
     var trackFiles: [URL]!
+    var tracks : [Track] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,6 +39,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     func setUpMap() {
         mapView.mapType = .standard
         mapView.delegate = self
+        
         // mapView.userTrackingMode = MKUserTrackingMode(rawValue: 2)!
         // mapView.showsCompass = true
     }
@@ -106,7 +108,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         
         do {
             try dataString.write(to: url, atomically: true, encoding: .utf8)
-            let input = try String(contentsOf: url)
+           // let input = try String(contentsOf: url)
           //  print(input)
         } catch {
             print(error.localizedDescription)
@@ -116,6 +118,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     // Read date from file(s) returned by documentPicker
     // Need to add CSV filter - done
     func readReturnedTracks() {
+        
+        
         // Set up polylines to be returned
         var polylines :[MKPolyline] = []
         // filter files for correct extension
@@ -124,10 +128,13 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         // For each file convert array of CLLocations
         // into a single polyline
         for file in csvURLs {
-            var trackData = readFile(url :file)     // trackData -> array of Strings : each line becomes one location in
+            let trackData = readFile(url :file)     // trackData -> array of Strings : each line becomes one location in
             let locations :[CLLocation] = prepareLocations(trackData: trackData) // trackLocations -> array of CLLocation to be converted to
+            
+            let track = Track(name: "Unnamed track", trackDescription: "Description goes here", track: locations)
+            tracks.append(track)
             let polyline = convertToPolyline(trackLocations: locations)
-            let count = polyline.pointCount
+           // let count = polyline.pointCount
           //  print("\(count)")
             polylines.append(polyline)
         }
@@ -141,7 +148,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     }
     
     // Render track on map
-    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay!) -> MKOverlayRenderer! {
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        let region = tracks.last!.region!
+        mapView.setRegion(region, animated: true)
         let renderer = MKPolylineRenderer(overlay: overlay)
         renderer.strokeColor = UIColor.blue
         renderer.lineWidth = 5
@@ -224,12 +233,12 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     // Mark: Change of location
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         //mapView.centerToLocation(location)
-        let location = locations.last! as CLLocation
-        let coordinateRegion = MKCoordinateRegion(
-            center: location.coordinate,
-            latitudinalMeters: 10000,
-            longitudinalMeters: 10000)
-        mapView.setRegion(coordinateRegion, animated: true)
+       //let location = locations.last! as CLLocation
+//        let coordinateRegion = MKCoordinateRegion(
+//            center: location.coordinate,
+//            latitudinalMeters: 10000,
+//            longitudinalMeters: 10000)
+//        mapView.setRegion(coordinateRegion, animated: true)
         locationManager.stopUpdatingLocation()
     }
     

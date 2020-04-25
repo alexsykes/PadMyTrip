@@ -30,6 +30,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         locationManager = CLLocationManager()
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.delegate = self
+        mapView.delegate = self
         getPermissions()
         setUpMap()
     }
@@ -38,7 +39,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     // MARK: Functions
     func setUpMap() {
         mapView.mapType = .standard
-        mapView.delegate = self
         
         // mapView.userTrackingMode = MKUserTrackingMode(rawValue: 2)!
         // mapView.showsCompass = true
@@ -138,25 +138,29 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
           //  print("\(count)")
             polylines.append(polyline)
         }
+        let region = tracks.last!.region!
+        mapView.setRegion(region, animated: true)
         showTracksOnMap(polylines: polylines)
     }
     
     func showTracksOnMap(polylines: [MKPolyline]) {
-        for polyline in polylines {
-        mapView.addOverlay(polyline)
-        }
+        mapView.addOverlays(polylines)
     }
     
     // Render track on map
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
-        let region = tracks.last!.region!
-        mapView.setRegion(region, animated: true)
         let renderer = MKPolylineRenderer(overlay: overlay)
-        renderer.strokeColor = UIColor.blue
+        renderer.strokeColor = .blue
         renderer.lineWidth = 5
         return renderer
     }
     
+    func mapView(mapView: MKMapView, rendererForOverlay overlay: MKOverlay) -> MKOverlayRenderer {
+        let renderer = MKPolylineRenderer(overlay: overlay)
+        renderer.strokeColor = UIColor.red
+        renderer.lineWidth = 4.0
+        return renderer
+    }
     // MARK: Start here
     //    // Plots track loaded from visitedLocations array
     //    func plotCurrentTrack() {
@@ -233,7 +237,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     // Mark: Change of location
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         //mapView.centerToLocation(location)
-       //let location = locations.last! as CLLocation
+        let location = locations.last! as CLLocation
 //        let coordinateRegion = MKCoordinateRegion(
 //            center: location.coordinate,
 //            latitudinalMeters: 10000,

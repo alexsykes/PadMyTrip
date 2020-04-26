@@ -24,7 +24,7 @@
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="FxQ-XN-Jay"/>
-                                    <barButtonItem title="MapDisplay" image="map" catalog="system" id="ATT-um-jcV">
+                                    <barButtonItem title="fitToBounds" image="fit" id="ATT-um-jcV">
                                         <connections>
                                             <action selector="mapUpdate:" destination="BYZ-38-t0r" id="5PQ-XE-3wq"/>
                                         </connections>
@@ -79,7 +79,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="map" catalog="system" width="128" height="113"/>
+        <image name="fit" width="25" height="25"/>
         <image name="plus" catalog="system" width="128" height="113"/>
     </resources>
 </document>

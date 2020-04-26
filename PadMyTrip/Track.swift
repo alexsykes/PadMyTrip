@@ -64,41 +64,4 @@ class Track: NSObject {
         let region = MKCoordinateRegion(center: centre, span: span)
         return region
     }
-    
-//    static func getTracksRegion(tracks :[Track]) -> MKCoordinateRegion {
-//        // var region :MKCoordinateRegion!
-//        // Latitude increases further north
-//        // Longitude increases further east
-//        var north :Double = -90.0
-//        var south :Double = 90.0
-//        var west :Double = 180
-//        var east :Double = -180
-//        var lat :Double!
-//        var long :Double!
-//
-//
-//        for track in tracks {
-//            let lat = track.
-//
-//            // location.coordinate.latitude
-//            //    long = location.coordinate.longitude
-//
-//                if lat > north { north = lat }
-//                if lat < south { south = lat }
-//                if long > east { east = long }
-//                if long < west { west = long }
-//            }
-//            let centreLat = (north + south)/2
-//            let centreLong = (east + west)/2
-//            let spanLong = east - west
-//            let spanLat = north - south
-//        }
-//
-//
-//        let centre = CLLocationCoordinate2D(latitude: centreLat, longitude: centreLong)
-//        let span = MKCoordinateSpan(latitudeDelta: spanLat, longitudeDelta: spanLong)
-//
-//        let region = MKCoordinateRegion(center: centre, span: span)
-//        return region
-//    }
 }

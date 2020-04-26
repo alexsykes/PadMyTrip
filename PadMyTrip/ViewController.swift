@@ -257,19 +257,15 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     
     
     @IBAction func mapUpdate(_ sender: Any) {
+        if currentMap.tracks.count > 0 {
         mapUpdate()
+        }
     }
     
     // MARK: Delegated methods
     // Mark: Change of location
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        //mapView.centerToLocation(location)
         let location = locations.last! as CLLocation
-        //        let coordinateRegion = MKCoordinateRegion(
-        //            center: location.coordinate,
-        //            latitudinalMeters: 10000,
-        //            longitudinalMeters: 10000)
-        //        mapView.setRegion(coordinateRegion, animated: true)
         locationManager.stopUpdatingLocation()
     }
     

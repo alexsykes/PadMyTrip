@@ -13,8 +13,8 @@ import CoreLocation
 struct MapData  {
     var name :String
     var mapDescription :String
-//    var trackData :[TrackData]
-//    var date :Date
+    var trackData :[TrackData]
+    var date :Date
     var northMost :Double
     var southMost :Double
     var westMost :Double
@@ -24,8 +24,8 @@ struct MapData  {
     enum CodingKeys: String, CodingKey {
         case name
         case  description
-//        case trackData
-//        case date
+        case trackData
+        case date
         case northMost
         case eastMost
         case southMost
@@ -39,8 +39,8 @@ extension MapData :Decodable  {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         name = try values.decode(String.self, forKey: .name)
         mapDescription = try values.decode(String.self, forKey: .description)
-//        trackData = try values.decode([TrackData].self, forKey: .trackData)
-//        date = try values.decode(Date.self, forKey: .date)
+        trackData = try values.decode([TrackData].self, forKey: .trackData)
+        date = try values.decode(Date.self, forKey: .date)
         northMost = try values.decode(Double.self , forKey: .northMost)
         southMost = try values.decode(Double.self , forKey: .southMost)
         eastMost = try values.decode(Double.self , forKey: .eastMost)
@@ -55,13 +55,13 @@ extension MapData :Encodable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(name, forKey: .name)
         try container.encode(mapDescription, forKey: .description)
-//        try container.encode(date, forKey: .date)
+        try container.encode(date, forKey: .date)
         try container.encode(northMost, forKey: .northMost)
         try container.encode(eastMost, forKey: .eastMost)
         try container.encode(westMost, forKey: .westMost)
         try container.encode(southMost, forKey: .southMost)
 //        try container.encode(styles, forKey: .styles)
-//        try container.encode(trackData, forKey: .trackData)
+        try container.encode(trackData, forKey: .trackData)
     }
 }
 

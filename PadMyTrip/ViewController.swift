@@ -39,11 +39,15 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     }
     
     
-    // MARK: Functions
+    // MARK: FunctionsDate()
     
     func encode () {
-        let map = MapData(name: currentMap.name, mapDescription: currentMap.mapDescription, northMost: currentMap.northMost, southMost: currentMap.southMost, westMost: currentMap.westMost, eastMost: currentMap.eastMost)
-
+        var points :[Location] = []
+        var trackData = [TrackData(points: points)]
+        
+        let map = MapData(name: currentMap.name, mapDescription: currentMap.mapDescription, trackData: trackData, date: Date(), northMost: currentMap.northMost, southMost: currentMap.southMost, westMost: currentMap.westMost, eastMost: currentMap.eastMost)
+        
+        
         let encoder = JSONEncoder()
         if let encoded = try? encoder.encode(map) {
             if let json = String(data: encoded, encoding: .utf8) {

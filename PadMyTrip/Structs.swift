@@ -10,7 +10,7 @@ import Foundation
 import CoreLocation
 
 
-struct MapData :Codable {
+struct MapData  {
     var name :String
     var description :String
     var trackData :[TrackData]
@@ -20,21 +20,123 @@ struct MapData :Codable {
     var westMost :Double
     var eastMost :Double
     var styles :[Style]
-}
-
-
-struct TrackData :Codable {
-    var points :[Location]
-}
-
-struct Style :Codable {
-    var lineWidth :Double
-    var strokeColor :Double
     
+    enum CodingKeys: String, CodingKey {
+        case name
+        case  description
+        case trackData
+        case date
+        case northMost
+        case eastMost
+        case southMost
+        case westMost
+        case styles
+    }
 }
 
-struct Location :Codable {
+extension MapData :Decodable  {
+    init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        name = try values.decode(String.self, forKey: .name)
+        description = try values.decode(String.self, forKey: .description)
+        trackData = try values.decode([TrackData].self, forKey: .trackData)
+        date = try values.decode(Date.self, forKey: .date)
+        northMost = try values.decode(Double.self , forKey: .northMost)
+        southMost = try values.decode(Double.self , forKey: .southMost)
+        eastMost = try values.decode(Double.self , forKey: .eastMost)
+        westMost = try values.decode(Double.self , forKey: .westMost)
+        styles = try values.decode([Style].self, forKey: .styles)
+    }
+}
+
+
+extension MapData :Encodable {
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(name, forKey: .name)
+        try container.encode(description, forKey: .description)
+        try container.encode(date, forKey: .date)
+        try container.encode(northMost, forKey: .northMost)
+        try container.encode(eastMost, forKey: .eastMost)
+        try container.encode(westMost, forKey: .westMost)
+        try container.encode(southMost, forKey: .southMost)
+        try container.encode(styles, forKey: .styles)
+        try container.encode(trackData, forKey: .trackData)
+    }
+}
+
+struct TrackData  {
+    var points :[Location]
+    enum CodingKeys: String, CodingKey {
+        case points
+    }
+}
+
+extension TrackData :Decodable {
+    init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        points = try values.decode([Location].self, forKey: .points)
+    }
+}
+
+extension TrackData :Encodable {
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(points, forKey: .points)
+    }
+}
+
+struct Style  {
+    var lineWidth :Double
+    var strokeColour :Double
+    
+    enum CodingKeys: String, CodingKey {
+        case lineWidth
+        case strokeColour
+    }
+}
+
+extension Style :Decodable {
+    init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        lineWidth = try values.decode(Double.self, forKey: .lineWidth)
+        strokeColour = try values.decode(Double.self, forKey: .strokeColour)
+    }
+}
+
+extension Style :Encodable {
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(lineWidth, forKey: .lineWidth)
+        try container.encode(strokeColour, forKey: .strokeColour)
+    }
+}
+
+struct Location  {
     var long :Double
     var lat :Double
     var elevation :Double!
+    
+    enum CodingKeys: String, CodingKey {
+        case long
+        case lat
+        case elevation
+    }
+}
+extension Location :Decodable {
+    init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        long = try values.decode(Double.self, forKey: .long)
+        lat = try values.decode(Double.self, forKey: .lat)
+        elevation = try values.decode(Double.self, forKey: .elevation)
+    }
+}
+
+extension Location :Encodable {
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(lat, forKey: .lat)
+        try container.encode(long, forKey: .long)
+        try container.encode(elevation, forKey: .elevation)
+    }
 }

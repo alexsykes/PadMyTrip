@@ -21,6 +21,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     var userLocation: CLLocation!
     var trackFiles: [URL]!
     var tracks : [Track] = []
+    var map: Map!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,6 +34,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         mapView.delegate = self
         getPermissions()
         setUpMap()
+        map = Map(name: "Untitled", mapDescription: "Some description")
     }
     
     
@@ -90,7 +92,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
             // Fallback on earlier versions
             //  print("File iOS <=12")
         }
-        importFileMenu.modalPresentationStyle = .formSheet
+        importFileMenu.modalPresentationStyle = .automatic
         
         self.present(importFileMenu, animated: true, completion: nil)
     }
@@ -131,14 +133,20 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
             let trackData = readFile(url :file)     // trackData -> array of Strings : each line becomes one location in
             let locations :[CLLocation] = prepareLocations(trackData: trackData) // trackLocations -> array of CLLocation to be converted to
             
-            let track = Track(name: "Unnamed track", trackDescription: "Description goes here", track: locations)
-            tracks.append(track)
+            let newTrack = Track(name: "Unnamed track", trackDescription: "Description goes here", track: locations)
+            tracks.append(newTrack)
+            map.addTrack(track: newTrack)
+            
             let polyline = convertToPolyline(trackLocations: locations)
            // let count = polyline.pointCount
           //  print("\(count)")
             polylines.append(polyline)
         }
-        let region = tracks.last!.region!
+        
+        
+        //let region = tracks.last!.region!
+        let region = map.calcBounds(tracks: tracks)
+        
         mapView.setRegion(region, animated: true)
         showTracksOnMap(polylines: polylines)
     }

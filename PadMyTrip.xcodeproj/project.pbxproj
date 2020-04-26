@@ -15,6 +15,7 @@
 		FA96A589245304FD001863CA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FA96A588245304FD001863CA /* Assets.xcassets */; };
 		FA96A58C245304FD001863CA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA96A58A245304FD001863CA /* LaunchScreen.storyboard */; };
 		FA96A597245304FD001863CA /* PadMyTripTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA96A596245304FD001863CA /* PadMyTripTests.swift */; };
+		FADD144D2454C49900044425 /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADD144C2454C49900044425 /* Map.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,6 +42,7 @@
 		FA96A596245304FD001863CA /* PadMyTripTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PadMyTripTests.swift; sourceTree = "<group>"; };
 		FA96A598245304FD001863CA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FA96A5A1245348EB001863CA /* PadMyTrip.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PadMyTrip.entitlements; sourceTree = "<group>"; };
+		FADD144C2454C49900044425 /* Map.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Map.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,6 +89,7 @@
 				FA96A581245304FC001863CA /* SceneDelegate.swift */,
 				FA96A583245304FC001863CA /* ViewController.swift */,
 				FA6EA99A245429C0002F6C85 /* Track.swift */,
+				FADD144C2454C49900044425 /* Map.swift */,
 				FA96A585245304FC001863CA /* Main.storyboard */,
 				FA96A588245304FD001863CA /* Assets.xcassets */,
 				FA96A58A245304FD001863CA /* LaunchScreen.storyboard */,
@@ -205,6 +208,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FADD144D2454C49900044425 /* Map.swift in Sources */,
 				FA96A584245304FC001863CA /* ViewController.swift in Sources */,
 				FA96A580245304FC001863CA /* AppDelegate.swift in Sources */,
 				FA96A582245304FC001863CA /* SceneDelegate.swift in Sources */,

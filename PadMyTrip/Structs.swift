@@ -12,25 +12,25 @@ import CoreLocation
 
 struct MapData  {
     var name :String
-    var description :String
-    var trackData :[TrackData]
-    var date :Date
+    var mapDescription :String
+//    var trackData :[TrackData]
+//    var date :Date
     var northMost :Double
     var southMost :Double
     var westMost :Double
     var eastMost :Double
-    var styles :[Style]
+//    var styles :[Style]
     
     enum CodingKeys: String, CodingKey {
         case name
         case  description
-        case trackData
-        case date
+//        case trackData
+//        case date
         case northMost
         case eastMost
         case southMost
         case westMost
-        case styles
+//        case styles
     }
 }
 
@@ -38,14 +38,14 @@ extension MapData :Decodable  {
     init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         name = try values.decode(String.self, forKey: .name)
-        description = try values.decode(String.self, forKey: .description)
-        trackData = try values.decode([TrackData].self, forKey: .trackData)
-        date = try values.decode(Date.self, forKey: .date)
+        mapDescription = try values.decode(String.self, forKey: .description)
+//        trackData = try values.decode([TrackData].self, forKey: .trackData)
+//        date = try values.decode(Date.self, forKey: .date)
         northMost = try values.decode(Double.self , forKey: .northMost)
         southMost = try values.decode(Double.self , forKey: .southMost)
         eastMost = try values.decode(Double.self , forKey: .eastMost)
         westMost = try values.decode(Double.self , forKey: .westMost)
-        styles = try values.decode([Style].self, forKey: .styles)
+//        styles = try values.decode([Style].self, forKey: .styles)
     }
 }
 
@@ -54,14 +54,14 @@ extension MapData :Encodable {
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(name, forKey: .name)
-        try container.encode(description, forKey: .description)
-        try container.encode(date, forKey: .date)
+        try container.encode(mapDescription, forKey: .description)
+//        try container.encode(date, forKey: .date)
         try container.encode(northMost, forKey: .northMost)
         try container.encode(eastMost, forKey: .eastMost)
         try container.encode(westMost, forKey: .westMost)
         try container.encode(southMost, forKey: .southMost)
-        try container.encode(styles, forKey: .styles)
-        try container.encode(trackData, forKey: .trackData)
+//        try container.encode(styles, forKey: .styles)
+//        try container.encode(trackData, forKey: .trackData)
     }
 }
 

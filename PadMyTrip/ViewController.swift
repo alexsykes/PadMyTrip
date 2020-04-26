@@ -35,10 +35,27 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         getPermissions()
         setUpMap()
         currentMap = Map(name: "Untitled", mapDescription: "Some description")
+
     }
     
     
     // MARK: Functions
+    
+    func encode () {
+        let map = MapData(name: currentMap.name, mapDescription: currentMap.mapDescription, northMost: currentMap.northMost, southMost: currentMap.southMost, westMost: currentMap.westMost, eastMost: currentMap.eastMost)
+
+        let encoder = JSONEncoder()
+        if let encoded = try? encoder.encode(map) {
+            if let json = String(data: encoded, encoding: .utf8) {
+                print(json)
+            }
+
+            let decoder = JSONDecoder()
+            if let decoded = try? decoder.decode(Language.self, from: encoded) {
+                print(decoded.name)
+            }
+        }
+    }
     func setUpMap() {
         mapView.mapType = .standard
         // mapView.userTrackingMode = MKUserTrackingMode(rawValue: 2)!
@@ -255,6 +272,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         readFromPublic()
     }
     
+    @IBAction func printJSON(_ sender: UIBarButtonItem) {
+        encode()
+    }
     
     @IBAction func mapUpdate(_ sender: Any) {
         if currentMap.tracks.count > 0 {
@@ -265,7 +285,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     // MARK: Delegated methods
     // Mark: Change of location
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        let location = locations.last! as CLLocation
+        _ = locations.last! as CLLocation
         locationManager.stopUpdatingLocation()
     }
     
@@ -276,4 +296,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         // Add check for zero return
         readReturnedTracks()
     }
+    
+    struct Language: Codable {
+        var name: String
+        var version: Int
+    }
+
 }

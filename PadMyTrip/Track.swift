@@ -12,7 +12,7 @@ import MapKit
 
 class Track: NSObject {
     // MARK: Properties
-    var track: [CLLocation]!
+    var locations: [CLLocation]!
     var trackDescription: String
     var date: Date
     var region: MKCoordinateRegion!
@@ -27,7 +27,7 @@ class Track: NSObject {
     init(name :String, trackDescription: String, track: [CLLocation]) {
         self.trackDescription = trackDescription
         self.date = Date()
-        self.track = track
+        self.locations = track
         self.name = name
         self.style = "default"
         

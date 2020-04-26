@@ -21,7 +21,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     var userLocation: CLLocation!
     var trackFiles: [URL]!
     var tracks : [Track] = []
-    var map: Map!
+    var currentMap: Map!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,16 +34,28 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         mapView.delegate = self
         getPermissions()
         setUpMap()
-        map = Map(name: "Untitled", mapDescription: "Some description")
+        currentMap = Map(name: "Untitled", mapDescription: "Some description")
     }
     
     
     // MARK: Functions
     func setUpMap() {
         mapView.mapType = .standard
-        
         // mapView.userTrackingMode = MKUserTrackingMode(rawValue: 2)!
         // mapView.showsCompass = true
+    }
+    
+
+    // Update mapView using currentMap object
+    func mapUpdate() {
+         var polylines :[MKPolyline] = []
+         for track in currentMap.tracks {
+             let polyline = plotTrack(track: track)
+             polylines.append(polyline)
+         }
+         let region = currentMap.calcBounds()
+         mapView.setRegion(region, animated: true)
+         mapView.addOverlays(polylines)
     }
     
     
@@ -74,15 +86,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         
         let importFileMenu = UIDocumentPickerViewController(documentTypes: ["public.text"],
                                                             in: UIDocumentPickerMode.import)
-        //     var cancelButton :UIBarButtonItem = UIBarButtonItem!
-        // cancelButton.title = "Cancel"
         
         importFileMenu.delegate = self
         importFileMenu.shouldShowFileExtensions = false
         importFileMenu.allowsMultipleSelection = true
-        //  importFileMenu.setToolbarItems([cancelButton]?, animated: traitCollection)
-        
-        // importFileMenu.dismiss(animated: true, completion: nil)
         
         if #available(iOS 13.0, *) {
             // print("File iOS 13+")
@@ -110,8 +117,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         
         do {
             try dataString.write(to: url, atomically: true, encoding: .utf8)
-           // let input = try String(contentsOf: url)
-          //  print(input)
+            // let input = try String(contentsOf: url)
+            //  print(input)
         } catch {
             print(error.localizedDescription)
         }
@@ -123,7 +130,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         
         
         // Set up polylines to be returned
-        var polylines :[MKPolyline] = []
+       //var polylines :[MKPolyline] = []
         // filter files for correct extension
         let csvURLs = trackFiles.filter{ $0.pathExtension == "csv"}
         
@@ -135,27 +142,28 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
             
             let newTrack = Track(name: "Unnamed track", trackDescription: "Description goes here", track: locations)
             tracks.append(newTrack)
-            map.addTrack(track: newTrack)
+            currentMap.addTrack(track: newTrack)
             
-            let polyline = convertToPolyline(trackLocations: locations)
-           // let count = polyline.pointCount
-          //  print("\(count)")
-            polylines.append(polyline)
+         //   let polyline = convertToPolyline(trackLocations: locations)
+            // let count = polyline.pointCount
+            //  print("\(count)")
+         //   polylines.append(polyline)
         }
         
+        mapUpdate()
         
-        //let region = tracks.last!.region!
-        let region = map.calcBounds(tracks: tracks)
-        
-        mapView.setRegion(region, animated: true)
-        showTracksOnMap(polylines: polylines)
+//        let region = tracks.last!.region!
+//        let region = currentMap.calcBounds(tracks: tracks)
+//
+//        mapView.setRegion(region, animated: true)
+//        showTracksOnMap(polylines: polylines)
     }
     
     func showTracksOnMap(polylines: [MKPolyline]) {
         mapView.addOverlays(polylines)
     }
     
-    // Render track on map
+    // Render track on currentMap
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         let renderer = MKPolylineRenderer(overlay: overlay)
         renderer.strokeColor = .blue
@@ -183,7 +191,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         
         var coordinates = trackLocations.map({(location: CLLocation) -> CLLocationCoordinate2D in return location.coordinate})
         let polyline = MKPolyline(coordinates: &coordinates, count: coordinates.count)
-         mapView.addOverlay(polyline)
+        mapView.addOverlay(polyline)
         return polyline
     }
     
@@ -236,9 +244,20 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         return points
     }
     
+    func plotTrack(track :Track) -> MKPolyline {
+        let locations = track.locations!
+        let polyline = convertToPolyline(trackLocations: locations)
+        return polyline
+    }
+    
     // MARK: Actions
     @IBAction func fileButtonClicked(_ sender: UIBarButtonItem) {
         readFromPublic()
+    }
+    
+    
+    @IBAction func mapUpdate(_ sender: Any) {
+        mapUpdate()
     }
     
     // MARK: Delegated methods
@@ -246,11 +265,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         //mapView.centerToLocation(location)
         let location = locations.last! as CLLocation
-//        let coordinateRegion = MKCoordinateRegion(
-//            center: location.coordinate,
-//            latitudinalMeters: 10000,
-//            longitudinalMeters: 10000)
-//        mapView.setRegion(coordinateRegion, animated: true)
+        //        let coordinateRegion = MKCoordinateRegion(
+        //            center: location.coordinate,
+        //            latitudinalMeters: 10000,
+        //            longitudinalMeters: 10000)
+        //        mapView.setRegion(coordinateRegion, animated: true)
         locationManager.stopUpdatingLocation()
     }
     

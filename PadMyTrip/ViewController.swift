@@ -39,24 +39,49 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     }
     
     
-    // MARK: FunctionsDate()
+    // MARK: functions
     
     func encode () {
+        // Structs - MapData, Location, TrackData
         var points :[Location] = []
-        var trackData = [TrackData(points: points)]
+        var trackData :[TrackData] = []
+ 
+        // Work through data track by track :: point by point
+        // Each track comprises a set of points
+        for track in tracks {
+            
+            // For each track, add each location to the points array
+            
+            // Firstly, start with an empty array
+            var points :[Location] = []
+            for location in track.locations {
+                
+                // Add the data for each point
+                let lat = location.coordinate.latitude
+                let long = location.coordinate.longitude
+                let elevation = location.altitude
+                
+                let point = Location.init(long: long, lat: lat, elevation: elevation)
+                // then append to the array
+                points.append(point)
+            }
+            // Once the tack points array is populated,
+            // append the array of points to the trackData
+            trackData.append(TrackData.init(points: points))
+        }
         
-        let map = MapData(name: currentMap.name, mapDescription: currentMap.mapDescription, trackData: trackData, date: Date(), northMost: currentMap.northMost, southMost: currentMap.southMost, westMost: currentMap.westMost, eastMost: currentMap.eastMost)
+        let mapData = MapData(name: currentMap.name, mapDescription: currentMap.mapDescription, trackData: trackData, date: Date(), northMost: currentMap.northMost, southMost: currentMap.southMost, westMost: currentMap.westMost, eastMost: currentMap.eastMost)
         
         
         let encoder = JSONEncoder()
-        if let encoded = try? encoder.encode(map) {
+        if let encoded = try? encoder.encode(mapData) {
             if let json = String(data: encoded, encoding: .utf8) {
-                print(json)
+             //   print(json)
             }
 
             let decoder = JSONDecoder()
-            if let decoded = try? decoder.decode(Language.self, from: encoded) {
-                print(decoded.name)
+            if let decoded = try? decoder.decode(MapData.self, from: encoded) {
+             //   print(decoded)
             }
         }
     }

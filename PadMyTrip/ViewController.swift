@@ -56,7 +56,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
 
         do {
             map = try decoder.decode(MapData.self, from: jsonData)
-          //  print(map)
+            print(map!)
         } catch {
             print(error.localizedDescription)
         }

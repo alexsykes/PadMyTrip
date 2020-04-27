@@ -48,9 +48,9 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" id="xgq-La-nRj">
-                        <barButtonItem key="rightBarButtonItem" title="Save" image="Save" id="cmO-12-P0m">
+                        <barButtonItem key="rightBarButtonItem" title="Item" image="printer.fill" catalog="system" id="cmO-12-P0m">
                             <connections>
-                                <action selector="saveMapData:" destination="BYZ-38-t0r" id="FKp-yl-SH8"/>
+                                <action selector="printJSON:" destination="BYZ-38-t0r" id="FKp-yl-SH8"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -83,8 +83,8 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Save" width="25" height="25"/>
         <image name="fit" width="25" height="25"/>
         <image name="plus" catalog="system" width="128" height="113"/>
+        <image name="printer.fill" catalog="system" width="128" height="111"/>
     </resources>
 </document>

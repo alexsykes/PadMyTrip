@@ -22,7 +22,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     var trackFiles: [URL]!
     var tracks : [Track] = []
     var currentMap: Map!
-    var map :MapData!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,38 +35,17 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         getPermissions()
         setUpMap()
         currentMap = Map(name: "Untitled", mapDescription: "Some description")
-        readData()
-        
+
     }
     
     
     // MARK: functions
-    func readData() {
-        let url = self.getDocumentsDirectory().appendingPathComponent("MyMap.map")
-        var jsonData :Data!
-        do {
-            jsonData = try Data(contentsOf: url)
-         //  print(jsonData)
-        } catch {
-            print(error.localizedDescription)
-        }
-
-        let decoder = JSONDecoder()
-
-        do {
-            map = try decoder.decode(MapData.self, from: jsonData)
-          //  print(map)
-        } catch {
-            print(error.localizedDescription)
-        }
-    }
     
-    func encode () -> Data {
-        var encodedData :Data!
+    func encode () {
         // Structs - MapData, Location, TrackData
         var points :[Location] = []
         var trackData :[TrackData] = []
-        
+ 
         // Work through data track by track :: point by point
         // Each track comprises a set of points
         for track in tracks {
@@ -92,24 +70,20 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
             trackData.append(TrackData.init(points: points))
         }
         
-        let mapData = MapData(name: currentMap.name, mapDescription: currentMap.mapDescription, date: Date(), northMost: currentMap.northMost, southMost: currentMap.southMost, westMost: currentMap.westMost, eastMost: currentMap.eastMost, trackData: trackData)
+        let mapData = MapData(name: currentMap.name, mapDescription: currentMap.mapDescription, trackData: trackData, date: Date(), northMost: currentMap.northMost, southMost: currentMap.southMost, westMost: currentMap.westMost, eastMost: currentMap.eastMost)
         
         
         let encoder = JSONEncoder()
         if let encoded = try? encoder.encode(mapData) {
-                        if let json = String(data: encoded, encoding: .utf8) {
-                          // print(json)
-                        }
-            encodedData = encoded
-            
-                        let decoder = JSONDecoder()
-                        if let decoded = try? decoder.decode(MapData.self, from: encoded) {
-                         //   print(decoded)
-                        }
-            
-            
+            if let json = String(data: encoded, encoding: .utf8) {
+             //   print(json)
+            }
+
+            let decoder = JSONDecoder()
+            if let decoded = try? decoder.decode(MapData.self, from: encoded) {
+             //   print(decoded)
+            }
         }
-        return encodedData
     }
     func setUpMap() {
         mapView.mapType = .standard
@@ -117,17 +91,17 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         // mapView.showsCompass = true
     }
     
-    
+
     // Update mapView using currentMap object
     func mapUpdate() {
-        var polylines :[MKPolyline] = []
-        for track in currentMap.tracks {
-            let polyline = plotTrack(track: track)
-            polylines.append(polyline)
-        }
-        let region = currentMap.calcBounds()
-        mapView.setRegion(region, animated: true)
-        mapView.addOverlays(polylines)
+         var polylines :[MKPolyline] = []
+         for track in currentMap.tracks {
+             let polyline = plotTrack(track: track)
+             polylines.append(polyline)
+         }
+         let region = currentMap.calcBounds()
+         mapView.setRegion(region, animated: true)
+         mapView.addOverlays(polylines)
     }
     
     
@@ -160,7 +134,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
                                                             in: UIDocumentPickerMode.import)
         
         importFileMenu.delegate = self
-        importFileMenu.shouldShowFileExtensions = true
+        importFileMenu.shouldShowFileExtensions = false
         importFileMenu.allowsMultipleSelection = true
         
         if #available(iOS 13.0, *) {
@@ -174,6 +148,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         importFileMenu.modalPresentationStyle = .automatic
         
         self.present(importFileMenu, animated: true, completion: nil)
+    }
+    
+    func getDocumentsDirectory() -> URL {
+        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        return paths[0]
     }
     
     // Final stage when writing file
@@ -197,7 +176,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         
         
         // Set up polylines to be returned
-        //var polylines :[MKPolyline] = []
+       //var polylines :[MKPolyline] = []
         // filter files for correct extension
         let csvURLs = trackFiles.filter{ $0.pathExtension == "csv"}
         
@@ -211,19 +190,19 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
             tracks.append(newTrack)
             currentMap.addTrack(track: newTrack)
             
-            //   let polyline = convertToPolyline(trackLocations: locations)
+         //   let polyline = convertToPolyline(trackLocations: locations)
             // let count = polyline.pointCount
             //  print("\(count)")
-            //   polylines.append(polyline)
+         //   polylines.append(polyline)
         }
         
         mapUpdate()
         
-        //        let region = tracks.last!.region!
-        //        let region = currentMap.calcBounds(tracks: tracks)
-        //
-        //        mapView.setRegion(region, animated: true)
-        //        showTracksOnMap(polylines: polylines)
+//        let region = tracks.last!.region!
+//        let region = currentMap.calcBounds(tracks: tracks)
+//
+//        mapView.setRegion(region, animated: true)
+//        showTracksOnMap(polylines: polylines)
     }
     
     func showTracksOnMap(polylines: [MKPolyline]) {
@@ -317,39 +296,18 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         return polyline
     }
     
-    // MARK: File Handling
-    func getDocumentsDirectory() -> URL {
-        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-        // let public = FileManager
-        return paths[0]
-    }
-    
-    func writeData(data :Data) {
-        let longFileName = "MyMap.map"
-        let url = self.getDocumentsDirectory().appendingPathComponent(longFileName)
-        
-        do {
-            try data.write(to: url)
-            let input = try String(contentsOf: url)
-            print(input)
-        } catch {
-            print(error.localizedDescription)
-        }
-    }
-    
     // MARK: Actions
     @IBAction func fileButtonClicked(_ sender: UIBarButtonItem) {
         readFromPublic()
     }
     
-    @IBAction func saveMapData(_ sender: UIBarButtonItem) {
-        let data :Data = encode()
-        writeData(data: data)
+    @IBAction func printJSON(_ sender: UIBarButtonItem) {
+        encode()
     }
     
     @IBAction func mapUpdate(_ sender: Any) {
         if currentMap.tracks.count > 0 {
-            mapUpdate()
+        mapUpdate()
         }
     }
     
@@ -372,5 +330,5 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         var name: String
         var version: Int
     }
-    
+
 }

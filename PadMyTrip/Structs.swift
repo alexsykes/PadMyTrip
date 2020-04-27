@@ -13,23 +13,23 @@ import CoreLocation
 struct MapData  {
     var name :String
     var mapDescription :String
+    var trackData :[TrackData]
     var date :Date
     var northMost :Double
     var southMost :Double
     var westMost :Double
     var eastMost :Double
-    var trackData :[TrackData]
 //    var styles :[Style]
     
     enum CodingKeys: String, CodingKey {
         case name
-        case description
+        case  description
+        case trackData
         case date
         case northMost
         case eastMost
         case southMost
         case westMost
-        case trackData
 //        case styles
     }
 }
@@ -39,12 +39,12 @@ extension MapData :Decodable  {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         name = try values.decode(String.self, forKey: .name)
         mapDescription = try values.decode(String.self, forKey: .description)
+        trackData = try values.decode([TrackData].self, forKey: .trackData)
         date = try values.decode(Date.self, forKey: .date)
         northMost = try values.decode(Double.self , forKey: .northMost)
         southMost = try values.decode(Double.self , forKey: .southMost)
         eastMost = try values.decode(Double.self , forKey: .eastMost)
         westMost = try values.decode(Double.self , forKey: .westMost)
-        trackData = try values.decode([TrackData].self, forKey: .trackData)
 //        styles = try values.decode([Style].self, forKey: .styles)
     }
 }
@@ -67,7 +67,6 @@ extension MapData :Encodable {
 
 struct TrackData  {
     var points :[Location]
-    
     enum CodingKeys: String, CodingKey {
         case points
     }

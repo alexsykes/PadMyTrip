@@ -37,7 +37,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         setUpMap()
         currentMap = Map(name: "Untitled", mapDescription: "Some description")
         readData()
-        
     }
     
     
@@ -47,16 +46,16 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         var jsonData :Data!
         do {
             jsonData = try Data(contentsOf: url)
-         //  print(jsonData)
+            //  print(jsonData)
         } catch {
             print(error.localizedDescription)
         }
-
+        
         let decoder = JSONDecoder()
-
+        
         do {
             map = try decoder.decode(MapData.self, from: jsonData)
-          //  print(map)
+            //  print(map)
         } catch {
             print(error.localizedDescription)
         }
@@ -97,15 +96,15 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         
         let encoder = JSONEncoder()
         if let encoded = try? encoder.encode(mapData) {
-                        if let json = String(data: encoded, encoding: .utf8) {
-                          // print(json)
-                        }
+            if let json = String(data: encoded, encoding: .utf8) {
+                // print(json)
+            }
             encodedData = encoded
             
-                        let decoder = JSONDecoder()
-                        if let decoded = try? decoder.decode(MapData.self, from: encoded) {
-                         //   print(decoded)
-                        }
+            let decoder = JSONDecoder()
+            if let decoded = try? decoder.decode(MapData.self, from: encoded) {
+                //   print(decoded)
+            }
             
             
         }
@@ -151,7 +150,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
      then the documentPicker didPickDocumentsAt event is fired
      */
     // TODO: Add/check Cancel button
-    func readFromPublic () {
+    func readTrackDataFromPublic () {
         
         // open a document picker, select a file
         // documentTypes see - https://developer.apple.com/library/archive/documentation/Miscellaneous/Reference/UTIRef/Articles/System-DeclaredUniformTypeIdentifiers.html#//apple_ref/doc/uid/TP40009259-SW1
@@ -194,7 +193,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     // Read date from file(s) returned by documentPicker
     // Need to add CSV filter - done
     func readReturnedTracks() {
-        
+        var encodedData :Data!
         
         // Set up polylines to be returned
         //var polylines :[MKPolyline] = []
@@ -204,6 +203,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         // For each file convert array of CLLocations
         // into a single polyline
         for file in csvURLs {
+            var trackDataForEncoding :[TrackData] = []
+            
             let trackData = readFile(url :file)     // trackData -> array of Strings : each line becomes one location in
             let locations :[CLLocation] = prepareLocations(trackData: trackData) // trackLocations -> array of CLLocation to be converted to
             
@@ -211,19 +212,41 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
             tracks.append(newTrack)
             currentMap.addTrack(track: newTrack)
             
-            //   let polyline = convertToPolyline(trackLocations: locations)
-            // let count = polyline.pointCount
-            //  print("\(count)")
-            //   polylines.append(polyline)
+            //New stuff added here
+            // Firstly, start with an empty array
+            var points :[Location] = []
+            for location in newTrack.locations {
+                
+                // Add the data for each point
+                let lat = location.coordinate.latitude
+                let long = location.coordinate.longitude
+                let elevation = location.altitude
+                
+                let point = Location.init(long: long, lat: lat, elevation: elevation)
+                // then append to the array
+                points.append(point)
+            }
+            
+            trackDataForEncoding.append(TrackData.init(points: points))
+            
+            let encoder = JSONEncoder()
+            if let encoded = try? encoder.encode(trackDataForEncoding) {
+                if let json = String(data: encoded, encoding: .utf8) {
+                     print(json)
+                }
+                encodedData = encoded
+                
+                let decoder = JSONDecoder()
+                do {
+                    let decoded = try decoder.decode(TrackData.self, from: encodedData)
+                       print(decoded)
+                    } catch {
+                        print(error.localizedDescription)
+                }
+            }
         }
         
         mapUpdate()
-        
-        //        let region = tracks.last!.region!
-        //        let region = currentMap.calcBounds(tracks: tracks)
-        //
-        //        mapView.setRegion(region, animated: true)
-        //        showTracksOnMap(polylines: polylines)
     }
     
     func showTracksOnMap(polylines: [MKPolyline]) {
@@ -338,8 +361,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
     }
     
     // MARK: Actions
-    @IBAction func fileButtonClicked(_ sender: UIBarButtonItem) {
-        readFromPublic()
+    // Import data froms tracks, then encodes and saves
+    @IBAction func importTrackData(_ sender: UIBarButtonItem) {
+        readTrackDataFromPublic()
     }
     
     @IBAction func saveMapData(_ sender: UIBarButtonItem) {
@@ -360,7 +384,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         locationManager.stopUpdatingLocation()
     }
     
-    // Documents picked
+    // Documents picked from public directory
     func documentPicker(_ controller: UIDocumentPickerViewController,
                         didPickDocumentsAt urls: [URL]) {
         trackFiles = urls

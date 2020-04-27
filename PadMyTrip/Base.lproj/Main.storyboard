@@ -20,7 +20,7 @@
                                 <items>
                                     <barButtonItem title="Add" image="plus" catalog="system" id="LwA-W5-hAI">
                                         <connections>
-                                            <action selector="fileButtonClicked:" destination="BYZ-38-t0r" id="RQR-fa-B1o"/>
+                                            <action selector="importTrackData:" destination="BYZ-38-t0r" id="RQR-fa-B1o"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="FxQ-XN-Jay"/>

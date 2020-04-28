@@ -36,13 +36,13 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         getPermissions()
         setUpMap()
         currentMap = Map(name: "Untitled", mapDescription: "Some description")
-        readData()
+        readStoredData()
         
     }
     
     
     // MARK: functions
-    func readData() {
+    func readStoredData() {
         let url = self.getDocumentsDirectory().appendingPathComponent("MyMap.map")
         var jsonData :Data!
         do {
@@ -50,6 +50,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
          //  print("\(jsonData)")
         } catch {
             print(error.localizedDescription)
+            return
         }
 
         let decoder = JSONDecoder()
@@ -59,6 +60,21 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
             print(map!)
         } catch {
             print(error.localizedDescription)
+        }
+        
+        // Start to add data to currentMap
+        currentMap.name = map.name
+        currentMap.mapDescription = map.mapDescription
+        currentMap.date = map.date
+        currentMap.westMost = map.westMost
+        currentMap.eastMost = map.eastMost
+        currentMap.southMost = map.southMost
+        currentMap.northMost = map.northMost
+        
+        for i in 0..<map.trackData.count {
+        let trackData =  map.trackData[i]
+            let points = trackData.points
+            // currentMap.addTrack(track: <#T##Track#>)
         }
     }
     
@@ -104,7 +120,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
             
                         let decoder = JSONDecoder()
                         if let decoded = try? decoder.decode(MapData.self, from: encoded) {
-                         //   print(decoded)
+                            print(decoded)
                         }
             
             

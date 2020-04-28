@@ -116,7 +116,7 @@ extension Style :Encodable {
 struct Location  {
     var long :Double
     var lat :Double
-    var elevation :Double!
+    var elevation :Double
     
     enum CodingKeys: String, CodingKey {
         case long
@@ -138,6 +138,6 @@ extension Location :Encodable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(lat, forKey: .lat)
         try container.encode(long, forKey: .long)
-        try container.encode(elevation!, forKey: .elevation)
+        try container.encode(elevation, forKey: .elevation)
     }
 }

@@ -35,7 +35,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         mapView.delegate = self
         getPermissions()
         setUpMap()
-        currentMap = Map(name: "Untitled", mapDescription: "Some description")
+        currentMap = Map(name: "Line 38", mapDescription: "Line 38 description")
         readStoredData()
         
     }
@@ -74,7 +74,18 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         for i in 0..<map.trackData.count {
         let trackData =  map.trackData[i]
             let points = trackData.points
-            // currentMap.addTrack(track: <#T##Track#>)
+            var pointData : [Location] = []
+            for ii in 0..<points.count {
+                let point = points[ii]
+                let elevation = point.elevation
+                let lat = point.lat
+                let long = point.long
+                let loc = Location(long: long, lat: lat, elevation: elevation)
+                pointData.append(loc)
+            }
+            let newTrackData:TrackData = TrackData(points: pointData)
+           // map.trackData.append(newTrackData)
+           // currentMap.tracks.append(newTrackData)
         }
     }
     

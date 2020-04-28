@@ -47,7 +47,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         var jsonData :Data!
         do {
             jsonData = try Data(contentsOf: url)
-         //  print(jsonData)
+         //  print("\(jsonData)")
         } catch {
             print(error.localizedDescription)
         }
@@ -98,7 +98,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         let encoder = JSONEncoder()
         if let encoded = try? encoder.encode(mapData) {
                         if let json = String(data: encoded, encoding: .utf8) {
-                          // print(json)
+                           print(json)
                         }
             encodedData = encoded
             

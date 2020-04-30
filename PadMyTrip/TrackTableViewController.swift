@@ -8,7 +8,8 @@
 
 import UIKit
 
-class MasterViewController: UITableViewController {
+class TrackTableViewController: UITableViewController {
+    var files :[URL]! = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,25 +19,55 @@ class MasterViewController: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
-    }
+            getFileList()
+        }
+        
+        
+        // MARK: File Handling
+        func getDocumentsDirectory() -> URL {
+            let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+            // let public = FileManager
+            return paths[0]
+        }
+        
+        
+        func getFileList() {
+            files.removeAll()
+            let docDir = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+            let skipsHiddenFiles: Bool = true
+            
+            let URLs = try! FileManager.default.contentsOfDirectory(at: docDir, includingPropertiesForKeys: nil, options: skipsHiddenFiles ? .skipsHiddenFiles : [] )
+            
+            var csvURLs = URLs.filter{ $0.pathExtension == "csv" || $0.pathExtension == "txt"}
+            csvURLs.sort(by: { $0.lastPathComponent.lowercased() < $1.lastPathComponent.lowercased() } )
+                  
+         //   let URLs = try! FileManager.default.contentsOfDirectory(at: docDir, includingPropertiesForKeys: nil)
+            for file in csvURLs {
+                files.append(file)
+            }
+        }
 
+
+
+    
     // MARK: - Table view data source
-    /*
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
- */
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 10
+        return files.count
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+
+        // Configure the cell...
+
         return cell
     }
     

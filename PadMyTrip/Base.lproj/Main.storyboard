@@ -21,7 +21,11 @@
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vma-UG-Uxc">
                                 <rect key="frame" x="0.0" y="974" width="768" height="50"/>
                                 <items>
-                                    <barButtonItem systemItem="add" id="9mq-qh-iWx"/>
+                                    <barButtonItem systemItem="add" id="9mq-qh-iWx">
+                                        <connections>
+                                            <action selector="importTracks:" destination="2jB-jc-sLh" id="VGy-Ll-hWw"/>
+                                        </connections>
+                                    </barButtonItem>
                                 </items>
                             </toolbar>
                         </subviews>

@@ -10,7 +10,7 @@
         <!--Map View Controller-->
         <scene sceneID="7GJ-2F-g02">
             <objects>
-                <viewController id="2jB-jc-sLh" customClass="MapViewController" customModule="PadMyTrip" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="mapViewController" id="2jB-jc-sLh" customClass="MapViewController" customModule="PadMyTrip" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="cFp-OL-kpf">
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -48,7 +48,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qZ0-rg-Pfj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="717.96875" y="-497.46093749999994"/>
+            <point key="canvasLocation" x="723" y="-443"/>
         </scene>
         <!--Tracks-->
         <scene sceneID="PUU-jY-qfa">
@@ -79,7 +79,7 @@
                                     <accessibilityTraits key="traits" button="YES"/>
                                 </accessibility>
                                 <connections>
-                                    <segue destination="2jB-jc-sLh" kind="showDetail" id="Dsh-wm-tVT"/>
+                                    <segue destination="2jB-jc-sLh" kind="showDetail" trigger="accessoryAction" id="MQ5-91-yVC"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -119,33 +119,15 @@
                 <splitViewController id="S1y-4e-eS5" sceneMemberID="viewController">
                     <connections>
                         <segue destination="YHT-rN-hKc" kind="relationship" relationship="masterViewController" id="vkr-C6-gJj"/>
-                        <segue destination="xtX-1G-TRf" kind="relationship" relationship="detailViewController" id="lz7-oq-wux"/>
+                        <segue destination="2jB-jc-sLh" kind="relationship" relationship="detailViewController" id="BDl-jN-JJy"/>
                     </connections>
                 </splitViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uHL-Pk-akB" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-820" y="-818"/>
         </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="EH5-1N-xFq">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="xtX-1G-TRf" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="0RY-aN-ieP">
-                        <rect key="frame" x="0.0" y="0.0" width="768" height="50"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="2jB-jc-sLh" kind="relationship" relationship="rootViewController" id="qiy-Na-fZ4"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="tka-7T-kp9" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-47.65625" y="-497.46093749999994"/>
-        </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="qiy-Na-fZ4"/>
+        <segue reference="MQ5-91-yVC"/>
     </inferredMetricsTieBreakers>
 </document>

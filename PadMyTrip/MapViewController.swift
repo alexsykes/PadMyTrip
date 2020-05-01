@@ -17,6 +17,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     var userLocation: CLLocation!
     var files = [URL]()
     
+    @IBOutlet weak var importTracks: UIBarButtonItem!
     // MARK: Outlets
     @IBOutlet weak var mapView: MKMapView!
     
@@ -29,7 +30,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         
         getPermissions()
         setUpMap()
-        getFileList()
+//        getFileList()
     }
     
     // Gets permisiions for location services
@@ -51,32 +52,32 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     
     func setUpMap() {
         mapView.mapType = .standard
-        mapView.userTrackingMode = MKUserTrackingMode(rawValue: 2)!
-        mapView.showsCompass = true
+        // mapView.userTrackingMode = MKUserTrackingMode(rawValue: 2)!
+        // mapView.showsCompass = true
     }
     
-    // MARK: File Handling
-    func getDocumentsDirectory() -> URL {
-        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-        // let public = FileManager
-        return paths[0]
-    }
-    
-    
-    func getFileList() {
-        let docDir = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
-        let skipsHiddenFiles: Bool = true
-        
-        let URLs = try! FileManager.default.contentsOfDirectory(at: docDir, includingPropertiesForKeys: nil, options: skipsHiddenFiles ? .skipsHiddenFiles : [] )
-        
-        var csvURLs = URLs.filter{ $0.pathExtension == "csv" || $0.pathExtension == "txt"}
-        csvURLs.sort(by: { $0.lastPathComponent.lowercased() < $1.lastPathComponent.lowercased() } )
-              
-     //   let URLs = try! FileManager.default.contentsOfDirectory(at: docDir, includingPropertiesForKeys: nil)
-        for file in csvURLs {
-            files.append(file)
-        }
-    }
+//    // MARK: File Handling
+//    func getDocumentsDirectory() -> URL {
+//        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+//        // let public = FileManager
+//        return paths[0]
+//    }
+//
+//
+//    func getFileList() {
+//        let docDir = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+//        let skipsHiddenFiles: Bool = true
+//
+//        let URLs = try! FileManager.default.contentsOfDirectory(at: docDir, includingPropertiesForKeys: nil, options: skipsHiddenFiles ? .skipsHiddenFiles : [] )
+//
+//        var csvURLs = URLs.filter{ $0.pathExtension == "csv" || $0.pathExtension == "txt"}
+//        csvURLs.sort(by: { $0.lastPathComponent.lowercased() < $1.lastPathComponent.lowercased() } )
+//
+//     //   let URLs = try! FileManager.default.contentsOfDirectory(at: docDir, includingPropertiesForKeys: nil)
+//        for file in csvURLs {
+//            files.append(file)
+//        }
+//    }
     
     
     /*

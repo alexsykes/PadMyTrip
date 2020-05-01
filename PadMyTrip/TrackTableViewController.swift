@@ -33,7 +33,7 @@ class TrackTableViewController: UITableViewController {
         
         func getFileList() {
             files.removeAll()
-            let docDir = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+            let docDir = try! FileManager.default.url(for: .documentDirectory, in: .allDomainsMask, appropriateFor: nil, create: true)
             let skipsHiddenFiles: Bool = true
             
             let URLs = try! FileManager.default.contentsOfDirectory(at: docDir, includingPropertiesForKeys: nil, options: skipsHiddenFiles ? .skipsHiddenFiles : [] )
@@ -44,6 +44,16 @@ class TrackTableViewController: UITableViewController {
          //   let URLs = try! FileManager.default.contentsOfDirectory(at: docDir, includingPropertiesForKeys: nil)
             for file in csvURLs {
                 files.append(file)
+            }
+            
+            if files.count == 0 {
+                let dir = docDir.absoluteString
+                let folderURL = docDir.appendingPathComponent("Tracks")
+                do {
+                    try FileManager.default.createDirectory(atPath: folderURL.absoluteString, withIntermediateDirectories: true, attributes: nil)
+                } catch let error as NSError {
+                    print(error.localizedDescription);
+                }
             }
         }
 
@@ -59,7 +69,7 @@ class TrackTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return files.count
+        return 5 //files.count
     }
 
     

@@ -1,5 +1,5 @@
 //
-//  TrackTableViewCell.swift
+//  TrackViewCell.swift
 //  PadMyTrip
 //
 //  Created by Alex on 01/05/2020.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TrackTableViewCell: UITableViewCell {
+class TrackViewCell: UITableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()

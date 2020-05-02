@@ -17,7 +17,7 @@ class TrackTableViewController: UITableViewController, UIDocumentPickerDelegate 
     var mapView :MKMapView!
     
     @IBOutlet weak var addButton: UIBarButtonItem!
-   // @IBOutlet weak var trackCell: TrackViewCell!
+    // @IBOutlet weak var trackCell: TrackViewCell!
     @IBOutlet var trackTableView: UITableView!
     
     
@@ -25,7 +25,7 @@ class TrackTableViewController: UITableViewController, UIDocumentPickerDelegate 
     @IBAction func addTracks(_ sender: UIBarButtonItem) {
         readFromPublic()
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -33,7 +33,7 @@ class TrackTableViewController: UITableViewController, UIDocumentPickerDelegate 
         getFileList()
         mapViewController = MapViewController(nibName: "mapViewController", bundle: nil)
     }
-
+    
     
     // MARK: File Handling
     func getDocumentsDirectory() -> URL {
@@ -58,8 +58,8 @@ class TrackTableViewController: UITableViewController, UIDocumentPickerDelegate 
         // For each file
         for file in csvURLs {
             /*  add file to files array
-                convert to array of CLLocation objects
-                then convert to track and add to tracks array
+             convert to array of CLLocation objects
+             then convert to track and add to tracks array
              */
             files.append(file)
             let trackData = readFile(url :file)     // trackData -> array of Strings : each line becomes one location in
@@ -67,7 +67,7 @@ class TrackTableViewController: UITableViewController, UIDocumentPickerDelegate 
             
             let newTrack = Track(name: "Unnamed track", trackDescription: "Description goes here", track: locations)
             tracks.append(newTrack)
-          //  currentMap.addTrack(track: newTrack)
+            //  currentMap.addTrack(track: newTrack)
             
         }
     }
@@ -210,21 +210,21 @@ class TrackTableViewController: UITableViewController, UIDocumentPickerDelegate 
     }
     
     
-       // Documents picked
-       func documentPicker(_ controller: UIDocumentPickerViewController,
-                           didPickDocumentsAt urls: [URL]) {
-          // var trackFiles = urls
-           // Add check for zero return
-           
-           if urls.count == 0 { return}
-           do {
-               try copyReturnedTrackURLs(trackURLs: urls)
-           } catch {
-               print("Error reading returned files: \(error.localizedDescription)")
-           }
-          getFileList()
-          DispatchQueue.main.async { self.trackTableView.reloadData() }
-       }
+    // Documents picked
+    func documentPicker(_ controller: UIDocumentPickerViewController,
+                        didPickDocumentsAt urls: [URL]) {
+        // var trackFiles = urls
+        // Add check for zero return
+        
+        if urls.count == 0 { return}
+        do {
+            try copyReturnedTrackURLs(trackURLs: urls)
+        } catch {
+            print("Error reading returned files: \(error.localizedDescription)")
+        }
+        getFileList()
+        DispatchQueue.main.async { self.trackTableView.reloadData() }
+    }
     
     func copyReturnedTrackURLs(trackURLs :[URL]) throws {
         let fileManager = FileManager.init()
@@ -255,11 +255,13 @@ class TrackTableViewController: UITableViewController, UIDocumentPickerDelegate 
     }
     
     // Identify selected row and pass data to MapView function
-     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let row = indexPath.row
         print("Selected row: \(row)")
         mapViewController?.setup(string: "Hello: \(row) ")
+        
     }
+
     /*
      // MARK: - Navigation
      
@@ -269,5 +271,18 @@ class TrackTableViewController: UITableViewController, UIDocumentPickerDelegate 
      // Pass the selected object to the new view controller.
      }
      */
-
+    
+    
+    // MARK: Note re cell greying
+    /* Use the UITableViewDelegate method tableView:didSelectRowAtIndexPath: to detect which row is tapped (this is what exactly your tapGesture is going to do) and then do your desired processing.
+     If you don't like the gray indication when you select cell, type this in your tableView:didEndDisplayingCell:forRowAtIndexPath: just before returning the cell:
+     cell?.selectionStyle = .None
+     
+     
+     override func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+         cell.selectionStyle = .none
+     }
+     
+     */
+    
 }

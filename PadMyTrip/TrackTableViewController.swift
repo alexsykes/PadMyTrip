@@ -43,7 +43,6 @@ class TrackTableViewController: UITableViewController, UIDocumentPickerDelegate 
     // MARK: File Handling
     func getDocumentsDirectory() -> URL {
         let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-        // let public = FileManager
         return paths[0]
     }
     
@@ -53,7 +52,6 @@ class TrackTableViewController: UITableViewController, UIDocumentPickerDelegate 
         
         // Set pointer to document directory and hide dot files
         let docDir = try! FileManager.default.url(for: .documentDirectory, in: .allDomainsMask, appropriateFor: nil, create: true)
-        //let skipsHiddenFiles: Bool = true
         
         // Get array of file URLs
         let URLs = try! FileManager.default.contentsOfDirectory(at: docDir, includingPropertiesForKeys: nil, options: .skipsHiddenFiles)
@@ -75,6 +73,7 @@ class TrackTableViewController: UITableViewController, UIDocumentPickerDelegate 
             let newTrack = Track(name: "Unnamed track", trackDescription: "Description goes here", track: locations)
             tracks.append(newTrack)
           //  currentMap.addTrack(track: newTrack)
+            
         }
     }
     
@@ -224,13 +223,15 @@ class TrackTableViewController: UITableViewController, UIDocumentPickerDelegate 
            
            if urls.count == 0 { return}
            do {
-               try readReturnedTrackURLs(trackURLs: urls)
+               try copyReturnedTrackURLs(trackURLs: urls)
            } catch {
                print("Error reading returned files: \(error.localizedDescription)")
            }
+          getFileList()
+          DispatchQueue.main.async { self.trackTableView.reloadData() }
        }
     
-    func readReturnedTrackURLs(trackURLs :[URL]) throws {
+    func copyReturnedTrackURLs(trackURLs :[URL]) throws {
         let fileManager = FileManager.init()
         let docDir = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
         let csvURLs = trackURLs.filter{ $0.pathExtension == "csv"}
@@ -268,5 +269,5 @@ class TrackTableViewController: UITableViewController, UIDocumentPickerDelegate 
      // Pass the selected object to the new view controller.
      }
      */
-    
+
 }

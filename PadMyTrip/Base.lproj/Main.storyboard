@@ -82,7 +82,6 @@
                         <connections>
                             <outlet property="dataSource" destination="cbA-jy-id3" id="48Z-DS-74c"/>
                             <outlet property="delegate" destination="cbA-jy-id3" id="dEW-2v-sbZ"/>
-                            <outletCollection property="gestureRecognizers" destination="O2R-s4-yBr" appends="YES" id="mE2-QN-OrZ"/>
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Tracks" id="tdV-Y2-Ocu">
@@ -94,16 +93,10 @@
                     </navigationItem>
                     <connections>
                         <outlet property="addButton" destination="yjG-7U-wji" id="uuY-jw-PaU"/>
-                        <outlet property="tapOnTrack" destination="O2R-s4-yBr" id="sRN-Oz-dX9"/>
                         <outlet property="trackTableView" destination="cFv-QM-eZ0" id="2IO-nm-lZi"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fGc-vf-Esq" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-                <tapGestureRecognizer id="O2R-s4-yBr">
-                    <connections>
-                        <action selector="tapOnTrack:" destination="cbA-jy-id3" id="xfg-SM-id3"/>
-                    </connections>
-                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="724" y="-1139"/>
         </scene>

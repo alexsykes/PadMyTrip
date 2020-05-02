@@ -28,6 +28,10 @@ class MapViewController: UIViewController, MKMapViewDelegate  {
         setUpMap()
     }
 
+    func setup(string text: String) {
+        print(text)
+    }
+    
     func setUpMap() {
       self.mapView.mapType = .standard
     }

@@ -7,16 +7,16 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Map View Controller-->
+        <!--mapViewController-->
         <scene sceneID="7GJ-2F-g02">
             <objects>
-                <viewController storyboardIdentifier="mapViewController" id="2jB-jc-sLh" customClass="MapViewController" customModule="PadMyTrip" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="mapViewController" title="mapViewController" id="2jB-jc-sLh" customClass="MapViewController" customModule="PadMyTrip" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="cFp-OL-kpf">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="1024"/>
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" pitchEnabled="NO" showsBuildings="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N0q-6d-cwV">
-                                <rect key="frame" x="0.0" y="50" width="320" height="974"/>
+                                <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                             </mapView>
                         </subviews>
                         <constraints>
@@ -36,10 +36,10 @@
             </objects>
             <point key="canvasLocation" x="723" y="-443"/>
         </scene>
-        <!--Tracks-->
+        <!--tableViewController-->
         <scene sceneID="PUU-jY-qfa">
             <objects>
-                <tableViewController clearsSelectionOnViewWillAppear="NO" id="cbA-jy-id3" customClass="TrackTableViewController" customModule="PadMyTrip" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController title="tableViewController" clearsSelectionOnViewWillAppear="NO" id="cbA-jy-id3" customClass="TrackTableViewController" customModule="PadMyTrip" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="cFv-QM-eZ0">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -63,6 +63,7 @@
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="aMe-l1-Gbu">
                                             <rect key="frame" x="16" y="31.5" width="44" height="14.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <gestureRecognizers/>
                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
@@ -75,7 +76,6 @@
                                 <connections>
                                     <outlet property="subtitleLabel" destination="aMe-l1-Gbu" id="vSD-Ik-cn6"/>
                                     <outlet property="titleLabel" destination="kLK-1Z-3N6" id="ccJ-e9-tha"/>
-                                    <segue destination="2jB-jc-sLh" kind="show" trigger="accessoryAction" id="QFg-bL-cgd"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -130,7 +130,4 @@
             <point key="canvasLocation" x="-820" y="-818"/>
         </scene>
     </scenes>
-    <inferredMetricsTieBreakers>
-        <segue reference="QFg-bL-cgd"/>
-    </inferredMetricsTieBreakers>
 </document>

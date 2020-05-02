@@ -16,7 +16,6 @@ class TrackTableViewController: UITableViewController, UIDocumentPickerDelegate 
     var mapViewController :MapViewController?
     var mapView :MKMapView!
     
-    
     @IBOutlet weak var addButton: UIBarButtonItem!
    // @IBOutlet weak var trackCell: TrackViewCell!
     @IBOutlet var trackTableView: UITableView!
@@ -26,17 +25,15 @@ class TrackTableViewController: UITableViewController, UIDocumentPickerDelegate 
     @IBAction func addTracks(_ sender: UIBarButtonItem) {
         readFromPublic()
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        trackTableView.delegate = self
         getFileList()
+        mapViewController = MapViewController(nibName: "mapViewController", bundle: nil)
     }
 
-    /*
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(true)
-        getFileList()
-    } */
     
     // MARK: File Handling
     func getDocumentsDirectory() -> URL {
@@ -257,7 +254,12 @@ class TrackTableViewController: UITableViewController, UIDocumentPickerDelegate 
         return true
     }
     
-    
+    // Identify selected row and pass data to MapView function
+     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let row = indexPath.row
+        print("Selected row: \(row)")
+        mapViewController?.setup(string: "Hello: \(row) ")
+    }
     /*
      // MARK: - Navigation
      

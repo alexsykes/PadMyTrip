@@ -7,15 +7,27 @@
 //
 
 import UIKit
+import CoreLocation
 
 class TrackTableViewController: UITableViewController {
     var files :[URL]! = []
+    var tracks :[Track] = []
+    var currentMap :Map!
+    
+    
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var trackCell: TrackViewCell!
     @IBOutlet var trackTableView: UITableView!
     
+    @IBOutlet var tapOnTrack: UITapGestureRecognizer!
+    @IBAction func tapOnTrack(_ sender: UITapGestureRecognizer) {
+        print("Track tapped")
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
+        currentMap = Map(name: "Untitled Map", mapDescription: "Map description")
         
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -40,23 +52,84 @@ class TrackTableViewController: UITableViewController {
     
     
     func getFileList() {
+        // Empty any existing data from file array
         files.removeAll()
+        
+        // Set pointer to document directory and hide dot files
         let docDir = try! FileManager.default.url(for: .documentDirectory, in: .allDomainsMask, appropriateFor: nil, create: true)
         let skipsHiddenFiles: Bool = true
         
+        // Get array of file URLs
         let URLs = try! FileManager.default.contentsOfDirectory(at: docDir, includingPropertiesForKeys: nil, options: skipsHiddenFiles ? .skipsHiddenFiles : [] )
         
-        var csvURLs = URLs.filter{ $0.pathExtension == "csv" || $0.pathExtension == "txt"}
+        // Filter for csv extension then sort by namne
+        var csvURLs = URLs.filter{ $0.pathExtension == "csv"}
         csvURLs.sort(by: { $0.lastPathComponent.lowercased() < $1.lastPathComponent.lowercased() } )
         
+        // For each file
         for file in csvURLs {
+            /*  add file to files array
+                convert to array of CLLocation objects
+                then convert to track and add to tracks array
+             */
             files.append(file)
+            let trackData = readFile(url :file)     // trackData -> array of Strings : each line becomes one location in
+            let locations :[CLLocation] = prepareLocations(trackData: trackData) // trackLocations -> array of CLLocation to be converted to
+            
+            let newTrack = Track(name: "Unnamed track", trackDescription: "Description goes here", track: locations)
+            tracks.append(newTrack)
+            currentMap.addTrack(track: newTrack)
         }
     }
     
+    // Read trackdata from storage
+    // Return array of Strings
+    func readFile(url :URL) -> [String] {
+        var points:[String] = []
+        let path = url.path
+        let fileContents = FileManager.default.contents(atPath: path)
+        let fileContentsAsString = String(bytes: fileContents!, encoding: .utf8)
+        
+        // Split lines then append to array
+        let lines = fileContentsAsString!.split(separator: "\n")
+        for line in lines {
+            points.append(String(line))
+        }
+        return points
+    }
     
-    
-    
+    func prepareLocations(trackData: [String]) -> [CLLocation] {
+        var locations :[CLLocation] = []
+        var theLocation: CLLocation!
+        var elevation: Double!
+        var latitude: Double!
+        var longitude: Double!
+        var hacc: Double!
+        var vacc: Double!
+        var timestampS: String!
+        var coordinate: CLLocationCoordinate2D
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        
+        var values :[String] = []
+        
+        for point in trackData {
+            values  = point.components(separatedBy: ",")
+            latitude = Double(values[0])
+            longitude = Double(values[1])
+            hacc = Double(values[2])
+            vacc = Double(values[3])
+            elevation = Double(values[4])
+            timestampS = values[5]
+            
+            let date = formatter.date(from: timestampS)
+            coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+            theLocation = CLLocation(coordinate: coordinate, altitude: elevation, horizontalAccuracy: hacc, verticalAccuracy: vacc, timestamp: date ?? Date())
+            locations.append(theLocation)
+        }
+        return locations
+    }
     
     // MARK: - Table view data source
     
@@ -69,11 +142,22 @@ class TrackTableViewController: UITableViewController {
         return files.count
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> TrackViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "trackCell", for: indexPath) as! TrackViewCell
         let file = files[indexPath.row]
         let  name = file.lastPathComponent
-        cell.textLabel?.text = name
+        let path = file.path
+        let date = ((try? FileManager.default.attributesOfItem(atPath: path))?[.creationDate] as? Date)!
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .short
+        dateFormatter.timeStyle = .short
+        dateFormatter.doesRelativeDateFormatting = true
+        let timStr = dateFormatter.string(from: date)
+        
+        //        cell.textLabel?.text = name
+        //        cell.subtitle?text = "Date"
+        cell.titleLabel?.text = name
+        cell.subtitleLabel?.text = timStr
         return cell
     }
     
@@ -93,9 +177,9 @@ class TrackTableViewController: UITableViewController {
             let file = files[indexPath.row]
             do {
                 try fileManager.removeItem(at: file)
-                } catch {
-                    print("Error deleting file: \(error.localizedDescription)")
-                }
+            } catch {
+                print("Error deleting file: \(error.localizedDescription)")
+            }
             // Delete the row from the data source
             files.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
@@ -113,12 +197,12 @@ class TrackTableViewController: UITableViewController {
      */
     
     
-     // Override to support conditional rearranging of the table view.
-     override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-     // Return false if you do not want the item to be re-orderable.
-     return true
-     }
-     
+    // Override to support conditional rearranging of the table view.
+    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+        // Return false if you do not want the item to be re-orderable.
+        return true
+    }
+    
     
     /*
      // MARK: - Navigation

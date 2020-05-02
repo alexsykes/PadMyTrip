@@ -58,18 +58,26 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <gestureRecognizers/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="trackCell" textLabel="kLK-1Z-3N6" style="IBUITableViewCellStyleDefault" id="6JB-Qp-9Ae" customClass="TrackViewCell" customModule="PadMyTrip" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="320" height="43.5"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="trackCell" textLabel="kLK-1Z-3N6" detailTextLabel="aMe-l1-Gbu" style="IBUITableViewCellStyleSubtitle" id="6JB-Qp-9Ae" customClass="TrackViewCell" customModule="PadMyTrip">
+                                <rect key="frame" x="0.0" y="28" width="320" height="55.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="6JB-Qp-9Ae" id="Lgc-FW-Zpq">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="6JB-Qp-9Ae" id="Lgc-FW-Zpq" customClass="TrackViewCell" customModule="PadMyTrip" customModuleProvider="target">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="55.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="kLK-1Z-3N6">
-                                            <rect key="frame" x="16" y="0.0" width="288" height="43.5"/>
+                                            <rect key="frame" x="16" y="10" width="33.5" height="20.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="aMe-l1-Gbu">
+                                            <rect key="frame" x="16" y="31.5" width="44" height="14.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
@@ -79,6 +87,8 @@
                                     <accessibilityTraits key="traits" button="YES"/>
                                 </accessibility>
                                 <connections>
+                                    <outlet property="subtitleLabel" destination="aMe-l1-Gbu" id="vSD-Ik-cn6"/>
+                                    <outlet property="titleLabel" destination="kLK-1Z-3N6" id="ccJ-e9-tha"/>
                                     <segue destination="2jB-jc-sLh" kind="showDetail" trigger="accessoryAction" id="MQ5-91-yVC"/>
                                 </connections>
                             </tableViewCell>
@@ -86,14 +96,21 @@
                         <connections>
                             <outlet property="dataSource" destination="cbA-jy-id3" id="48Z-DS-74c"/>
                             <outlet property="delegate" destination="cbA-jy-id3" id="dEW-2v-sbZ"/>
+                            <outletCollection property="gestureRecognizers" destination="O2R-s4-yBr" appends="YES" id="mE2-QN-OrZ"/>
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Tracks" id="tdV-Y2-Ocu"/>
                     <connections>
+                        <outlet property="tapOnTrack" destination="O2R-s4-yBr" id="sRN-Oz-dX9"/>
                         <outlet property="trackTableView" destination="cFv-QM-eZ0" id="2IO-nm-lZi"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fGc-vf-Esq" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="O2R-s4-yBr">
+                    <connections>
+                        <action selector="tapOnTrack:" destination="cbA-jy-id3" id="xfg-SM-id3"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="724" y="-1139"/>
         </scene>

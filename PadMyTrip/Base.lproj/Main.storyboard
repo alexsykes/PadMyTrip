@@ -16,33 +16,19 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" pitchEnabled="NO" showsBuildings="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N0q-6d-cwV">
-                                <rect key="frame" x="0.0" y="0.0" width="768" height="974"/>
+                                <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                             </mapView>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vma-UG-Uxc">
-                                <rect key="frame" x="0.0" y="974" width="768" height="50"/>
-                                <items>
-                                    <barButtonItem systemItem="add" id="9mq-qh-iWx">
-                                        <connections>
-                                            <action selector="importTracks:" destination="2jB-jc-sLh" id="VGy-Ll-hWw"/>
-                                        </connections>
-                                    </barButtonItem>
-                                </items>
-                            </toolbar>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="N0q-6d-cwV" firstAttribute="top" secondItem="cFp-OL-kpf" secondAttribute="top" id="5Lx-WL-ZAY"/>
-                            <constraint firstItem="Vma-UG-Uxc" firstAttribute="trailing" secondItem="Nac-f2-mGi" secondAttribute="trailing" id="BYU-Hd-tlp"/>
-                            <constraint firstItem="N0q-6d-cwV" firstAttribute="trailing" secondItem="Nac-f2-mGi" secondAttribute="trailing" id="JiV-DW-Zcs"/>
-                            <constraint firstItem="Vma-UG-Uxc" firstAttribute="top" secondItem="N0q-6d-cwV" secondAttribute="bottom" id="fYb-aY-1ul"/>
-                            <constraint firstItem="Vma-UG-Uxc" firstAttribute="bottom" secondItem="Nac-f2-mGi" secondAttribute="bottom" id="jxs-DT-6yV"/>
-                            <constraint firstItem="Vma-UG-Uxc" firstAttribute="leading" secondItem="Nac-f2-mGi" secondAttribute="leading" id="kHG-Z0-RMO"/>
-                            <constraint firstItem="N0q-6d-cwV" firstAttribute="leading" secondItem="Nac-f2-mGi" secondAttribute="leading" id="kc5-ey-Ny7"/>
+                            <constraint firstItem="Nac-f2-mGi" firstAttribute="bottom" secondItem="N0q-6d-cwV" secondAttribute="bottom" id="Cxv-6B-IwW"/>
+                            <constraint firstItem="N0q-6d-cwV" firstAttribute="top" secondItem="Nac-f2-mGi" secondAttribute="top" id="RLB-Te-RGX"/>
+                            <constraint firstItem="N0q-6d-cwV" firstAttribute="leading" secondItem="Nac-f2-mGi" secondAttribute="leading" id="ZKj-PN-g0C"/>
+                            <constraint firstItem="N0q-6d-cwV" firstAttribute="trailing" secondItem="Nac-f2-mGi" secondAttribute="trailing" id="bQN-Qw-3M6"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Nac-f2-mGi"/>
                     </view>
                     <navigationItem key="navigationItem" id="Co6-hH-VYu"/>
                     <connections>
-                        <outlet property="importTracks" destination="9mq-qh-iWx" id="gtj-dS-34A"/>
                         <outlet property="mapView" destination="N0q-6d-cwV" id="oV2-e4-glw"/>
                     </connections>
                 </viewController>
@@ -99,8 +85,15 @@
                             <outletCollection property="gestureRecognizers" destination="O2R-s4-yBr" appends="YES" id="mE2-QN-OrZ"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Tracks" id="tdV-Y2-Ocu"/>
+                    <navigationItem key="navigationItem" title="Tracks" id="tdV-Y2-Ocu">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="yjG-7U-wji">
+                            <connections>
+                                <action selector="addTracks:" destination="cbA-jy-id3" id="2e3-Xk-eE6"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
+                        <outlet property="addButton" destination="yjG-7U-wji" id="uuY-jw-PaU"/>
                         <outlet property="tapOnTrack" destination="O2R-s4-yBr" id="sRN-Oz-dX9"/>
                         <outlet property="trackTableView" destination="cFv-QM-eZ0" id="2IO-nm-lZi"/>
                     </connections>

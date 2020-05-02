@@ -9,12 +9,12 @@
 import UIKit
 import CoreLocation
 
-class TrackTableViewController: UITableViewController {
+class TrackTableViewController: UITableViewController, UIDocumentPickerDelegate {
     var files :[URL]! = []
     var tracks :[Track] = []
-    var currentMap :Map!
     
     
+    @IBOutlet weak var addButton: UIBarButtonItem!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var trackCell: TrackViewCell!
     @IBOutlet var trackTableView: UITableView!
@@ -23,29 +23,22 @@ class TrackTableViewController: UITableViewController {
     @IBAction func tapOnTrack(_ sender: UITapGestureRecognizer) {
         print("Track tapped")
     }
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        
-        currentMap = Map(name: "Untitled Map", mapDescription: "Map description")
-        
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-        
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
-        getFileList()
+    
+    // Action for adding tracks from public folders
+    @IBAction func addTracks(_ sender: UIBarButtonItem) {
+        readFromPublic()
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        getFileList()
+    }
+
+    /*
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         getFileList()
-    }
-    
-    func didReceiveFiles(files :[URL]) {
-        print("Data received")
-        getFileList()
-    }
+    } */
     
     // MARK: File Handling
     func getDocumentsDirectory() -> URL {
@@ -54,17 +47,16 @@ class TrackTableViewController: UITableViewController {
         return paths[0]
     }
     
-    
     func getFileList() {
         // Empty any existing data from file array
         files.removeAll()
         
         // Set pointer to document directory and hide dot files
         let docDir = try! FileManager.default.url(for: .documentDirectory, in: .allDomainsMask, appropriateFor: nil, create: true)
-        let skipsHiddenFiles: Bool = true
+        //let skipsHiddenFiles: Bool = true
         
         // Get array of file URLs
-        let URLs = try! FileManager.default.contentsOfDirectory(at: docDir, includingPropertiesForKeys: nil, options: skipsHiddenFiles ? .skipsHiddenFiles : [] )
+        let URLs = try! FileManager.default.contentsOfDirectory(at: docDir, includingPropertiesForKeys: nil, options: .skipsHiddenFiles)
         
         // Filter for csv extension then sort by namne
         var csvURLs = URLs.filter{ $0.pathExtension == "csv"}
@@ -192,7 +184,66 @@ class TrackTableViewController: UITableViewController {
         }
     }
     
+    // MARK: File Handling
+    /* Presents user with a dialog box u
+     user selects a file or files
+     then the documentPicker didPickDocumentsAt event is fired
+     */
+    // TODO: Add/check Cancel button
+    func readFromPublic () {
+        
+        // open a document picker, select a file
+        // documentTypes see - https://developer.apple.com/library/archive/documentation/Miscellaneous/Reference/UTIRef/Articles/System-DeclaredUniformTypeIdentifiers.html#//apple_ref/doc/uid/TP40009259-SW1
+        
+        let importFileMenu = UIDocumentPickerViewController(documentTypes: ["public.text"],
+                                                            in: UIDocumentPickerMode.import)
+        
+        importFileMenu.delegate = self
+        importFileMenu.shouldShowFileExtensions = true
+        importFileMenu.allowsMultipleSelection = true
+        
+        if #available(iOS 13.0, *) {
+            // print("File iOS 13+")
+            importFileMenu.directoryURL = FileManager.default.containerURL(
+                forSecurityApplicationGroupIdentifier: "group.com.alexsykes.MapMyTrip")!
+        } else {
+            // Fallback on earlier versions
+            //  print("File iOS <=12")
+        }
+        importFileMenu.modalPresentationStyle = .automatic
+        
+        self.present(importFileMenu, animated: true, completion: nil)
+    }
     
+    
+       // Documents picked
+       func documentPicker(_ controller: UIDocumentPickerViewController,
+                           didPickDocumentsAt urls: [URL]) {
+          // var trackFiles = urls
+           // Add check for zero return
+           
+           if urls.count == 0 { return}
+           do {
+               try readReturnedTrackURLs(trackURLs: urls)
+           } catch {
+               print("Error reading returned files: \(error.localizedDescription)")
+           }
+       }
+    
+    func readReturnedTrackURLs(trackURLs :[URL]) throws {
+        let fileManager = FileManager.init()
+        let docDir = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+        let csvURLs = trackURLs.filter{ $0.pathExtension == "csv"}
+        for trackURL in csvURLs {
+            let filename = trackURL.lastPathComponent
+            let newFileUrl = docDir.appendingPathComponent(filename)
+            do {
+                try  fileManager.copyItem(at: trackURL, to: newFileUrl)
+            } catch {
+                print("Error copying file: \(error.localizedDescription)")
+            }
+        }
+    }
     /*
      // Override to support rearranging the table view.
      override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {

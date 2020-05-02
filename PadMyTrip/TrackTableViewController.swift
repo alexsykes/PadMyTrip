@@ -42,6 +42,10 @@ class TrackTableViewController: UITableViewController {
         getFileList()
     }
     
+    func didReceiveFiles(files :[URL]) {
+        print("Data received")
+        getFileList()
+    }
     
     // MARK: File Handling
     func getDocumentsDirectory() -> URL {
@@ -78,7 +82,7 @@ class TrackTableViewController: UITableViewController {
             
             let newTrack = Track(name: "Unnamed track", trackDescription: "Description goes here", track: locations)
             tracks.append(newTrack)
-            currentMap.addTrack(track: newTrack)
+          //  currentMap.addTrack(track: newTrack)
         }
     }
     

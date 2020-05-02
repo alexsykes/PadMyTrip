@@ -17,6 +17,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     var locationManager: CLLocationManager!
     var userLocation: CLLocation!
     var files = [URL]()
+    var trackTableViewController :TrackTableViewController?
     
     @IBOutlet weak var importTracks: UIBarButtonItem!
     // MARK: Outlets
@@ -27,6 +28,10 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         mapView.delegate = self
         locationManager = CLLocationManager()
         locationManager.delegate = self
+        
+        trackTableViewController = TrackTableViewController(nibName: "trackTableViewController", bundle: nil)
+        
+        
         // Do any additional setup after loading the view.
         
         getPermissions()
@@ -99,14 +104,17 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     // Documents picked
     func documentPicker(_ controller: UIDocumentPickerViewController,
                         didPickDocumentsAt urls: [URL]) {
-        var trackFiles = urls
+       // var trackFiles = urls
         // Add check for zero return
+        /*
         if urls.count == 0 { return}
         do {
-           try  readReturnedTracks(trackURLs: urls)
+            try readReturnedTracks(trackURLs: urls)
         } catch {
             print("Error reading returned files: \(error.localizedDescription)")
         }
+ */
+        trackTableViewController?.didReceiveFiles(files : urls)
     }
     
     func readReturnedTracks(trackURLs :[URL]) throws {

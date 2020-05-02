@@ -12,11 +12,11 @@
             <objects>
                 <viewController storyboardIdentifier="mapViewController" id="2jB-jc-sLh" customClass="MapViewController" customModule="PadMyTrip" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="cFp-OL-kpf">
-                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" pitchEnabled="NO" showsBuildings="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N0q-6d-cwV">
-                                <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                                <rect key="frame" x="0.0" y="50" width="320" height="974"/>
                             </mapView>
                         </subviews>
                         <constraints>
@@ -75,7 +75,7 @@
                                 <connections>
                                     <outlet property="subtitleLabel" destination="aMe-l1-Gbu" id="vSD-Ik-cn6"/>
                                     <outlet property="titleLabel" destination="kLK-1Z-3N6" id="ccJ-e9-tha"/>
-                                    <segue destination="2jB-jc-sLh" kind="showDetail" trigger="accessoryAction" id="MQ5-91-yVC"/>
+                                    <segue destination="2jB-jc-sLh" kind="show" trigger="accessoryAction" id="QFg-bL-cgd"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -131,6 +131,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="MQ5-91-yVC"/>
+        <segue reference="QFg-bL-cgd"/>
     </inferredMetricsTieBreakers>
 </document>

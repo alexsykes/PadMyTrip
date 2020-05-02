@@ -23,11 +23,12 @@ class MapViewController: UIViewController, MKMapViewDelegate  {
     override func viewDidLoad() {
         super.viewDidLoad()
         mapView.delegate = self
+        
         trackTableViewController = TrackTableViewController(nibName: "trackTableViewController", bundle: nil)
         setUpMap()
     }
 
     func setUpMap() {
-        mapView.mapType = .standard
+      self.mapView.mapType = .standard
     }
 }

@@ -8,21 +8,19 @@
 
 import UIKit
 import CoreLocation
+import MapKit
 
 class TrackTableViewController: UITableViewController, UIDocumentPickerDelegate {
     var files :[URL]! = []
     var tracks :[Track] = []
+    var mapViewController :MapViewController?
+    var mapView :MKMapView!
     
     
     @IBOutlet weak var addButton: UIBarButtonItem!
-    @IBOutlet weak var nameLabel: UILabel!
-    @IBOutlet weak var trackCell: TrackViewCell!
+   // @IBOutlet weak var trackCell: TrackViewCell!
     @IBOutlet var trackTableView: UITableView!
     
-    @IBOutlet var tapOnTrack: UITapGestureRecognizer!
-    @IBAction func tapOnTrack(_ sender: UITapGestureRecognizer) {
-        print("Track tapped")
-    }
     
     // Action for adding tracks from public folders
     @IBAction func addTracks(_ sender: UIBarButtonItem) {

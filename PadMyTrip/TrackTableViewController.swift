@@ -15,29 +15,45 @@ class TrackTableViewController: UITableViewController, UIDocumentPickerDelegate 
     var tracks :[Track] = []
     var mapViewController :MapViewController?
     var mapView :MKMapView!
-    var currentMap :Map!
+    // var currentMap :Map!
     var map :MapData!
     
     @IBOutlet weak var addButton: UIBarButtonItem!
     // @IBOutlet weak var trackCell: TrackViewCell!
     @IBOutlet var trackTableView: UITableView!
     
-    
+    // MARK: Button actions
     // Action for adding tracks from public folders
     @IBAction func addTracks(_ sender: UIBarButtonItem) {
         readFromPublic()
     }
     
     @IBAction func saveMapData(_ sender: UIBarButtonItem) {
+        
+        let data :Data = encode()
+        writeData(data: data)
+        
     }
+    
+    // MARK: viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Setup
         trackTableView.delegate = self
+        mapViewController = MapViewController(nibName: "mapViewController", bundle: nil)
+        // currentMap = Map(name: "Line 38", mapDescription: "Line 38 description")
+        
+        // Read saved map data
+        map = MapData(name: "Map name", mapDescription: "A description of my map", date: Date(), northMost: -90, southMost: 90, westMost: -180, eastMost: 180, trackData: [])
+        
+        print("Track count: \(map.trackData.count)")
+        print("Date: \(map.date)")
         
         readStoredJSONData()
-        mapViewController = MapViewController(nibName: "mapViewController", bundle: nil)
-        currentMap = Map(name: "Line 38", mapDescription: "Line 38 description")
+        
+        print("Track count: \(map.trackData.count)")
+        print("Date: \(map.date)")
     }
     
     
@@ -164,15 +180,6 @@ class TrackTableViewController: UITableViewController, UIDocumentPickerDelegate 
         return true
     }
     
-    // MARK: Today's stuff
-    
-    
-    
-    
-    // MARK: Today's stuff ends here
-    
-    
-    
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
@@ -272,32 +279,20 @@ class TrackTableViewController: UITableViewController, UIDocumentPickerDelegate 
         let fileManager = FileManager.default
 
         // Check if file exists, given its path
-        
         let path = url.path
-        
-        //let newFile = playgroundURL.appendingPathComponent("test.txt").path
          
         if(!fileManager.fileExists(atPath:path)){
            fileManager.createFile(atPath: path, contents: nil, attributes: nil)
         }else{
-            print("File is already created")
+            print("Map file exists")
         }
         
-        
-        
-        /*
-        if fileManager.fileExists(atPath: path) {
-            print("File exists")
-        } else {
-            fileManager.createFile(atPath: path, contents: nil, attributes: nil)
-        }
- */
         var jsonData :Data!
         do {
             jsonData = try Data(contentsOf: url)
             
             if jsonData.count == 0 {
-                print("No data")
+                print("Map file contains no data")
                 return
             }
         } catch {
@@ -312,32 +307,6 @@ class TrackTableViewController: UITableViewController, UIDocumentPickerDelegate 
             print(map!)
         } catch {
             print(error.localizedDescription)
-        }
-        
-        // Start to add data to currentMap
-        currentMap.name = map.name
-        currentMap.mapDescription = map.mapDescription
-        currentMap.date = map.date
-        currentMap.westMost = map.westMost
-        currentMap.eastMost = map.eastMost
-        currentMap.southMost = map.southMost
-        currentMap.northMost = map.northMost
-        
-        for i in 0..<map.trackData.count {
-        let trackData =  map.trackData[i]
-            let points = trackData.points
-            var pointData : [Location] = []
-            for ii in 0..<points.count {
-                let point = points[ii]
-                let elevation = point.elevation
-                let lat = point.lat
-                let long = point.long
-                let loc = Location(long: long, lat: lat, elevation: elevation)
-                pointData.append(loc)
-            }
-            let newTrackData:TrackData = TrackData(points: pointData)
-           // map.trackData.append(newTrackData)
-           // currentMap.tracks.append(newTrackData)
         }
     }
     
@@ -371,7 +340,7 @@ class TrackTableViewController: UITableViewController, UIDocumentPickerDelegate 
             trackData.append(TrackData.init(points: points))
         }
         
-        let mapData = MapData(name: currentMap.name, mapDescription: currentMap.mapDescription, date: Date(), northMost: currentMap.northMost, southMost: currentMap.southMost, westMost: currentMap.westMost, eastMost: currentMap.eastMost, trackData: trackData)
+        let mapData = MapData(name: map.name, mapDescription: map.mapDescription, date: Date(), northMost: map.northMost, southMost: map.southMost, westMost: map.westMost, eastMost: map.eastMost, trackData: trackData)
         
         
         let encoder = JSONEncoder()
@@ -390,6 +359,34 @@ class TrackTableViewController: UITableViewController, UIDocumentPickerDelegate 
         }
         return encodedData
     }
+    
+    func writeData(data :Data) {
+        let longFileName = "MyMap.map"
+        let url = self.getDocumentsDirectory().appendingPathComponent(longFileName)
+        
+        do {
+            try data.write(to: url)
+            let input = try String(contentsOf: url)
+            print(input)
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+    // Final stage when writing file
+    func writeOutputString (dataString: String, fileName: String, fileExtension: String) {
+        let longFileName = fileName + fileExtension
+        
+        let url = self.getDocumentsDirectory().appendingPathComponent(longFileName)
+        
+        do {
+            try dataString.write(to: url, atomically: true, encoding: .utf8)
+            // let input = try String(contentsOf: url)
+            //  print(input)
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+    
     /*
      // Override to support rearranging the table view.
      override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {

@@ -246,13 +246,39 @@ class TrackTableViewController: UITableViewController, UIDocumentPickerDelegate 
     }
     
     func copyReturnedTrackURLs(trackURLs :[URL])  {
+        let fileManager = FileManager.init()
         let docDir = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
         let csvURLs = trackURLs.filter{ $0.pathExtension == "csv"}
         for trackURL in csvURLs {
             let filename = trackURL.lastPathComponent
-            let newFileUrl = docDir.appendingPathComponent(filename)
+            let newFileURL = docDir.appendingPathComponent(filename)
             do {
-                try  importAndConvertToJSON(trackURL: trackURL, newFileURL: newFileUrl)
+                try
+                    fileManager.copyItem(at: trackURL, to: newFileURL)
+                // Convert to JSON
+                var pointData:[String] = []
+                let path = newFileURL.path
+                let fileContents = FileManager.default.contents(atPath: path)
+                let fileContentsAsString = String(bytes: fileContents!, encoding: .utf8)
+                
+                // Split lines then append to array
+                let lines = fileContentsAsString!.split(separator: "\n")
+                for line in lines {
+                    pointData.append(String(line))
+                }
+                
+                print("Points: \(pointData.count)")
+                var points :[Location] = []
+                for point in pointData {
+                    let location = point.split(separator: ",")
+                    let lat = Double(location[0])!
+                    let long = Double(location[1])!
+                    let elev = Double(location[2])!
+                    
+                    let newLocation = Location(long: long, lat: lat, elevation: elev)
+                    points.append(newLocation)
+                }
+                trackData.append(TrackData.init(name:"Track name",points: points))
             } catch {
                 print("Error copying file: \(error.localizedDescription)")
             }

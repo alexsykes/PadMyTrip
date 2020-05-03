@@ -78,6 +78,44 @@
                                     <outlet property="titleLabel" destination="kLK-1Z-3N6" id="ccJ-e9-tha"/>
                                 </connections>
                             </tableViewCell>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="detailTrackCell" id="G0J-CL-sqe" customClass="TrackViewCell" customModule="PadMyTrip">
+                                <rect key="frame" x="0.0" y="83.5" width="320" height="43.5"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="G0J-CL-sqe" id="cPt-DG-JGe" customClass="TrackViewCell" customModule="PadMyTrip" customModuleProvider="target">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7F0-ZY-4fx">
+                                            <rect key="frame" x="20" y="11" width="280" height="22"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="nameLabel" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kel-FZ-Kqq">
+                                                    <rect key="frame" x="0.0" y="0.0" width="259.5" height="22"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="M1j-dv-Nfb">
+                                                    <rect key="frame" x="259.5" y="0.0" width="20.5" height="22"/>
+                                                    <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <state key="normal" image="lock.open.fill" catalog="system"/>
+                                                </button>
+                                            </subviews>
+                                        </stackView>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="7F0-ZY-4fx" firstAttribute="centerY" secondItem="cPt-DG-JGe" secondAttribute="centerY" id="4F7-08-x49"/>
+                                        <constraint firstAttribute="trailing" secondItem="7F0-ZY-4fx" secondAttribute="trailing" constant="20" symbolic="YES" id="Huh-bd-IV5"/>
+                                        <constraint firstItem="7F0-ZY-4fx" firstAttribute="leading" secondItem="cPt-DG-JGe" secondAttribute="leading" constant="20" symbolic="YES" id="cy8-wK-Maq"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <accessibility key="accessibilityConfiguration">
+                                    <accessibilityTraits key="traits" button="YES"/>
+                                </accessibility>
+                                <connections>
+                                    <outlet property="button" destination="M1j-dv-Nfb" id="YQO-Vc-0MZ"/>
+                                    <outlet property="nameLabel" destination="Kel-FZ-Kqq" id="Zn5-Cq-aH2"/>
+                                </connections>
+                            </tableViewCell>
                         </prototypes>
                         <connections>
                             <outlet property="dataSource" destination="cbA-jy-id3" id="48Z-DS-74c"/>
@@ -85,6 +123,11 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Tracks" id="tdV-Y2-Ocu">
+                        <barButtonItem key="leftBarButtonItem" image="Save" id="VcG-UX-PiY">
+                            <connections>
+                                <action selector="saveMapData:" destination="cbA-jy-id3" id="V9R-aE-kny"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="yjG-7U-wji">
                             <connections>
                                 <action selector="addTracks:" destination="cbA-jy-id3" id="2e3-Xk-eE6"/>
@@ -98,7 +141,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fGc-vf-Esq" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="724" y="-1139"/>
+            <point key="canvasLocation" x="723.4375" y="-1139.0625"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="RgF-c7-Iqh">
@@ -130,4 +173,8 @@
             <point key="canvasLocation" x="-820" y="-818"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="Save" width="25" height="25"/>
+        <image name="lock.open.fill" catalog="system" width="128" height="115"/>
+    </resources>
 </document>

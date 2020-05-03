@@ -13,9 +13,12 @@ import Foundation
 
 class MapViewController: UIViewController, MKMapViewDelegate  {
     
+    var polylines :[MKPolyline] = []
+    
     // MARK: Properties
     var locationManager: CLLocationManager!
     var trackTableViewController :TrackTableViewController?
+    var currentMap: Map!
     
     // MARK: Outlets
     @IBOutlet weak var mapView: MKMapView!
@@ -24,6 +27,7 @@ class MapViewController: UIViewController, MKMapViewDelegate  {
         super.viewDidLoad()
         mapView.delegate = self
         
+        currentMap = Map(name: "Line 38", mapDescription: "Line 38 description")
         trackTableViewController = TrackTableViewController(nibName: "trackTableViewController", bundle: nil)
         setUpMap()
     }

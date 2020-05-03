@@ -12,6 +12,7 @@ import MapKit
 
 class Track: NSObject {
     // MARK: Properties
+    var _id :Int
     var locations: [CLLocation]!
     var trackDescription: String
     var date: Date
@@ -23,6 +24,7 @@ class Track: NSObject {
     var west :Double = 180
     var east :Double = -180
     
+    static var serial :Int = 0
     
     init(name :String, trackDescription: String, track: [CLLocation]) {
         self.trackDescription = trackDescription
@@ -30,7 +32,7 @@ class Track: NSObject {
         self.locations = track
         self.name = name
         self.style = "default"
-        
+        self._id = Track.serial
         super.init()
         self.region = calcBounds(track: track)
     }

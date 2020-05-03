@@ -17,6 +17,7 @@ class TrackTableViewController: UITableViewController, UIDocumentPickerDelegate 
     var mapView :MKMapView!
     // var currentMap :Map!
     var map :MapData!
+    var trackData: [TrackData]!
     
     @IBOutlet weak var addButton: UIBarButtonItem!
     // @IBOutlet weak var trackCell: TrackViewCell!
@@ -51,6 +52,7 @@ class TrackTableViewController: UITableViewController, UIDocumentPickerDelegate 
         print("Date: \(map.date)")
         
         readStoredJSONData()
+        trackData = map.trackData
         
         print("Track count: \(map.trackData.count)")
         print("Date: \(map.date)")
@@ -151,25 +153,26 @@ class TrackTableViewController: UITableViewController, UIDocumentPickerDelegate 
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return files.count
+        return trackData.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> TrackViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "trackCell", for: indexPath) as! TrackViewCell
-        let file = files[indexPath.row]
-        let  name = file.lastPathComponent
-        let path = file.path
-        let date = ((try? FileManager.default.attributesOfItem(atPath: path))?[.creationDate] as? Date)!
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .short
-        dateFormatter.timeStyle = .short
-        dateFormatter.doesRelativeDateFormatting = true
-        let timStr = dateFormatter.string(from: date)
-        
+      //  let file = files[indexPath.row]
+        let track = trackData[indexPath.row]
+//        let  name = file.lastPathComponent
+//        let path = file.path
+//        let date = ((try? FileManager.default.attributesOfItem(atPath: path))?[.creationDate] as? Date)!
+//        let dateFormatter = DateFormatter()
+//        dateFormatter.dateStyle = .short
+//        dateFormatter.timeStyle = .short
+//        dateFormatter.doesRelativeDateFormatting = true
+//        let timStr = dateFormatter.string(from: date)
+//
         //        cell.textLabel?.text = name
         //        cell.subtitle?text = "Date"
-        cell.titleLabel?.text = name
-        cell.subtitleLabel?.text = timStr
+        cell.titleLabel?.text = "\(track.name)"
+     //   cell.subtitleLabel?.text = timStr
         return cell
     }
     
@@ -304,7 +307,7 @@ class TrackTableViewController: UITableViewController, UIDocumentPickerDelegate 
 
         do {
             map = try decoder.decode(MapData.self, from: jsonData)
-            print(map!)
+           // print(map!)
         } catch {
             print(error.localizedDescription)
         }
@@ -337,7 +340,7 @@ class TrackTableViewController: UITableViewController, UIDocumentPickerDelegate 
             }
             // Once the tack points array is populated,
             // append the array of points to the trackData
-            trackData.append(TrackData.init(points: points))
+            trackData.append(TrackData.init(name:"Track name",points: points))
         }
         
         let mapData = MapData(name: map.name, mapDescription: map.mapDescription, date: Date(), northMost: map.northMost, southMost: map.southMost, westMost: map.westMost, eastMost: map.eastMost, trackData: trackData)

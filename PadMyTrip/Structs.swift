@@ -66,6 +66,7 @@ extension MapData :Encodable {
 }
 
 struct TrackData  {
+    var name: String
     var points :[Location]
     
     enum CodingKeys: String, CodingKey {
@@ -77,6 +78,7 @@ extension TrackData :Decodable {
     init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         points = try values.decode([Location].self, forKey: .points)
+        name = "Name"
     }
 }
 

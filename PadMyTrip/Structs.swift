@@ -71,14 +71,15 @@ struct TrackData  {
     
     enum CodingKeys: String, CodingKey {
         case points
+        case name
     }
 }
 
 extension TrackData :Decodable {
     init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
+        name = try values.decode(String.self, forKey: .name)
         points = try values.decode([Location].self, forKey: .points)
-        name = "Name"
     }
 }
 
@@ -86,6 +87,7 @@ extension TrackData :Encodable {
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(points, forKey: .points)
+        try container.encode(name, forKey: .name)
     }
 }
 

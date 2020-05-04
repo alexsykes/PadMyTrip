@@ -19,6 +19,7 @@ class MapViewController: UIViewController, MKMapViewDelegate  {
     var locationManager: CLLocationManager!
     var trackTableViewController :TrackTableViewController?
     var currentMap: Map!
+    var trackData:[TrackData]!
     
     // MARK: Outlets
     @IBOutlet weak var mapView: MKMapView!
@@ -26,14 +27,30 @@ class MapViewController: UIViewController, MKMapViewDelegate  {
     override func viewDidLoad() {
         super.viewDidLoad()
         mapView.delegate = self
-        
+        trackTableViewController = TrackTableViewController(nibName: "trackViewController", bundle: nil)
         currentMap = Map(name: "Line 38", mapDescription: "Line 38 description")
-        trackTableViewController = TrackTableViewController(nibName: "trackTableViewController", bundle: nil)
         setUpMap()
     }
 
-    func setup(string text: String) {
-        print(text)
+    func displayTrack(trackData: TrackData) {
+        
+        var locations : [CLLocation] = []
+        let name = trackData.name
+        let description = "A track"
+        var points = trackData.points
+        for point in points {
+            let lat = point.lat
+            let long = point.long
+            let location = CLLocation(latitude: lat, longitude: long)
+            locations.append(location)
+        }
+       
+        let track :Track = Track(name: name, trackDescription: description, track: locations)
+        
+        self.currentMap.addTrack(track: track)
+        let region = self.currentMap.calcBounds()
+        mapView.setRegion(region, animated: true)
+        mapView.addOverlays(polylines)
     }
     
     func setUpMap() {

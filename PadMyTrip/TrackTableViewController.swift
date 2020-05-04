@@ -13,9 +13,9 @@ import MapKit
 class TrackTableViewController: UITableViewController, UIDocumentPickerDelegate {
     var files :[URL]! = []
     var tracks :[Track] = []
-    var mapViewController :MapViewController?
+    var mapViewController = MapViewController(nibName: "mapViewController", bundle: nil)
     var mapView :MKMapView!
-     var currentMap :Map!
+    var currentMap :Map!
     var map :MapData!
     var trackData: [TrackData]!
     
@@ -40,8 +40,8 @@ class TrackTableViewController: UITableViewController, UIDocumentPickerDelegate 
         
         // Setup
         trackTableView.delegate = self
-        mapViewController = MapViewController(nibName: "mapViewController", bundle: nil)
-         currentMap = Map(name: "Line 38", mapDescription: "Line 38 description")
+        
+        currentMap = Map(name: "Line 38", mapDescription: "Line 38 description")
         
         // Read saved map data
         map = MapData(name: "Map name", mapDescription: "A description of my map", date: Date(), northMost: -90, southMost: 90, westMost: -180, eastMost: 180, trackData: [])
@@ -110,10 +110,10 @@ class TrackTableViewController: UITableViewController, UIDocumentPickerDelegate 
     
     // MARK: Write file data
     func saveFileData() {
-    // Encode data then write to disk
-    let data :Data = encode()
-    writeData(data: data)
-}
+        // Encode data then write to disk
+        let data :Data = encode()
+        writeData(data: data)
+    }
     
     // MARK: - Table view data source
     
@@ -128,21 +128,21 @@ class TrackTableViewController: UITableViewController, UIDocumentPickerDelegate 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> TrackViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "trackCell", for: indexPath) as! TrackViewCell
-      //  let file = files[indexPath.row]
+        //  let file = files[indexPath.row]
         let track = trackData[indexPath.row]
-//        let  name = file.lastPathComponent
-//        let path = file.path
-//        let date = ((try? FileManager.default.attributesOfItem(atPath: path))?[.creationDate] as? Date)!
-//        let dateFormatter = DateFormatter()
-//        dateFormatter.dateStyle = .short
-//        dateFormatter.timeStyle = .short
-//        dateFormatter.doesRelativeDateFormatting = true
-//        let timStr = dateFormatter.string(from: date)
-//
+        //        let  name = file.lastPathComponent
+        //        let path = file.path
+        //        let date = ((try? FileManager.default.attributesOfItem(atPath: path))?[.creationDate] as? Date)!
+        //        let dateFormatter = DateFormatter()
+        //        dateFormatter.dateStyle = .short
+        //        dateFormatter.timeStyle = .short
+        //        dateFormatter.doesRelativeDateFormatting = true
+        //        let timStr = dateFormatter.string(from: date)
+        //
         //        cell.textLabel?.text = name
         //        cell.subtitle?text = "Date"
         cell.titleLabel?.text = "\(track.name)"
-     //   cell.subtitleLabel?.text = timStr
+        //   cell.subtitleLabel?.text = timStr
         return cell
     }
     
@@ -156,13 +156,13 @@ class TrackTableViewController: UITableViewController, UIDocumentPickerDelegate 
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-//            let fileManager = FileManager.init()
-//            let file = files[indexPath.row]
-//            do {
-//                try fileManager.removeItem(at: file)
-//            } catch {
-//                print("Error deleting file: \(error.localizedDescription)")
-//            }
+            //            let fileManager = FileManager.init()
+            //            let file = files[indexPath.row]
+            //            do {
+            //                try fileManager.removeItem(at: file)
+            //            } catch {
+            //                print("Error deleting file: \(error.localizedDescription)")
+            //            }
             // Delete the row from the data source
             trackData.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
@@ -250,7 +250,7 @@ class TrackTableViewController: UITableViewController, UIDocumentPickerDelegate 
                 }
                 trackData.append(TrackData.init(name:filename,points: points))
                 try
-                fileManager.removeItem(at: newFileURL)
+                    fileManager.removeItem(at: newFileURL)
             } catch {
                 print("Error copying file: \(error.localizedDescription)")
             }
@@ -273,12 +273,12 @@ class TrackTableViewController: UITableViewController, UIDocumentPickerDelegate 
         let url = self.getDocumentsDirectory().appendingPathComponent("MyMap.dat")
         
         let fileManager = FileManager.default
-
+        
         // Check if file exists, given its path
         let path = url.path
-         
+        
         if(!fileManager.fileExists(atPath:path)){
-           fileManager.createFile(atPath: path, contents: nil, attributes: nil)
+            fileManager.createFile(atPath: path, contents: nil, attributes: nil)
         }else{
             print("Map file exists")
         }
@@ -295,12 +295,12 @@ class TrackTableViewController: UITableViewController, UIDocumentPickerDelegate 
             print(error.localizedDescription)
             return
         }
-
+        
         let decoder = JSONDecoder()
-
+        
         do {
             map = try decoder.decode(MapData.self, from: jsonData)
-           // print(map!)
+            // print(map!)
         } catch {
             print(error.localizedDescription)
         }
@@ -310,7 +310,7 @@ class TrackTableViewController: UITableViewController, UIDocumentPickerDelegate 
         var encodedData :Data!
         // Structs - MapData, Location, TrackData
         var points :[Location] = []
-         var dataToSave :[TrackData] = []
+        var dataToSave :[TrackData] = []
         
         // Work through data track by track :: point by point
         // Each track comprises a set of points
@@ -336,7 +336,7 @@ class TrackTableViewController: UITableViewController, UIDocumentPickerDelegate 
             
             dataToSave.removeAll()
             dataToSave.append(TrackData.init(name:"Track name",points: points))
-           // encodedData = Data(dataToSave.utf8)
+            // encodedData = Data(dataToSave.utf8)
             //return encodedData
         }
         
@@ -345,15 +345,15 @@ class TrackTableViewController: UITableViewController, UIDocumentPickerDelegate 
         
         let encoder = JSONEncoder()
         if let encoded = try? encoder.encode(mapData) {
-                        if let json = String(data: encoded, encoding: .utf8) {
-                           print(json)
-                        }
+            if let json = String(data: encoded, encoding: .utf8) {
+                print(json)
+            }
             encodedData = encoded
             
-                        let decoder = JSONDecoder()
-                        if let decoded = try? decoder.decode(MapData.self, from: encoded) {
-                            print(decoded)
-                        }
+            let decoder = JSONDecoder()
+            if let decoded = try? decoder.decode(MapData.self, from: encoded) {
+                print(decoded)
+            }
         }
         return encodedData
     }
@@ -393,15 +393,15 @@ class TrackTableViewController: UITableViewController, UIDocumentPickerDelegate 
         
         let encoder = JSONEncoder()
         if let encoded = try? encoder.encode(mapData) {
-                        if let json = String(data: encoded, encoding: .utf8) {
-                          // print(json)
-                        }
+            if let json = String(data: encoded, encoding: .utf8) {
+                // print(json)
+            }
             encodedData = encoded
             
-                        let decoder = JSONDecoder()
-                        if let decoded = try? decoder.decode(MapData.self, from: encoded) {
-                           // print(decoded)
-                        }
+            let decoder = JSONDecoder()
+            if let decoded = try? decoder.decode(MapData.self, from: encoded) {
+                // print(decoded)
+            }
             
             
         }
@@ -451,7 +451,9 @@ class TrackTableViewController: UITableViewController, UIDocumentPickerDelegate 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let row = indexPath.row
         print("Selected row: \(row)")
-        mapViewController?.setup(string: "Hello: \(row) ")
+        let track = trackData[row]
+        let mapView = mapViewController.mapView
+        mapView!.mapType = .satellite
         
     }
     

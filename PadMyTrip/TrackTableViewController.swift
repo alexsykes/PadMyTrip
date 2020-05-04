@@ -19,6 +19,8 @@ class TrackTableViewController: UITableViewController, UIDocumentPickerDelegate 
     var map :MapData!
     var trackData: [TrackData]!
     
+    var mapLabel: UILabel!
+    
     @IBOutlet weak var addButton: UIBarButtonItem!
     // @IBOutlet weak var trackCell: TrackViewCell!
     @IBOutlet var trackTableView: UITableView!
@@ -452,20 +454,41 @@ class TrackTableViewController: UITableViewController, UIDocumentPickerDelegate 
         let row = indexPath.row
         print("Selected row: \(row)")
         let track = trackData[row]
-        let mapView = mapViewController.mapView
-        mapView!.mapType = .satellite
+        
+       // mapLabel = mapViewController.mapLabel
+       // mapLabel.text = "Hello"
         
     }
     
-    /*
+    
      // MARK: - Navigation
      
      // In a storyboard-based application, you will often want to do a little preparation before navigation
      override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
      // Get the new view controller using segue.destination.
      // Pass the selected object to the new view controller.
+        super.prepare(for: segue, sender: sender)
+        
+        guard let MapViewController = segue.destination as? MapViewController else {
+            fatalError("Unexpected destination: \(segue.destination)")
+        }
+        
+        guard let selectedTrackCell = sender as? TrackViewCell else {
+            fatalError("Unexpected sender: \(String(describing: sender))")
+        }
+        
+        guard let indexPath = tableView.indexPath(for: selectedTrackCell) else {
+            fatalError("The selected cell is not being displayed by the table")
+        }
+        
+        let selectedTrack = trackData[indexPath.row]
+        let selectedRow = indexPath.row
+        MapViewController.trackRow =  selectedRow
+     
+     
+     
      }
-     */
+     
     
     
     // MARK: Note re cell greying

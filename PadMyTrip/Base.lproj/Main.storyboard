@@ -18,17 +18,26 @@
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" pitchEnabled="NO" showsBuildings="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N0q-6d-cwV">
                                 <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                             </mapView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mAf-Bd-fR4">
+                                <rect key="frame" x="363" y="107" width="42" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <constraints>
                             <constraint firstItem="Nac-f2-mGi" firstAttribute="bottom" secondItem="N0q-6d-cwV" secondAttribute="bottom" id="Cxv-6B-IwW"/>
                             <constraint firstItem="N0q-6d-cwV" firstAttribute="top" secondItem="Nac-f2-mGi" secondAttribute="top" id="RLB-Te-RGX"/>
+                            <constraint firstItem="mAf-Bd-fR4" firstAttribute="centerX" secondItem="cFp-OL-kpf" secondAttribute="centerX" id="Y22-pC-hN3"/>
                             <constraint firstItem="N0q-6d-cwV" firstAttribute="leading" secondItem="Nac-f2-mGi" secondAttribute="leading" id="ZKj-PN-g0C"/>
                             <constraint firstItem="N0q-6d-cwV" firstAttribute="trailing" secondItem="Nac-f2-mGi" secondAttribute="trailing" id="bQN-Qw-3M6"/>
+                            <constraint firstItem="mAf-Bd-fR4" firstAttribute="top" secondItem="Nac-f2-mGi" secondAttribute="top" constant="107" id="d5R-sg-0NU"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Nac-f2-mGi"/>
                     </view>
                     <navigationItem key="navigationItem" id="Co6-hH-VYu"/>
                     <connections>
+                        <outlet property="mapLabel" destination="mAf-Bd-fR4" id="6HF-Ct-ilX"/>
                         <outlet property="mapView" destination="N0q-6d-cwV" id="oV2-e4-glw"/>
                     </connections>
                 </viewController>
@@ -76,6 +85,7 @@
                                 <connections>
                                     <outlet property="subtitleLabel" destination="aMe-l1-Gbu" id="vSD-Ik-cn6"/>
                                     <outlet property="titleLabel" destination="kLK-1Z-3N6" id="ccJ-e9-tha"/>
+                                    <segue destination="2jB-jc-sLh" kind="showDetail" id="TXl-Od-eoo"/>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="detailTrackCell" id="G0J-CL-sqe" customClass="TrackViewCell" customModule="PadMyTrip">
@@ -173,6 +183,9 @@
             <point key="canvasLocation" x="-820" y="-818"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="TXl-Od-eoo"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <image name="Save" width="25" height="25"/>
         <image name="lock.open.fill" catalog="system" width="128" height="115"/>

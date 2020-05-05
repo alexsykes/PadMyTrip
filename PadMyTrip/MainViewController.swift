@@ -12,8 +12,18 @@ import MapKit
 class MainViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIDocumentPickerDelegate, MKMapViewDelegate   {
     
     // MARK: Properties
+    // From TrackTableViewController
+    var files :[URL]! = []
+    var tracks :[Track] = []
+   //  var mapViewController = MapViewController(nibName: "mapViewController", bundle: nil)
+   // var mapView :MKMapView!
+    var currentMap :Map!
+    var map :MapData!
     
-    var trackData: [TrackData] = []
+    var trackData: [TrackData]!
+    
+    var polylines :[MKPolyline] = []
+    var trackIndex: Int!
     
     @IBOutlet weak var trackTableView: UITableView!
     @IBOutlet weak var mapView: MKMapView!
@@ -28,13 +38,32 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         mapView.delegate = self
         trackTableView.dataSource = self
         trackTableView.delegate = self
+        trackTableView.allowsMultipleSelection = true
+
+        currentMap = Map(name: "Line 38", mapDescription: "Line 38 description")
+        
+        // Read saved map data
+        map = MapData(name: "Map name", mapDescription: "A description of my map", date: Date(), northMost: -90, southMost: 90, westMost: -180, eastMost: 180, trackData: [])
+        readStoredJSONData()
+        trackData = map.trackData
+        trackData.sort(by: {$0.name.lowercased() < $1.name.lowercased()} )
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        saveFileData()
+    }
+    
+
+    
+    // MARK: Write file data
+    func saveFileData() {
+        // Encode data then write to disk
+        let data :Data = encode()
+        writeData(data: data)
     }
     
     // MARK: File Handling
-    /* Presents user with a dialog box u
-     user selects a file or files
-     then the documentPicker didPickDocumentsAt event is fired
-     */
     // TODO: Add/check Cancel button
     func addTracksFromPublic () {
         
@@ -70,6 +99,8 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         if urls.count == 0 { return}
         processImportedTracks(trackURLs: urls)
+        
+        saveFileData()
         // readStoredData()
         DispatchQueue.main.async { self.trackTableView.reloadData() }
     }
@@ -126,7 +157,6 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
-    // MARK: File Handling
     func getDocumentsDirectory() -> URL {
         let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         return paths[0]
@@ -182,6 +212,194 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         return locations
     }
     
+    // MARK: Data encoding
+    func readStoredJSONData() {
+           let url = self.getDocumentsDirectory().appendingPathComponent("MyMap.dat")
+           
+           let fileManager = FileManager.default
+           
+           // Check if file exists, given its path
+           let path = url.path
+           
+           if(!fileManager.fileExists(atPath:path)){
+               fileManager.createFile(atPath: path, contents: nil, attributes: nil)
+           }else{
+               print("Map file exists")
+           }
+           
+           var jsonData :Data!
+           do {
+               jsonData = try Data(contentsOf: url)
+               
+               if jsonData.count == 0 {
+                   print("Map file contains no data")
+                   return
+               }
+           } catch {
+               print(error.localizedDescription)
+               return
+           }
+           
+           let decoder = JSONDecoder()
+           
+           do {
+               map = try decoder.decode(MapData.self, from: jsonData)
+               // print(map!)
+           } catch {
+               print(error.localizedDescription)
+           }
+       }
+//
+//       func encodeOld () -> Data {
+//           var encodedData :Data!
+//           // Structs - MapData, Location, TrackData
+//           // var points :[Location] = []
+//           var dataToSave :[TrackData] = []
+//
+//           // Work through data track by track :: point by point
+//           // Each track comprises a set of points
+//           for track in trackData {
+//
+//               // For each track, add each location to the points array
+//
+//               // Firstly, start with an empty array
+//               var points :[Location] = []
+//               for point in track.points {
+//
+//                   // Add the data for each point
+//                   let lat = point.lat
+//                   let long = point.long
+//                   let elevation = point.elevation
+//
+//                   let point = Location.init(long: long, lat: lat, elevation: elevation)
+//                   // then append to the array
+//                   points.append(point)
+//               }
+//               // Once the tack points array is populated,
+//               // append the array of points to the trackData
+//
+//               dataToSave.removeAll()
+//               dataToSave.append(TrackData.init(name:"Track name",points: points))
+//               // encodedData = Data(dataToSave.utf8)
+//               //return encodedData
+//           }
+//
+//           let mapData = MapData(name: map.name, mapDescription: map.mapDescription, date: Date(), northMost: map.northMost, southMost: map.southMost, westMost: map.westMost, eastMost: map.eastMost, trackData: trackData)
+//
+//
+//           let encoder = JSONEncoder()
+//           if let encoded = try? encoder.encode(mapData) {
+//               if let json = String(data: encoded, encoding: .utf8) {
+//                   print(json)
+//               }
+//               encodedData = encoded
+//
+//               let decoder = JSONDecoder()
+//               if let decoded = try? decoder.decode(MapData.self, from: encoded) {
+//                   print(decoded)
+//               }
+//           }
+//           return encodedData
+//       }
+       
+       func encode () -> Data {
+           var encodedData :Data!
+           // Structs - MapData, Location, TrackData
+           // var points :[Location] = []
+           var tData :[TrackData] = []
+           
+           // Work through data track by track :: point by point
+           // Each track comprises a set of points
+           for track in trackData {
+               
+               // For each track, add each location to the points array
+               let name = track.name
+               // Firstly, start with an empty array
+               var points :[Location] = []
+               for location in track.points {
+                   
+                   // Add the data for each point
+                   let lat = location.lat
+                   let long = location.long
+                   let elevation = location.elevation
+                   
+                   let point = Location.init(long: long, lat: lat, elevation: elevation)
+                   // then append to the array
+                   points.append(point)
+               }
+               // Once the tack points array is populated,
+               // append the array of points to the trackData
+               tData.append(TrackData.init(name: name, points: points))
+           }
+           
+           let mapData = MapData(name: currentMap.name, mapDescription: currentMap.mapDescription, date: Date(), northMost: currentMap.northMost, southMost: currentMap.southMost, westMost: currentMap.westMost, eastMost: currentMap.eastMost, trackData: tData)
+           
+           
+           let encoder = JSONEncoder()
+           if let encoded = try? encoder.encode(mapData) {
+//               if let json = String(data: encoded, encoding: .utf8) {
+//                   // print(json)
+//               }
+               encodedData = encoded
+               
+              // let decoder = JSONDecoder()
+//               if let decoded = try? decoder.decode(MapData.self, from: encoded) {
+//                   // print(decoded)
+//               }
+               
+               
+           }
+           return encodedData
+       }
+    
+    func writeData(data :Data) {
+        let longFileName = "MyMap.dat"
+        let url = self.getDocumentsDirectory().appendingPathComponent(longFileName)
+        
+        do {
+            try data.write(to: url)
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+    // Final stage when writing file
+    func writeOutputString (dataString: String, fileName: String, fileExtension: String) {
+        let longFileName = fileName + fileExtension
+        
+        let url = self.getDocumentsDirectory().appendingPathComponent(longFileName)
+        
+        do {
+            try dataString.write(to: url, atomically: true, encoding: .utf8)
+            // let input = try String(contentsOf: url)
+            //  print(input)
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+    
+    // MARK: Map functions
+  
+    func displayTrack(track trackId: Int) {
+        let theTrack = trackData[trackId]
+        var locations : [CLLocation] = []
+        let name = theTrack.name
+        let description = "A track"
+        let points = theTrack.points
+        for point in points {
+            let lat = point.lat
+            let long = point.long
+            let location = CLLocation(latitude: lat, longitude: long)
+            locations.append(location)
+        }
+       
+        let track :Track = Track(name: name, trackDescription: description, track: locations)
+        
+        self.currentMap.addTrack(track: track)
+        let region = self.currentMap.calcBounds()
+        mapView.setRegion(region, animated: true)
+        mapView.addOverlays(polylines)
+    }
+    
     /*
      // MARK: - Navigation
      
@@ -202,26 +420,12 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         return  trackData.count
     }
     
-    private func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> TrackViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "trackTableCell", for: indexPath) as! TrackViewCell
-        //  let file = files[indexPath.row]
-        // let track = trackData[indexPath.row]
-        //        let  name = file.lastPathComponent
-        //        let path = file.path
-        //        let date = ((try? FileManager.default.attributesOfItem(atPath: path))?[.creationDate] as? Date)!
-        //        let dateFormatter = DateFormatter()
-        //        dateFormatter.dateStyle = .short
-        //        dateFormatter.timeStyle = .short
-        //        dateFormatter.doesRelativeDateFormatting = true
-        //        let timStr = dateFormatter.string(from: date)
-        //
-        //        cell.textLabel?.text = name
-        //        cell.subtitle?text = "Date"
-        cell.titleLabel?.text = "Text"
-        //   cell.subtitleLabel?.text = timStr
+        let trackName = trackData[indexPath.row].name
+        cell.titleLabel?.text = "\(trackName)"
         return cell
     }
-    
     
     // Override to support conditional editing of the table view.
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -232,47 +436,18 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     // Override to support editing the table view.
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            //            let fileManager = FileManager.init()
-            //            let file = files[indexPath.row]
-            //            do {
-            //                try fileManager.removeItem(at: file)
-            //            } catch {
-            //                print("Error deleting file: \(error.localizedDescription)")
-            //            }
-            // Delete the row from the data source
-            //  trackData.remove(at: indexPath.row)
+            trackData.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
+            saveFileData()
         } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "trackTableCell", for: indexPath) as! TrackViewCell
-        //  let file = files[indexPath.row]
-        // let track = trackData[indexPath.row]
-        //        let  name = file.lastPathComponent
-        //        let path = file.path
-        //        let date = ((try? FileManager.default.attributesOfItem(atPath: path))?[.creationDate] as? Date)!
-        //        let dateFormatter = DateFormatter()
-        //        dateFormatter.dateStyle = .short
-        //        dateFormatter.timeStyle = .short
-        //        dateFormatter.doesRelativeDateFormatting = true
-        //        let timStr = dateFormatter.string(from: date)
-        //
-        //        cell.textLabel?.text = name
-        //        cell.subtitle?text = "Date"
-        cell.titleLabel?.text = "Text"
-        //   cell.subtitleLabel?.text = timStr
-        return cell
     }
     
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let row = indexPath.row
-        
+        displayTrack(track: row)
         print("Clicked: \(row) ")
     }
-    
 }

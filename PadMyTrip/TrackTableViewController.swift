@@ -317,7 +317,7 @@ class TrackTableViewController: UITableViewController, UIDocumentPickerDelegate 
     func encodeOld () -> Data {
         var encodedData :Data!
         // Structs - MapData, Location, TrackData
-        var points :[Location] = []
+        // var points :[Location] = []
         var dataToSave :[TrackData] = []
         
         // Work through data track by track :: point by point
@@ -401,17 +401,15 @@ class TrackTableViewController: UITableViewController, UIDocumentPickerDelegate 
         
         let encoder = JSONEncoder()
         if let encoded = try? encoder.encode(mapData) {
-            if let json = String(data: encoded, encoding: .utf8) {
+          //  if let json = String(data: encoded, encoding: .utf8) {
                 // print(json)
-            }
+          //  }
             encodedData = encoded
             
-            let decoder = JSONDecoder()
-            if let decoded = try? decoder.decode(MapData.self, from: encoded) {
+        //    let decoder = JSONDecoder()
+       //     if let decoded = try? decoder.decode(MapData.self, from: encoded) {
                 // print(decoded)
-            }
-            
-            
+        //    }
         }
         return encodedData
     }

@@ -40,7 +40,7 @@ class MapViewController: UIViewController, MKMapViewDelegate  {
      //   trackTableViewController = TrackTableViewController(nibName: "trackViewController", bundle: nil)
         currentMap = Map(name: "Line 38", mapDescription: "Line 38 description")
         setUpMap()
-        print("Track index: \(trackIndex)")
+      //  print("Track index: \(trackIndex)")
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -67,7 +67,7 @@ class MapViewController: UIViewController, MKMapViewDelegate  {
         var locations : [CLLocation] = []
         let name = trackData.name
         let description = "A track"
-        var points = trackData.points
+        let points = trackData.points
         for point in points {
             let lat = point.lat
             let long = point.long

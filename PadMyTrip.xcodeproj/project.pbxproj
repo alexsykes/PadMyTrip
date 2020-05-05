@@ -21,6 +21,7 @@
 		FAEE550C2459A2890000FB25 /* TrackTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAEE550B2459A2890000FB25 /* TrackTableViewController.swift */; };
 		FAEE550E2459A4340000FB25 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAEE550D2459A4340000FB25 /* MapViewController.swift */; };
 		FAFBA0B724603D8500FB7A98 /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FAFBA0B524603D8500FB7A98 /* DataModel.xcdatamodeld */; };
+		FAFBA0B92460447B00FB7A98 /* PersistentContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAFBA0B82460447B00FB7A98 /* PersistentContainer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +55,7 @@
 		FAEE550B2459A2890000FB25 /* TrackTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackTableViewController.swift; sourceTree = "<group>"; };
 		FAEE550D2459A4340000FB25 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		FAFBA0B624603D8500FB7A98 /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
+		FAFBA0B82460447B00FB7A98 /* PersistentContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistentContainer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,6 +107,7 @@
 		FA96A57E245304FC001863CA /* PadMyTrip */ = {
 			isa = PBXGroup;
 			children = (
+				FAFBA0B82460447B00FB7A98 /* PersistentContainer.swift */,
 				FAFBA0B524603D8500FB7A98 /* DataModel.xcdatamodeld */,
 				FA75E843245C3D5300E9A26F /* TrackViewCell.swift */,
 				FA571A27245B078A0086A9E6 /* PadMyTripRelease.entitlements */,
@@ -236,6 +239,7 @@
 			files = (
 				FA2304862455B135004C0819 /* Structs.swift in Sources */,
 				FADD144D2454C49900044425 /* Map.swift in Sources */,
+				FAFBA0B92460447B00FB7A98 /* PersistentContainer.swift in Sources */,
 				FA96A580245304FC001863CA /* AppDelegate.swift in Sources */,
 				FAEE550C2459A2890000FB25 /* TrackTableViewController.swift in Sources */,
 				FA96A582245304FC001863CA /* SceneDelegate.swift in Sources */,

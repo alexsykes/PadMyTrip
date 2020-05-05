@@ -8,9 +8,12 @@
 
 import UIKit
 import CoreLocation
+import CoreData
 import MapKit
 
 class TrackTableViewController: UITableViewController, UIDocumentPickerDelegate {
+    // Persistent Data
+    var container: NSPersistentContainer!
     var files :[URL]! = []
     var tracks :[Track] = []
     var mapViewController = MapViewController(nibName: "mapViewController", bundle: nil)
@@ -18,8 +21,6 @@ class TrackTableViewController: UITableViewController, UIDocumentPickerDelegate 
     var currentMap :Map!
     var map :MapData!
     var trackData: [TrackData]!
-    
-    var mapLabel: UILabel!
     
     @IBOutlet weak var addButton: UIBarButtonItem!
     // @IBOutlet weak var trackCell: TrackViewCell!
@@ -39,20 +40,25 @@ class TrackTableViewController: UITableViewController, UIDocumentPickerDelegate 
     // MARK: viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
+//        guard container != nil else {
+//            fatalError("This view needs a persistent container.")
+//        }
         
         // Setup
         trackTableView.delegate = self
-        
         currentMap = Map(name: "Line 38", mapDescription: "Line 38 description")
         
         // Read saved map data
         map = MapData(name: "Map name", mapDescription: "A description of my map", date: Date(), northMost: -90, southMost: 90, westMost: -180, eastMost: 180, trackData: [])
-        
         readStoredJSONData()
         trackData = map.trackData
         
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        saveFileData()
+    }
     
     // MARK: File Handling
     func getDocumentsDirectory() -> URL {
@@ -451,9 +457,8 @@ class TrackTableViewController: UITableViewController, UIDocumentPickerDelegate 
     
     // Identify selected row and pass data to MapView function
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let row = indexPath.row
-        print("Selected row: \(row)")
-        let track = trackData[row]
+        
+        
         
        // mapLabel = mapViewController.mapLabel
        // mapLabel.text = "Hello"
@@ -462,34 +467,30 @@ class TrackTableViewController: UITableViewController, UIDocumentPickerDelegate 
     
     
      // MARK: - Navigation
-     
+      /*
      // In a storyboard-based application, you will often want to do a little preparation before navigation
      override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
      // Get the new view controller using segue.destination.
      // Pass the selected object to the new view controller.
         super.prepare(for: segue, sender: sender)
-        
+     }
+    */
+     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        super.prepare(for: segue, sender: sender)
         guard let MapViewController = segue.destination as? MapViewController else {
             fatalError("Unexpected destination: \(segue.destination)")
         }
-        
-        guard let selectedTrackCell = sender as? TrackViewCell else {
+        guard let selectedCell = sender as? TrackViewCell else {
             fatalError("Unexpected sender: \(String(describing: sender))")
         }
         
-        guard let indexPath = tableView.indexPath(for: selectedTrackCell) else {
+        guard let indexPath = tableView.indexPath(for: selectedCell) else {
             fatalError("The selected cell is not being displayed by the table")
         }
-        
-        let selectedTrack = trackData[indexPath.row]
-        let selectedRow = indexPath.row
-        MapViewController.trackRow =  selectedRow
-     
-     
-     
-     }
-     
-    
+        let row = indexPath.row
+        MapViewController.trackIndex = row
+    }
     
     // MARK: Note re cell greying
     /* Use the UITableViewDelegate method tableView:didSelectRowAtIndexPath: to detect which row is tapped (this is what exactly your tapGesture is going to do) and then do your desired processing.

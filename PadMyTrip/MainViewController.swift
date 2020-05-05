@@ -9,22 +9,178 @@
 import UIKit
 import MapKit
 
-class MainViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class MainViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIDocumentPickerDelegate, MKMapViewDelegate   {
     
-    @IBOutlet weak var tableView: UITableView!
+    // MARK: Properties
+    
+    var trackData: [TrackData] = []
+    
+    @IBOutlet weak var trackTableView: UITableView!
     @IBOutlet weak var mapView: MKMapView!
     
+    @IBAction func addFromPublic(_ sender: UIBarButtonItem) {
+        addTracksFromPublic()
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
-      //  let tableView = UITableView(frame: .zero, style: .plain)
-      //  tableView.register(UITableViewCell.self, forCellReuseIdentifier: "UITableViewCell")
-        // Do any additional setup after loading the view.
-     //   tableView.reloadData()
         
-        tableView.dataSource = self
-        tableView.delegate = self
+        // Setup delegation
+        mapView.delegate = self
+        trackTableView.dataSource = self
+        trackTableView.delegate = self
     }
     
+    // MARK: File Handling
+    /* Presents user with a dialog box u
+     user selects a file or files
+     then the documentPicker didPickDocumentsAt event is fired
+     */
+    // TODO: Add/check Cancel button
+    func addTracksFromPublic () {
+        
+        // open a document picker, select a file
+        // documentTypes see - https://developer.apple.com/library/archive/documentation/Miscellaneous/Reference/UTIRef/Articles/System-DeclaredUniformTypeIdentifiers.html#//apple_ref/doc/uid/TP40009259-SW1
+        
+        let importFileMenu = UIDocumentPickerViewController(documentTypes: ["public.text"],
+                                                            in: UIDocumentPickerMode.import)
+        
+        importFileMenu.delegate = self
+        importFileMenu.shouldShowFileExtensions = true
+        importFileMenu.allowsMultipleSelection = true
+        
+        if #available(iOS 13.0, *) {
+            // print("File iOS 13+")
+            importFileMenu.directoryURL = FileManager.default.containerURL(
+                forSecurityApplicationGroupIdentifier: "group.com.alexsykes.MapMyTrip")!
+        } else {
+            // Fallback on earlier versions
+            //  print("File iOS <=12")
+        }
+        importFileMenu.modalPresentationStyle = .automatic
+        
+        self.present(importFileMenu, animated: true, completion: nil)
+    }
+    
+    
+    // Documents picked
+    func documentPicker(_ controller: UIDocumentPickerViewController,
+                        didPickDocumentsAt urls: [URL]) {
+        // var trackFiles = urls
+        // Add check for zero return
+        
+        if urls.count == 0 { return}
+        processImportedTracks(trackURLs: urls)
+        // readStoredData()
+        DispatchQueue.main.async { self.trackTableView.reloadData() }
+    }
+    
+    func processImportedTracks(trackURLs :[URL])  {
+        let fileManager = FileManager.init()
+        let docDir = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+        let csvURLs = trackURLs.filter{ $0.pathExtension == "csv"}
+        for trackURL in csvURLs {
+            let filename = trackURL.lastPathComponent
+            let newFileURL = docDir.appendingPathComponent(filename)
+            do {
+                try
+                    fileManager.copyItem(at: trackURL, to: newFileURL)
+                // Convert to JSON
+                var pointData:[String] = []
+                let path = newFileURL.path
+                let fileContents = FileManager.default.contents(atPath: path)
+                let fileContentsAsString = String(bytes: fileContents!, encoding: .utf8)
+                
+                // Split lines then append to array
+                let lines = fileContentsAsString!.split(separator: "\n")
+                for line in lines {
+                    pointData.append(String(line))
+                }
+                
+                print("Points: \(pointData.count)")
+                var points :[Location] = []
+                for point in pointData {
+                    let location = point.split(separator: ",")
+                    let lat = Double(location[0])!
+                    let long = Double(location[1])!
+                    let elev = Double(location[2])!
+                    
+                    let newLocation = Location(long: long, lat: lat, elevation: elev)
+                    points.append(newLocation)
+                }
+                trackData.append(TrackData.init(name:filename,points: points))
+                try
+                    fileManager.removeItem(at: newFileURL)
+            } catch {
+                print("Error copying file: \(error.localizedDescription)")
+            }
+        }
+    }
+    
+    func importAndConvertToJSON(trackURL :URL, newFileURL :URL) throws {
+        let fileManager = FileManager.init()
+        do {
+            try
+                fileManager.copyItem(at: trackURL, to: newFileURL)
+        } catch {
+            print("Error copying file: \(error.localizedDescription)")
+        }
+    }
+    
+    // MARK: File Handling
+    func getDocumentsDirectory() -> URL {
+        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        return paths[0]
+    }
+    
+    // MARK: Read locally stored files
+    // Read trackdata from storage
+    // Return array of Strings
+    func readFile(url :URL) -> [String] {
+        var points:[String] = []
+        let path = url.path
+        let fileContents = FileManager.default.contents(atPath: path)
+        let fileContentsAsString = String(bytes: fileContents!, encoding: .utf8)
+        
+        // Split lines then append to array
+        let lines = fileContentsAsString!.split(separator: "\n")
+        for line in lines {
+            points.append(String(line))
+        }
+        return points
+    }
+    
+    func prepareLocations(trackData: [String]) -> [CLLocation] {
+        var locations :[CLLocation] = []
+        var theLocation: CLLocation!
+        var elevation: Double!
+        var latitude: Double!
+        var longitude: Double!
+        var hacc: Double!
+        var vacc: Double!
+        var timestampS: String!
+        var coordinate: CLLocationCoordinate2D
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        
+        var values :[String] = []
+        
+        for point in trackData {
+            values  = point.components(separatedBy: ",")
+            latitude = Double(values[0])
+            longitude = Double(values[1])
+            hacc = Double(values[2])
+            vacc = Double(values[3])
+            elevation = Double(values[4])
+            timestampS = values[5]
+            
+            let date = formatter.date(from: timestampS)
+            coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+            theLocation = CLLocation(coordinate: coordinate, altitude: elevation, horizontalAccuracy: hacc, verticalAccuracy: vacc, timestamp: date ?? Date())
+            locations.append(theLocation)
+        }
+        return locations
+    }
     
     /*
      // MARK: - Navigation
@@ -43,7 +199,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10 // trackData.count
+        return  trackData.count
     }
     
     private func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> TrackViewCell {
@@ -115,7 +271,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let row = indexPath.row
-        mapView.mapType = .satellite
+        
         print("Clicked: \(row) ")
     }
     

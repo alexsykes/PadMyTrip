@@ -17,6 +17,7 @@
 		FA96A589245304FD001863CA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FA96A588245304FD001863CA /* Assets.xcassets */; };
 		FA96A58C245304FD001863CA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA96A58A245304FD001863CA /* LaunchScreen.storyboard */; };
 		FA96A597245304FD001863CA /* PadMyTripTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA96A596245304FD001863CA /* PadMyTripTests.swift */; };
+		FAB801B324615F9F0049E1C1 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB801B224615F9F0049E1C1 /* MainViewController.swift */; };
 		FADD144D2454C49900044425 /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADD144C2454C49900044425 /* Map.swift */; };
 		FAEE550C2459A2890000FB25 /* TrackTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAEE550B2459A2890000FB25 /* TrackTableViewController.swift */; };
 		FAEE550E2459A4340000FB25 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAEE550D2459A4340000FB25 /* MapViewController.swift */; };
@@ -51,6 +52,7 @@
 		FA96A596245304FD001863CA /* PadMyTripTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PadMyTripTests.swift; sourceTree = "<group>"; };
 		FA96A598245304FD001863CA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FA96A5A1245348EB001863CA /* PadMyTrip.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PadMyTrip.entitlements; sourceTree = "<group>"; };
+		FAB801B224615F9F0049E1C1 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		FADD144C2454C49900044425 /* Map.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Map.swift; sourceTree = "<group>"; };
 		FAEE550B2459A2890000FB25 /* TrackTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackTableViewController.swift; sourceTree = "<group>"; };
 		FAEE550D2459A4340000FB25 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
@@ -120,6 +122,7 @@
 				FAEE550D2459A4340000FB25 /* MapViewController.swift */,
 				FAEE550B2459A2890000FB25 /* TrackTableViewController.swift */,
 				FA96A585245304FC001863CA /* Main.storyboard */,
+				FAB801B224615F9F0049E1C1 /* MainViewController.swift */,
 				FA96A588245304FD001863CA /* Assets.xcassets */,
 				FA96A58A245304FD001863CA /* LaunchScreen.storyboard */,
 				FA96A58D245304FD001863CA /* Info.plist */,
@@ -238,6 +241,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FA2304862455B135004C0819 /* Structs.swift in Sources */,
+				FAB801B324615F9F0049E1C1 /* MainViewController.swift in Sources */,
 				FADD144D2454C49900044425 /* Map.swift in Sources */,
 				FAFBA0B92460447B00FB7A98 /* PersistentContainer.swift in Sources */,
 				FA96A580245304FC001863CA /* AppDelegate.swift in Sources */,

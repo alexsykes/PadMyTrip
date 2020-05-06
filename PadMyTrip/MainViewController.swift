@@ -8,6 +8,7 @@
 
 import UIKit
 import MapKit
+import CoreLocation
 
 class MainViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIDocumentPickerDelegate, MKMapViewDelegate   {
     
@@ -86,16 +87,26 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
                 }
                 // currentMap.addTrack(track: Track(track: locations, northMost: northMost, southMost: southMost, eastMost: eastMost, westMost: westMost))
             }
-            
-            // At this point, tracks are loaded from storage.
-            // Track polylines need to be created
-            // Polylines need to be drawn
         }
+        // At this point, tracks are loaded from storage.
+
         // Check that there are tracks on the map - possibly only one track with no points!
         if currentMap.tracks.count > 0 {
+            // Track polylines need to be created
+            // Polylines need to be drawn
+            
+            for track in currentMap.tracks {
+                if track.locations.count > 0 {//                    for location in track.locations {
+//                        let point = location
+//                    }
+                    var coordinates = track.locations.map({(location: CLLocation) -> CLLocationCoordinate2D in return location.coordinate})
+               let polyline = MKPolyline(coordinates: &coordinates, count: coordinates.count)
+                polylines.append(polyline)
+                    mapView.addOverlay(polyline)
+                }
+            }
             mapView.region = currentMap.calcBounds()
         }
-        print("Done")
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -519,6 +530,15 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     // MARK:  Events
     // Plot currently active track when map loads
     func mapViewDidFinishLoadingMap(_ mapView: MKMapView) {
-        plotCurrentTrack()
+       // plotCurrentTrack()
+    }
+    
+    // Render track on map
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        let renderer = MKPolylineRenderer(overlay: overlay)
+        renderer.strokeColor = UIColor.blue
+        renderer.lineWidth = 5
+        // renderer.lineDashPattern = .some([4, 16, 16])
+        return renderer
     }
 }

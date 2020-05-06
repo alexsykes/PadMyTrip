@@ -91,4 +91,10 @@ class Track: NSObject {
         let region = MKCoordinateRegion(center: centre, span: span)
         return region
     }
+    
+    func getPolyline() -> MKPolyline {
+        var coordinates = locations.map({(location: CLLocation) -> CLLocationCoordinate2D in return location.coordinate})
+        let polyline = MKPolyline(coordinates: &coordinates, count: coordinates.count)
+        return polyline
+    }
 }

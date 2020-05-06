@@ -10,18 +10,23 @@ import UIKit
 import MapKit
 import CoreLocation
 
-class TrackViewController: UIViewController {
+class TrackViewController: UIViewController, MKMapViewDelegate {
     var trackIndex :Int!
     var track :Track!
+    var polyline :MKPolyline!
     @IBOutlet weak var mapView: MKMapView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        mapView.delegate = self
         
+
+        polyline = track.getPolyline()
+        mapView.addOverlay(polyline)
         let region :MKCoordinateRegion = track.region
         mapView.region = region
-
         // Do any additional setup after loading the view.
+        print("ViewDidLoad")
     }
     
 
@@ -34,5 +39,24 @@ class TrackViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    
+    
+    // MARK:  Events
+    // Plot currently active track when map loads
+    func mapViewDidFinishLoadingMap(_ mapView: MKMapView) {
+        print("mapViewDidFinishLoadingMap")
+       // plotCurrentTrack()
+    }
+    
+    // MARK: MapView functions
+    // Render track on map
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        let renderer = MKPolylineRenderer(overlay: overlay)
+        renderer.strokeColor = .purple
+        renderer.lineWidth = 3
+        // renderer.lineDashPattern = .some([4, 16, 16])
+        
+        return renderer
+    }
 
 }

@@ -15,18 +15,15 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     // From TrackTableViewController
     var files :[URL]! = []
     var tracks :[Track] = []
-   //  var mapViewController = MapViewController(nibName: "mapViewController", bundle: nil)
-   // var mapView :MKMapView!
-    var currentMap :Map!
-    var map :MapData!
-    
+    //  var mapViewController = MapViewController(nibName: "mapViewController", bundle: nil)
+    var mapView :MKMapView!         // MKMapView item
+    var currentMap :Map!            // Map class - is this used?
+    var map :MapData!               // Struct representing a Map
     var trackData: [TrackData]!
-    
     var polylines :[MKPolyline] = []
     var trackIndex: Int!
     
-    @IBOutlet weak var trackTableView: UITableView!
-    @IBOutlet weak var mapView: MKMapView!
+    var trackTableView: UITableView!
     
     @IBAction func addFromPublic(_ sender: UIBarButtonItem) {
         addTracksFromPublic()
@@ -39,8 +36,9 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         trackTableView.dataSource = self
         trackTableView.delegate = self
         trackTableView.allowsMultipleSelection = true
-
+        
         currentMap = Map(name: "Line 38", mapDescription: "Line 38 description")
+        currentMap.tracks = []
         
         // Read saved map data
         map = MapData(name: "Map name", mapDescription: "A description of my map", date: Date(), northMost: -90, southMost: 90, westMost: -180, eastMost: 180, trackData: [])
@@ -54,7 +52,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         saveFileData()
     }
     
-
+    
     
     // MARK: Write file data
     func saveFileData() {
@@ -214,143 +212,143 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     // MARK: Data encoding
     func readStoredJSONData() {
-           let url = self.getDocumentsDirectory().appendingPathComponent("MyMap.dat")
-           
-           let fileManager = FileManager.default
-           
-           // Check if file exists, given its path
-           let path = url.path
-           
-           if(!fileManager.fileExists(atPath:path)){
-               fileManager.createFile(atPath: path, contents: nil, attributes: nil)
-           }else{
-               print("Map file exists")
-           }
-           
-           var jsonData :Data!
-           do {
-               jsonData = try Data(contentsOf: url)
-               
-               if jsonData.count == 0 {
-                   print("Map file contains no data")
-                   return
-               }
-           } catch {
-               print(error.localizedDescription)
-               return
-           }
-           
-           let decoder = JSONDecoder()
-           
-           do {
-               map = try decoder.decode(MapData.self, from: jsonData)
-               // print(map!)
-           } catch {
-               print(error.localizedDescription)
-           }
-       }
-//
-//       func encodeOld () -> Data {
-//           var encodedData :Data!
-//           // Structs - MapData, Location, TrackData
-//           // var points :[Location] = []
-//           var dataToSave :[TrackData] = []
-//
-//           // Work through data track by track :: point by point
-//           // Each track comprises a set of points
-//           for track in trackData {
-//
-//               // For each track, add each location to the points array
-//
-//               // Firstly, start with an empty array
-//               var points :[Location] = []
-//               for point in track.points {
-//
-//                   // Add the data for each point
-//                   let lat = point.lat
-//                   let long = point.long
-//                   let elevation = point.elevation
-//
-//                   let point = Location.init(long: long, lat: lat, elevation: elevation)
-//                   // then append to the array
-//                   points.append(point)
-//               }
-//               // Once the tack points array is populated,
-//               // append the array of points to the trackData
-//
-//               dataToSave.removeAll()
-//               dataToSave.append(TrackData.init(name:"Track name",points: points))
-//               // encodedData = Data(dataToSave.utf8)
-//               //return encodedData
-//           }
-//
-//           let mapData = MapData(name: map.name, mapDescription: map.mapDescription, date: Date(), northMost: map.northMost, southMost: map.southMost, westMost: map.westMost, eastMost: map.eastMost, trackData: trackData)
-//
-//
-//           let encoder = JSONEncoder()
-//           if let encoded = try? encoder.encode(mapData) {
-//               if let json = String(data: encoded, encoding: .utf8) {
-//                   print(json)
-//               }
-//               encodedData = encoded
-//
-//               let decoder = JSONDecoder()
-//               if let decoded = try? decoder.decode(MapData.self, from: encoded) {
-//                   print(decoded)
-//               }
-//           }
-//           return encodedData
-//       }
-       
-       func encode () -> Data {
-           var encodedData :Data!
-           // Structs - MapData, Location, TrackData
-           // var points :[Location] = []
-           var tData :[TrackData] = []
-           
-           // Work through data track by track :: point by point
-           // Each track comprises a set of points
-           for track in trackData {
-               
-               // For each track, add each location to the points array
-               let name = track.name
-               // Firstly, start with an empty array
-               var points :[Location] = []
-               for location in track.points {
-                   
-                   // Add the data for each point
-                   let lat = location.lat
-                   let long = location.long
-                   let elevation = location.elevation
-                   
-                   let point = Location.init(long: long, lat: lat, elevation: elevation)
-                   // then append to the array
-                   points.append(point)
-               }
-               // Once the tack points array is populated,
-               // append the array of points to the trackData
-               tData.append(TrackData.init(name: name, points: points))
-           }
-           
-           let mapData = MapData(name: currentMap.name, mapDescription: currentMap.mapDescription, date: Date(), northMost: currentMap.northMost, southMost: currentMap.southMost, westMost: currentMap.westMost, eastMost: currentMap.eastMost, trackData: tData)
-           
-           
-           let encoder = JSONEncoder()
-           if let encoded = try? encoder.encode(mapData) {
-//               if let json = String(data: encoded, encoding: .utf8) {
-//                   // print(json)
-//               }
-               encodedData = encoded
-               
-              // let decoder = JSONDecoder()
-//               if let decoded = try? decoder.decode(MapData.self, from: encoded) {
-//                   // print(decoded)
-//               }
-               
-               
-           }
-           return encodedData
-       }
+        let url = self.getDocumentsDirectory().appendingPathComponent("MyMap.dat")
+        
+        let fileManager = FileManager.default
+        
+        // Check if file exists, given its path
+        let path = url.path
+        
+        if(!fileManager.fileExists(atPath:path)){
+            fileManager.createFile(atPath: path, contents: nil, attributes: nil)
+        }else{
+            print("Map file exists")
+        }
+        
+        var jsonData :Data!
+        do {
+            jsonData = try Data(contentsOf: url)
+            
+            if jsonData.count == 0 {
+                print("Map file contains no data")
+                return
+            }
+        } catch {
+            print(error.localizedDescription)
+            return
+        }
+        
+        let decoder = JSONDecoder()
+        
+        do {
+            map = try decoder.decode(MapData.self, from: jsonData)
+            // print(map!)
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+    //
+    //       func encodeOld () -> Data {
+    //           var encodedData :Data!
+    //           // Structs - MapData, Location, TrackData
+    //           // var points :[Location] = []
+    //           var dataToSave :[TrackData] = []
+    //
+    //           // Work through data track by track :: point by point
+    //           // Each track comprises a set of points
+    //           for track in trackData {
+    //
+    //               // For each track, add each location to the points array
+    //
+    //               // Firstly, start with an empty array
+    //               var points :[Location] = []
+    //               for point in track.points {
+    //
+    //                   // Add the data for each point
+    //                   let lat = point.lat
+    //                   let long = point.long
+    //                   let elevation = point.elevation
+    //
+    //                   let point = Location.init(long: long, lat: lat, elevation: elevation)
+    //                   // then append to the array
+    //                   points.append(point)
+    //               }
+    //               // Once the tack points array is populated,
+    //               // append the array of points to the trackData
+    //
+    //               dataToSave.removeAll()
+    //               dataToSave.append(TrackData.init(name:"Track name",points: points))
+    //               // encodedData = Data(dataToSave.utf8)
+    //               //return encodedData
+    //           }
+    //
+    //           let mapData = MapData(name: map.name, mapDescription: map.mapDescription, date: Date(), northMost: map.northMost, southMost: map.southMost, westMost: map.westMost, eastMost: map.eastMost, trackData: trackData)
+    //
+    //
+    //           let encoder = JSONEncoder()
+    //           if let encoded = try? encoder.encode(mapData) {
+    //               if let json = String(data: encoded, encoding: .utf8) {
+    //                   print(json)
+    //               }
+    //               encodedData = encoded
+    //
+    //               let decoder = JSONDecoder()
+    //               if let decoded = try? decoder.decode(MapData.self, from: encoded) {
+    //                   print(decoded)
+    //               }
+    //           }
+    //           return encodedData
+    //       }
+    
+    func encode () -> Data {
+        var encodedData :Data!
+        // Structs - MapData, Location, TrackData
+        // var points :[Location] = []
+        var tData :[TrackData] = []
+        
+        // Work through data track by track :: point by point
+        // Each track comprises a set of points
+        for track in trackData {
+            
+            // For each track, add each location to the points array
+            let name = track.name
+            // Firstly, start with an empty array
+            var points :[Location] = []
+            for location in track.points {
+                
+                // Add the data for each point
+                let lat = location.lat
+                let long = location.long
+                let elevation = location.elevation
+                
+                let point = Location.init(long: long, lat: lat, elevation: elevation)
+                // then append to the array
+                points.append(point)
+            }
+            // Once the tack points array is populated,
+            // append the array of points to the trackData
+            tData.append(TrackData.init(name: name, points: points))
+        }
+        
+        let mapData = MapData(name: currentMap.name, mapDescription: currentMap.mapDescription, date: Date(), northMost: currentMap.northMost, southMost: currentMap.southMost, westMost: currentMap.westMost, eastMost: currentMap.eastMost, trackData: tData)
+        
+        
+        let encoder = JSONEncoder()
+        if let encoded = try? encoder.encode(mapData) {
+            //               if let json = String(data: encoded, encoding: .utf8) {
+            //                   // print(json)
+            //               }
+            encodedData = encoded
+            
+            // let decoder = JSONDecoder()
+            //               if let decoded = try? decoder.decode(MapData.self, from: encoded) {
+            //                   // print(decoded)
+            //               }
+            
+            
+        }
+        return encodedData
+    }
     
     func writeData(data :Data) {
         let longFileName = "MyMap.dat"
@@ -378,7 +376,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     // MARK: Map functions
-  
+    
     func displayTrack(track trackId: Int) {
         let theTrack = trackData[trackId]
         var locations : [CLLocation] = []
@@ -391,13 +389,24 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
             let location = CLLocation(latitude: lat, longitude: long)
             locations.append(location)
         }
-       
+        
         let track :Track = Track(name: name, trackDescription: description, track: locations)
         
         self.currentMap.addTrack(track: track)
         let region = self.currentMap.calcBounds()
-        mapView.setRegion(region, animated: true)
+        
         mapView.addOverlays(polylines)
+        mapView.setRegion(region, animated: true)
+        
+    }
+    
+    // Plots track loaded from visitedLocations array
+    func plotCurrentTrack() {
+        // if (visitedLocations.last as CLLocation?) != nil {
+        //   var coordinates = visitedLocations.map({(location: CLLocation) -> CLLocationCoordinate2D in return location.coordinate})
+        //   let polyline = MKPolyline(coordinates: &coordinates, count: coordinates.count)
+        //   mapView.addOverlay(polyline)
+        //  }
     }
     
     /*
@@ -410,7 +419,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
      }
      */
     
-
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
@@ -443,11 +452,17 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
-
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let row = indexPath.row
         displayTrack(track: row)
         print("Clicked: \(row) ")
+    }
+    
+    // MARK:  Events
+    // Plot currently active track when map loads
+    func mapViewDidFinishLoadingMap(_ mapView: MKMapView) {
+        plotCurrentTrack()
     }
 }

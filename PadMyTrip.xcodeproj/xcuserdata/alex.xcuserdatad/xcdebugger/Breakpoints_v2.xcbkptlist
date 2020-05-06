@@ -7,49 +7,17 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "F53A29A3-AF8B-4212-85EF-2978B22B37A2"
-            shouldBeEnabled = "No"
+            uuid = "1306E353-BB74-406A-9825-DFA916DB9711"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PadMyTrip/MainViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "247"
-            endingLineNumber = "247"
-            landmarkName = "readStoredJSONData()"
+            startingLineNumber = "47"
+            endingLineNumber = "47"
+            landmarkName = "viewDidLoad()"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "F53A29A3-AF8B-4212-85EF-2978B22B37A2 - a1b8d60827b74c9"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "PadMyTrip.MainViewController.readStoredJSONData() -&gt; ()"
-                  moduleName = "PadMyTrip"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/alex/Documents/GitHub/PadMyTrip/PadMyTrip/MainViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "245"
-                  endingLineNumber = "245"
-                  offsetFromSymbolStart = "2267">
-               </Location>
-               <Location
-                  uuid = "F53A29A3-AF8B-4212-85EF-2978B22B37A2 - a1b8d60827b74c9"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "PadMyTrip.MainViewController.readStoredJSONData() -&gt; ()"
-                  moduleName = "PadMyTrip"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/alex/Documents/GitHub/PadMyTrip/PadMyTrip/MainViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "245"
-                  endingLineNumber = "245"
-                  offsetFromSymbolStart = "3017">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

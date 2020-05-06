@@ -36,6 +36,36 @@
             </objects>
             <point key="canvasLocation" x="723" y="-443"/>
         </scene>
+        <!--Track View-->
+        <scene sceneID="JQO-RS-K6f">
+            <objects>
+                <viewController title="Track View" id="7Zk-02-Q0m" customClass="TrackViewController" customModule="PadMyTrip" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="ZKl-9B-48M">
+                        <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="DLX-Wr-uiW">
+                                <rect key="frame" x="0.0" y="50" width="1024" height="718"/>
+                            </mapView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="DLX-Wr-uiW" firstAttribute="top" secondItem="esv-Tw-Yyj" secondAttribute="top" id="GuI-bE-hcJ"/>
+                            <constraint firstItem="DLX-Wr-uiW" firstAttribute="leading" secondItem="esv-Tw-Yyj" secondAttribute="leading" id="ctq-EI-r57"/>
+                            <constraint firstItem="esv-Tw-Yyj" firstAttribute="bottom" secondItem="DLX-Wr-uiW" secondAttribute="bottom" id="mdh-MF-cJ0"/>
+                            <constraint firstItem="esv-Tw-Yyj" firstAttribute="trailing" secondItem="DLX-Wr-uiW" secondAttribute="trailing" id="tDB-29-SaA"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="esv-Tw-Yyj"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="Kj7-eh-vqq"/>
+                    <connections>
+                        <outlet property="mapView" destination="DLX-Wr-uiW" id="GvO-Cv-7Po"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="RVh-cR-z9p" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1941" y="-1449"/>
+        </scene>
         <!--trackViewController-->
         <scene sceneID="PUU-jY-qfa">
             <objects>
@@ -220,6 +250,7 @@
                                                 </accessibility>
                                                 <connections>
                                                     <outlet property="titleLabel" destination="f2D-yo-7D1" id="fd6-ka-BV7"/>
+                                                    <segue destination="7Zk-02-Q0m" kind="show" id="72r-Sp-tWI"/>
                                                 </connections>
                                             </tableViewCell>
                                         </prototypes>

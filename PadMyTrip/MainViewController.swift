@@ -476,15 +476,33 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         //  }
     }
     
-    /*
+    
      // MARK: - Navigation
      
      // In a storyboard-based application, you will often want to do a little preparation before navigation
      override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
      // Get the new view controller using segue.destination.
      // Pass the selected object to the new view controller.
+        
+        super.prepare(for: segue, sender: sender)
+        guard let TrackViewController = segue.destination as? TrackViewController else {
+            fatalError("Unexpected destination: \(segue.destination)")
+        }
+        guard let selectedCell = sender as? TrackViewCell else {
+            fatalError("Unexpected sender: \(String(describing: sender))")
+        }
+        
+        guard let indexPath = self.trackTableView.indexPath(for: selectedCell) else {
+            fatalError("The selected cell is not being displayed by the table")
+        }
+        let row = indexPath.row
+        let track = currentMap.tracks[row]
+        TrackViewController.track = track
+        TrackViewController.trackIndex = row
+        
+        
      }
-     */
+     
     // MARK: Delegated functions
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -530,6 +548,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     // MARK:  Events
     // Plot currently active track when map loads
     func mapViewDidFinishLoadingMap(_ mapView: MKMapView) {
+        print("mapViewDidFinishLoadingMap")
        // plotCurrentTrack()
     }
     
@@ -539,6 +558,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         renderer.strokeColor = UIColor.blue
         renderer.lineWidth = 5
         // renderer.lineDashPattern = .some([4, 16, 16])
+        
         return renderer
     }
 }

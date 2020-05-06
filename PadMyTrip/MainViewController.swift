@@ -45,13 +45,57 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         trackTableView.allowsMultipleSelection = true
         
         // Setup currentMap and populate from data in JSON data
-        // currentMap = Map(name: "Line 38", mapDescription: "Line 38 description")
-        // currentMap.tracks = []
+        currentMap = Map(name: "Line 48", mapDescription: "Line 48 description")
+        currentMap.tracks = []
         
         // Read saved map data into Mapdata struct
         map = MapData(name: "Map name", mapDescription: "A description of my map", date: Date(), northMost: -90, southMost: 90, westMost: -180, eastMost: 180, trackData: [])
         readStoredJSONData()
         map.trackData.sort(by: {$0.name.lowercased() < $1.name.lowercased()} )
+        
+        /* MARK:  At this point -
+         currentMap holds default data as in Line 48 above
+         map contains sored data read from storage
+         */
+        let mapName = map.name
+        let trackCount = map.trackData.count
+        
+        currentMap.name = map.name
+        currentMap.mapDescription = map.mapDescription
+        currentMap.date = map.date
+        if map.trackData.count > 0 {
+            for track in map.trackData {
+                
+                var location :CLLocation!
+                var locations :[CLLocation] = []
+                
+                if track.points.count > 0 {
+                    for point in track.points {
+                        location = CLLocation(latitude: point.lat, longitude: point.long)
+                        locations.append(location)
+                    }
+                    
+                    //            let eastMost = map.eastMost
+                    //            let northMost = map.northMost
+                    //            let southMost = map.southMost
+                    //            let westMost = map.westMost
+                    
+                    // let track :Track = Track(
+                    
+                    currentMap.addTrack(track: Track(track: locations))
+                }
+                // currentMap.addTrack(track: Track(track: locations, northMost: northMost, southMost: southMost, eastMost: eastMost, westMost: westMost))
+            }
+            
+            // At this point, tracks are loaded from storage.
+            // Track polylines need to be created
+            // Polylines need to be drawn
+        }
+        // Check that there are tracks on the map - possibly only one track with no points!
+        if currentMap.tracks.count > 0 {
+            mapView.region = currentMap.calcBounds()
+        }
+        print("Done")
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -359,10 +403,14 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func writeData(data :Data) {
         let longFileName = "MyMap.dat"
+        let altFileName = "MyMap.txt"
         let url = self.getDocumentsDirectory().appendingPathComponent(longFileName)
+        
+        let alt = self.getDocumentsDirectory().appendingPathComponent(altFileName)
         
         do {
             try data.write(to: url)
+            try data.write(to: alt)
         } catch {
             print(error.localizedDescription)
         }

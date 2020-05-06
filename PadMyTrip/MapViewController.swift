@@ -75,7 +75,7 @@ class MapViewController: UIViewController, MKMapViewDelegate  {
             locations.append(location)
         }
        
-        let track :Track = Track(name: name, trackDescription: description, track: locations)
+        let track :Track = Track(track: locations)
         
         self.currentMap.addTrack(track: track)
         let region = self.currentMap.calcBounds()

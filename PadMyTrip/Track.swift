@@ -25,7 +25,6 @@ class Track: NSObject {
     var east :Double = -180
     
     static var serial :Int = 0
-    
     init(name :String, trackDescription: String, track: [CLLocation]) {
         self.trackDescription = trackDescription
         self.date = Date()
@@ -35,6 +34,32 @@ class Track: NSObject {
         self._id = Track.serial
         super.init()
         self.region = calcBounds(track: track)
+    }
+    
+    init(track: [CLLocation]) {
+        self.trackDescription = "Track description"
+        self.date = Date()
+        self.locations = track
+        self.name = "Track name"
+        self.style = "default"
+        self._id = Track.serial
+        super.init()
+        self.region = calcBounds(track: track)
+    }
+    
+    init(track: [CLLocation], northMost :Double, southMost :Double, eastMost :Double, westMost :Double) {
+        self.trackDescription = "Track description"
+        self.date = Date()
+        self.locations = track
+        self.name = "Track name"
+        self.style = "default"
+        self._id = Track.serial
+        super.init()
+        self.region = calcBounds(track: track)
+        self.north = northMost
+        self.south = southMost
+        self.east = eastMost
+        self.west = westMost
     }
     
     func calcBounds(track :[CLLocation]) -> MKCoordinateRegion {

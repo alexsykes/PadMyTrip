@@ -12,22 +12,29 @@ import MapKit
 class MainViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIDocumentPickerDelegate, MKMapViewDelegate   {
     
     // MARK: Properties
-    // From TrackTableViewController
+    // MARK: Outlets
+    @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var trackTableView: UITableView!
+    
+    // MARK: Variables
     var files :[URL]! = []
+    var mapViewController = MapViewController(nibName: "mapViewController", bundle: nil)
+    var currentMap :Map!            // Map class - used to hold data displayed on MKMapView
+    var map :MapData!               // Struct representing a Map used for storin data in Codable format
     var tracks :[Track] = []
-    //  var mapViewController = MapViewController(nibName: "mapViewController", bundle: nil)
-    var mapView :MKMapView!         // MKMapView item
-    var currentMap :Map!            // Map class - is this used?
-    var map :MapData!               // Struct representing a Map
-    var trackData: [TrackData]!
     var polylines :[MKPolyline] = []
     var trackIndex: Int!
     
-    var trackTableView: UITableView!
     
+    
+    // var trackData: [TrackData]!
+    
+    // MARK: Actions
     @IBAction func addFromPublic(_ sender: UIBarButtonItem) {
         addTracksFromPublic()
     }
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -37,14 +44,14 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         trackTableView.delegate = self
         trackTableView.allowsMultipleSelection = true
         
-        currentMap = Map(name: "Line 38", mapDescription: "Line 38 description")
-        currentMap.tracks = []
+        // Setup currentMap and populate from data in JSON data
+        // currentMap = Map(name: "Line 38", mapDescription: "Line 38 description")
+        // currentMap.tracks = []
         
-        // Read saved map data
+        // Read saved map data into Mapdata struct
         map = MapData(name: "Map name", mapDescription: "A description of my map", date: Date(), northMost: -90, southMost: 90, westMost: -180, eastMost: 180, trackData: [])
         readStoredJSONData()
-        trackData = map.trackData
-        trackData.sort(by: {$0.name.lowercased() < $1.name.lowercased()} )
+        map.trackData.sort(by: {$0.name.lowercased() < $1.name.lowercased()} )
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -136,7 +143,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
                     let newLocation = Location(long: long, lat: lat, elevation: elev)
                     points.append(newLocation)
                 }
-                trackData.append(TrackData.init(name:filename,points: points))
+                map.trackData.append(TrackData.init(name:filename,points: points))
                 try
                     fileManager.removeItem(at: newFileURL)
             } catch {
@@ -308,7 +315,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         // Work through data track by track :: point by point
         // Each track comprises a set of points
-        for track in trackData {
+        for track in map.trackData {
             
             // For each track, add each location to the points array
             let name = track.name
@@ -330,7 +337,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
             tData.append(TrackData.init(name: name, points: points))
         }
         
-        let mapData = MapData(name: currentMap.name, mapDescription: currentMap.mapDescription, date: Date(), northMost: currentMap.northMost, southMost: currentMap.southMost, westMost: currentMap.westMost, eastMost: currentMap.eastMost, trackData: tData)
+        let mapData = MapData(name: map.name, mapDescription: map.mapDescription, date: Date(), northMost: map.northMost, southMost: map.southMost, westMost: map.westMost, eastMost: map.eastMost, trackData: tData)
         
         
         let encoder = JSONEncoder()
@@ -375,10 +382,11 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
-    // MARK: Map functions
+    // MARK: MapView functions
     
+    // Display tracks on MapView
     func displayTrack(track trackId: Int) {
-        let theTrack = trackData[trackId]
+        let theTrack = map.trackData[trackId]
         var locations : [CLLocation] = []
         let name = theTrack.name
         let description = "A track"
@@ -418,7 +426,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
      // Pass the selected object to the new view controller.
      }
      */
-    
+    // MARK: Delegated functions
     
     func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
@@ -426,12 +434,12 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return  trackData.count
+        return  map.trackData.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "trackTableCell", for: indexPath) as! TrackViewCell
-        let trackName = trackData[indexPath.row].name
+        let trackName = map.trackData[indexPath.row].name
         cell.titleLabel?.text = "\(trackName)"
         return cell
     }
@@ -445,7 +453,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     // Override to support editing the table view.
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            trackData.remove(at: indexPath.row)
+            map.trackData.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
             saveFileData()
         } else if editingStyle == .insert {

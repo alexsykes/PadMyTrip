@@ -252,8 +252,8 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="mapView" destination="yMb-ML-8rX" id="28Z-Ni-5kh"/>
-                        <outlet property="trackTableView" destination="TQE-L2-bfW" id="hko-WQ-VCG"/>
+                        <outlet property="mapView" destination="yMb-ML-8rX" id="QvV-XI-xGc"/>
+                        <outlet property="trackTableView" destination="TQE-L2-bfW" id="rJZ-8k-7j8"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7qH-oW-XLH" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

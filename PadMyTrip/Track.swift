@@ -36,6 +36,24 @@ class Track: NSObject {
         self.region = calcBounds(track: track)
     }
     
+    init(points: [Location])
+    {
+        var location: CLLocation!
+        var track :[CLLocation] = []
+        for point in points {
+            location = CLLocation(latitude: point.lat, longitude: point.long)
+            track.append(location)
+        }
+        self.locations = track
+        self.trackDescription = "Track description"
+        self.date = Date()
+        self.name = "Track name"
+        self.style = "default"
+        self._id = Track.serial
+        super.init()
+        self.region = calcBounds(track: track)
+    }
+    
     init(track: [CLLocation]) {
         self.trackDescription = "Track description"
         self.date = Date()

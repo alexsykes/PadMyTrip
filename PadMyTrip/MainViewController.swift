@@ -25,8 +25,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     var tracks :[Track] = []
     var polylines :[MKPolyline] = []
     var trackIndex: Int!
-    
-    
+    var overlays :[MKOverlay]!
     
     // var trackData: [TrackData]!
     
@@ -189,14 +188,17 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
                     points.append(newLocation)
                 }
                 map.trackData.append(TrackData.init(name:filename,points: points))
-                
+                // NEED TO ADD TRACK FOR CURRENT MAP HERE
                 // Add new polyline from track here
-                let track = currentMap.tracks.last
-                let polyline = track!.getPolyline()
+                let track :Track = Track(points: points)
+                currentMap.addTrack(track: track)
+                let polyline = track.getPolyline()
                 polylines.append(polyline)
                 mapView.addOverlay(polyline)
 
+                // Update and set region
 
+                mapView.region = currentMap.calcBounds()
                 try
                     fileManager.removeItem(at: newFileURL)
             } catch {
@@ -530,6 +532,10 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         if editingStyle == .delete {
             map.trackData.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
+            currentMap.tracks.remove(at: indexPath.row)
+            let overlayToRemove = mapView.overlays[indexPath.row]
+            mapView.removeOverlay(overlayToRemove)
+            currentMap.region = currentMap.calcBounds()
             saveFileData()
         } else if editingStyle == .insert {
         }

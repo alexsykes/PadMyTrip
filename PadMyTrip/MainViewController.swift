@@ -75,33 +75,23 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
                         location = CLLocation(latitude: point.lat, longitude: point.long)
                         locations.append(location)
                     }
-                    
-                    //            let eastMost = map.eastMost
-                    //            let northMost = map.northMost
-                    //            let southMost = map.southMost
-                    //            let westMost = map.westMost
-                    
-                    // let track :Track = Track(
-                    
-                    currentMap.addTrack(track: Track(track: locations))
+                    let newTrack :Track = Track(track: locations)
+                    currentMap.addTrack(track: newTrack )
                 }
-                // currentMap.addTrack(track: Track(track: locations, northMost: northMost, southMost: southMost, eastMost: eastMost, westMost: westMost))
             }
         }
-        // At this point, tracks are loaded from storage.
-
+        // At this point, all tracks are loaded from storage.
+        
         // Check that there are tracks on the map - possibly only one track with no points!
         if currentMap.tracks.count > 0 {
             // Track polylines need to be created
             // Polylines need to be drawn
             
             for track in currentMap.tracks {
-                if track.locations.count > 0 {//                    for location in track.locations {
-//                        let point = location
-//                    }
-                    var coordinates = track.locations.map({(location: CLLocation) -> CLLocationCoordinate2D in return location.coordinate})
-               let polyline = MKPolyline(coordinates: &coordinates, count: coordinates.count)
-                polylines.append(polyline)
+                // Check that track contains data
+                if track.locations.count > 0 {
+                    let polyline = track.getPolyline()
+                    polylines.append(polyline)
                     mapView.addOverlay(polyline)
                 }
             }
@@ -199,6 +189,14 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
                     points.append(newLocation)
                 }
                 map.trackData.append(TrackData.init(name:filename,points: points))
+                
+                // Add new polyline from track here
+                let track = currentMap.tracks.last
+                let polyline = track!.getPolyline()
+                polylines.append(polyline)
+                mapView.addOverlay(polyline)
+
+
                 try
                     fileManager.removeItem(at: newFileURL)
             } catch {
@@ -477,12 +475,12 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destination.
-     // Pass the selected object to the new view controller.
+    // MARK: - Navigation
+    
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Get the new view controller using segue.destination.
+        // Pass the selected object to the new view controller.
         
         super.prepare(for: segue, sender: sender)
         guard let TrackViewController = segue.destination as? TrackViewController else {
@@ -501,8 +499,8 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         TrackViewController.trackIndex = row
         
         
-     }
-     
+    }
+    
     // MARK: Delegated functions
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -549,7 +547,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     // Plot currently active track when map loads
     func mapViewDidFinishLoadingMap(_ mapView: MKMapView) {
         print("mapViewDidFinishLoadingMap")
-       // plotCurrentTrack()
+        // plotCurrentTrack()
     }
     
     // Render track on map

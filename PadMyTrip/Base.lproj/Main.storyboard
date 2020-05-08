@@ -222,11 +222,11 @@
                                             <constraint firstAttribute="width" constant="260" id="gls-cF-SDZ"/>
                                         </constraints>
                                         <prototypes>
-                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="default" showsReorderControl="YES" hidesAccessoryWhenEditing="NO" indentationWidth="0.0" reuseIdentifier="trackTableCell" textLabel="f2D-yo-7D1" detailTextLabel="aQV-eH-Nh5" style="IBUITableViewCellStyleSubtitle" id="l8v-5h-60v" customClass="TrackViewCell" customModule="PadMyTrip" customModuleProvider="target">
+                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="default" showsReorderControl="YES" accessoryType="checkmark" hidesAccessoryWhenEditing="NO" indentationWidth="0.0" reuseIdentifier="trackTableCell" editingAccessoryType="checkmark" textLabel="f2D-yo-7D1" detailTextLabel="aQV-eH-Nh5" style="IBUITableViewCellStyleSubtitle" id="l8v-5h-60v" customClass="TrackViewCell" customModule="PadMyTrip" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="28" width="260" height="55.5"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="l8v-5h-60v" id="6IZ-sP-FOb">
-                                                    <rect key="frame" x="0.0" y="0.0" width="260" height="55.5"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="221" height="55.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="f2D-yo-7D1">

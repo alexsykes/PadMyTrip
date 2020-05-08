@@ -47,7 +47,22 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         // Setup currentMap and populate from data in JSON data
         currentMap = Map(name: "Line 48", mapDescription: "Line 48 description")
         currentMap.tracks = []
+        loadSavedMapData()
+        // At this point, all tracks are loaded from storage.
         
+        // Check that there are tracks on the map - possibly only one track with no points!
+        if currentMap.tracks.count > 0 {
+            getTracks()
+        }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        saveFileData()
+    }
+    
+    // MARK: Load svaed map data
+    func loadSavedMapData () {
         // Read saved map data into Mapdata struct
         map = MapData(name: "Map name", mapDescription: "A description of my map", date: Date(), northMost: -90, southMost: 90, westMost: -180, eastMost: 180, trackData: [])
         readStoredJSONData()
@@ -57,8 +72,6 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
          currentMap holds default data as in Line 48 above
          map contains sored data read from storage
          */
-        let mapName = map.name
-        let trackCount = map.trackData.count
         
         currentMap.name = map.name
         currentMap.mapDescription = map.mapDescription
@@ -79,28 +92,22 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
                 }
             }
         }
-        // At this point, all tracks are loaded from storage.
-        
-        // Check that there are tracks on the map - possibly only one track with no points!
-        if currentMap.tracks.count > 0 {
-            // Track polylines need to be created
-            // Polylines need to be drawn
-            
-            for track in currentMap.tracks {
-                // Check that track contains data
-                if track.locations.count > 0 {
-                    let polyline = track.getPolyline()
-                    polylines.append(polyline)
-                    mapView.addOverlay(polyline)
-                }
-            }
-            mapView.region = currentMap.calcBounds()
-        }
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(true)
-        saveFileData()
+    // MARK: Getting tracks for display
+    func getTracks() {
+        // Track polylines need to be created
+        // Polylines need to be drawn
+        
+        for track in currentMap.tracks {
+            // Check that track contains data
+            if track.locations.count > 0 {
+                let polyline = track.getPolyline()
+                polylines.append(polyline)
+                mapView.addOverlay(polyline)
+            }
+        }
+        mapView.region = currentMap.calcBounds()
     }
     
     
@@ -309,58 +316,6 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
             print(error.localizedDescription)
         }
     }
-    //
-    //       func encodeOld () -> Data {
-    //           var encodedData :Data!
-    //           // Structs - MapData, Location, TrackData
-    //           // var points :[Location] = []
-    //           var dataToSave :[TrackData] = []
-    //
-    //           // Work through data track by track :: point by point
-    //           // Each track comprises a set of points
-    //           for track in trackData {
-    //
-    //               // For each track, add each location to the points array
-    //
-    //               // Firstly, start with an empty array
-    //               var points :[Location] = []
-    //               for point in track.points {
-    //
-    //                   // Add the data for each point
-    //                   let lat = point.lat
-    //                   let long = point.long
-    //                   let elevation = point.elevation
-    //
-    //                   let point = Location.init(long: long, lat: lat, elevation: elevation)
-    //                   // then append to the array
-    //                   points.append(point)
-    //               }
-    //               // Once the tack points array is populated,
-    //               // append the array of points to the trackData
-    //
-    //               dataToSave.removeAll()
-    //               dataToSave.append(TrackData.init(name:"Track name",points: points))
-    //               // encodedData = Data(dataToSave.utf8)
-    //               //return encodedData
-    //           }
-    //
-    //           let mapData = MapData(name: map.name, mapDescription: map.mapDescription, date: Date(), northMost: map.northMost, southMost: map.southMost, westMost: map.westMost, eastMost: map.eastMost, trackData: trackData)
-    //
-    //
-    //           let encoder = JSONEncoder()
-    //           if let encoded = try? encoder.encode(mapData) {
-    //               if let json = String(data: encoded, encoding: .utf8) {
-    //                   print(json)
-    //               }
-    //               encodedData = encoded
-    //
-    //               let decoder = JSONDecoder()
-    //               if let decoded = try? decoder.decode(MapData.self, from: encoded) {
-    //                   print(decoded)
-    //               }
-    //           }
-    //           return encodedData
-    //       }
     
     func encode () -> Data {
         var encodedData :Data!
@@ -397,17 +352,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         let encoder = JSONEncoder()
         if let encoded = try? encoder.encode(mapData) {
-            //               if let json = String(data: encoded, encoding: .utf8) {
-            //                   // print(json)
-            //               }
             encodedData = encoded
-            
-            // let decoder = JSONDecoder()
-            //               if let decoded = try? decoder.decode(MapData.self, from: encoded) {
-            //                   // print(decoded)
-            //               }
-            
-            
         }
         return encodedData
     }
@@ -518,6 +463,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         let cell = tableView.dequeueReusableCell(withIdentifier: "trackTableCell", for: indexPath) as! TrackViewCell
         let trackName = map.trackData[indexPath.row].name
         cell.titleLabel?.text = "\(trackName)"
+        cell.accessoryType = .checkmark
         return cell
     }
     
@@ -564,5 +510,10 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         // renderer.lineDashPattern = .some([4, 16, 16])
         
         return renderer
+    }
+    
+    func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
+        let row = indexPath.row
+        print ("Button tapped: \(row)")
     }
 }

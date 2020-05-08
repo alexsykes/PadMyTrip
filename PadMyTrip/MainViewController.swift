@@ -10,8 +10,13 @@ import UIKit
 import MapKit
 import CoreLocation
 
-class MainViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIDocumentPickerDelegate, MKMapViewDelegate   {
+class MainViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIDocumentPickerDelegate, MKMapViewDelegate, DataEnteredDelegate   {
+    func userDidEnterInformation(mapName: String, mapDescription :String) {
+        currentMap.name = mapName
+        currentMap.mapDescription = mapDescription
+    }
     
+
     // MARK: Properties
     // MARK: Outlets
     @IBOutlet weak var mapView: MKMapView!
@@ -202,9 +207,9 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
                 let polyline = track.getPolyline()
                 polylines.append(polyline)
                 mapView.addOverlay(polyline)
-
+                
                 // Update and set region
-
+                
                 mapView.region = currentMap.calcBounds()
                 try
                     fileManager.removeItem(at: newFileURL)
@@ -347,7 +352,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
             tData.append(TrackData.init(name: name, points: points))
         }
         
-        let mapData = MapData(name: map.name, mapDescription: map.mapDescription, date: Date(), northMost: map.northMost, southMost: map.southMost, westMost: map.westMost, eastMost: map.eastMost, trackData: tData)
+        let mapData = MapData(name: currentMap.name, mapDescription: currentMap.mapDescription, date: Date(), northMost: currentMap.northMost, southMost: currentMap.southMost, westMost: currentMap.westMost, eastMost: currentMap.eastMost, trackData: tData)
         
         
         let encoder = JSONEncoder()
@@ -430,90 +435,104 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         // Pass the selected object to the new view controller.
         
         super.prepare(for: segue, sender: sender)
-        guard let TrackViewController = segue.destination as? TrackViewController else {
-            fatalError("Unexpected destination: \(segue.destination)")
+        
+        let identifier = segue.identifier
+        if identifier == "displayTrack" {
+            
+            guard let TrackViewController = segue.destination as? TrackViewController else {
+                fatalError("Unexpected destination: \(segue.destination)")
+            }
+            guard let selectedCell = sender as? TrackViewCell else {
+                fatalError("Unexpected sender: \(String(describing: sender))")
+            }
+            
+            guard let indexPath = self.trackTableView.indexPath(for: selectedCell) else {
+                fatalError("The selected cell is not being displayed by the table")
+            }
+            let row = indexPath.row
+            let track = currentMap.tracks[row]
+            TrackViewController.track = track
+            TrackViewController.trackIndex = row
+        } else {
+            if identifier == "showPrefs" {
+                
+                guard let settingsViewController = segue.destination as? SettingsViewController else {
+                    fatalError("Unexpected destination: \(segue.destination)")
+                }
+                settingsViewController.mapName = currentMap.name
+                settingsViewController.mapDescription = currentMap.mapDescription
+                settingsViewController.delegate = self
+            }
         }
-        guard let selectedCell = sender as? TrackViewCell else {
-            fatalError("Unexpected sender: \(String(describing: sender))")
         }
         
-        guard let indexPath = self.trackTableView.indexPath(for: selectedCell) else {
-            fatalError("The selected cell is not being displayed by the table")
+        // MARK: Delegated functions
+        
+        func numberOfSections(in tableView: UITableView) -> Int {
+            // #warning Incomplete implementation, return the number of sections
+            return 1
         }
-        let row = indexPath.row
-        let track = currentMap.tracks[row]
-        TrackViewController.track = track
-        TrackViewController.trackIndex = row
         
-        
-    }
-    
-    // MARK: Delegated functions
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 1
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return  map.trackData.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "trackTableCell", for: indexPath) as! TrackViewCell
-        let trackName = map.trackData[indexPath.row].name
-        cell.titleLabel?.text = "\(trackName)"
-        cell.accessoryType = .checkmark
-        return cell
-    }
-    
-    // Override to support conditional editing of the table view.
-    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    
-    // Override to support editing the table view.
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            map.trackData.remove(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .fade)
-            currentMap.tracks.remove(at: indexPath.row)
-            let overlayToRemove = mapView.overlays[indexPath.row]
-            mapView.removeOverlay(overlayToRemove)
-            currentMap.region = currentMap.calcBounds()
-            saveFileData()
-        } else if editingStyle == .insert {
+        func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+            return  map.trackData.count
         }
-    }
-    
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-        let row = indexPath.row
-        displayTrack(track: row)
-        print("Clicked: \(row) ")
-    }
-    
-    // MARK:  Events
-    // Plot currently active track when map loads
-    func mapViewDidFinishLoadingMap(_ mapView: MKMapView) {
-        print("mapViewDidFinishLoadingMap")
-        // plotCurrentTrack()
-    }
-    
-    // Render track on map
-    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
-        let renderer = MKPolylineRenderer(overlay: overlay)
-        renderer.strokeColor = UIColor.blue
-        renderer.lineWidth = 5
-        // renderer.lineDashPattern = .some([4, 16, 16])
         
-        return renderer
-    }
-    
-    func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
-        let row = indexPath.row
-        print ("Button tapped: \(row)")
-    }
+        func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "trackTableCell", for: indexPath) as! TrackViewCell
+            let trackName = map.trackData[indexPath.row].name
+            cell.titleLabel?.text = "\(trackName)"
+            cell.accessoryType = .checkmark
+            return cell
+        }
+        
+        // Override to support conditional editing of the table view.
+        func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+            // Return false if you do not want the specified item to be editable.
+            return true
+        }
+        
+        // Override to support editing the table view.
+        func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+            if editingStyle == .delete {
+                map.trackData.remove(at: indexPath.row)
+                tableView.deleteRows(at: [indexPath], with: .fade)
+                currentMap.tracks.remove(at: indexPath.row)
+                let overlayToRemove = mapView.overlays[indexPath.row]
+                mapView.removeOverlay(overlayToRemove)
+                currentMap.region = currentMap.calcBounds()
+                saveFileData()
+            } else if editingStyle == .insert {
+            }
+        }
+        
+        
+        func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+            tableView.deselectRow(at: indexPath, animated: true)
+            let row = indexPath.row
+            displayTrack(track: row)
+            print("Clicked: \(row) ")
+        }
+        
+        // MARK:  Events
+        // Plot currently active track when map loads
+        func mapViewDidFinishLoadingMap(_ mapView: MKMapView) {
+            print("mapViewDidFinishLoadingMap")
+            // plotCurrentTrack()
+        }
+        
+        // Render track on map
+        func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+            let renderer = MKPolylineRenderer(overlay: overlay)
+            renderer.strokeColor = UIColor.blue
+            renderer.lineWidth = 5
+            // renderer.lineDashPattern = .some([4, 16, 16])
+            
+            return renderer
+        }
+        
+        func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
+            let row = indexPath.row
+            print ("Button tapped: \(row)")
+        }
 }
+

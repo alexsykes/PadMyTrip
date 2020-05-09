@@ -181,14 +181,16 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
                 var coordinates = locations.map({(location: CLLocation) -> CLLocationCoordinate2D in return location.coordinate})
                 currentMap.polylines.append(MKPolyline(coordinates: &coordinates, count: coordinates.count))
                 
-                // Calculate region for new track
-                mapView.region = calcBounds(trackData: coordinates)
                 
-                // Update overlay
-                for polyline in currentMap.polylines {
-                    mapView.addOverlay(polyline)
-                }
-                
+                mapRefresh()
+//                // Calculate region for new track
+//                mapView.region = calcBounds(trackData: coordinates)
+//
+//                // Update overlay
+//                for polyline in currentMap.polylines {
+//                    mapView.addOverlay(polyline)
+//                }
+//
                 // Finally, remove the imported file
                 try
                     fileManager.removeItem(at: newFileURL)
@@ -198,7 +200,22 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
-    
+    func mapRefresh() {
+        let polylines = currentMap.polylines
+        
+        let region :MKCoordinateRegion = mapView.region
+        if polylines.count > 0 {
+        currentMap.calcBounds()
+        for polyline in currentMap.polylines {
+            mapView.addOverlay(polyline)
+        }
+        } else {
+            let overlays = mapView.overlays
+            mapView.removeOverlays(overlays)
+        }
+        
+        mapView.region = currentMap.region
+    }
     func getDocumentsDirectory() -> URL {
         let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         return paths[0]
@@ -481,9 +498,10 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
             print ("Row: \(indexPath.row)")
             currentMap.trackData.remove(at: indexPath.row)
             currentMap.polylines.remove(at: indexPath.row)
-            
             tableView.deleteRows(at: [indexPath], with: .fade)
             saveFileData()
+            
+            mapRefresh()
         } else if editingStyle == .insert {
             // Insert here
         }

@@ -19,7 +19,8 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         mapView.delegate = self
-        
+        mapView.addOverlay(polyline)
+        cu
 
    //     polyline = track.getPolyline()
   //      mapView.addOverlay(polyline)

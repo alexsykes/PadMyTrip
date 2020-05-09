@@ -8,16 +8,13 @@
 
 import Foundation
 import CoreLocation
+import MapKit
 
 
 struct MapData  {
     var name :String
     var mapDescription :String
     var date :Date
-    var northMost :Double
-    var southMost :Double
-    var westMost :Double
-    var eastMost :Double
     var trackData :[TrackData]
 //    var styles :[Style]
     
@@ -25,10 +22,6 @@ struct MapData  {
         case name
         case description
         case date
-        case northMost
-        case eastMost
-        case southMost
-        case westMost
         case trackData
 //        case styles
     }
@@ -40,10 +33,6 @@ extension MapData :Decodable  {
         name = try values.decode(String.self, forKey: .name)
         mapDescription = try values.decode(String.self, forKey: .description)
         date = try values.decode(Date.self, forKey: .date)
-        northMost = try values.decode(Double.self , forKey: .northMost)
-        southMost = try values.decode(Double.self , forKey: .southMost)
-        eastMost = try values.decode(Double.self , forKey: .eastMost)
-        westMost = try values.decode(Double.self , forKey: .westMost)
         trackData = try values.decode([TrackData].self, forKey: .trackData)
 //        styles = try values.decode([Style].self, forKey: .styles)
     }
@@ -56,10 +45,6 @@ extension MapData :Encodable {
         try container.encode(name, forKey: .name)
         try container.encode(mapDescription, forKey: .description)
         try container.encode(date, forKey: .date)
-        try container.encode(northMost, forKey: .northMost)
-        try container.encode(eastMost, forKey: .eastMost)
-        try container.encode(westMost, forKey: .westMost)
-        try container.encode(southMost, forKey: .southMost)
 //        try container.encode(styles, forKey: .styles)
         try container.encode(trackData, forKey: .trackData)
     }
@@ -67,12 +52,21 @@ extension MapData :Encodable {
 
 struct TrackData  {
     var name: String
+//    var north :Double = 0.0
+//    var south :Double = 0.0
+//    var east :Double = 0.0
+//    var west :Double = 0.0
     var points :[Location]
     
     enum CodingKeys: String, CodingKey {
         case points
+//        case north
+//        case south
+//        case east
+//        case west
         case name
     }
+    
 }
 
 extension TrackData :Decodable {
@@ -80,6 +74,10 @@ extension TrackData :Decodable {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         name = try values.decode(String.self, forKey: .name)
         points = try values.decode([Location].self, forKey: .points)
+//        north = try values.decode(Double.self, forKey: .north)
+//        south = try values.decode(Double.self, forKey: .south)
+//        east = try values.decode(Double.self, forKey: .east)
+//        west = try values.decode(Double.self, forKey: .west)
     }
 }
 
@@ -88,6 +86,10 @@ extension TrackData :Encodable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(points, forKey: .points)
         try container.encode(name, forKey: .name)
+//        try container.encode(north, forKey: .north)
+//        try container.encode(south, forKey: .south)
+//        try container.encode(east, forKey: .east)
+//        try container.encode(west, forKey: .west)
     }
 }
 

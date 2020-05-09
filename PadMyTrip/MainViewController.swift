@@ -29,7 +29,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     var files :[URL]! = []
  //   var mapViewController = MapViewController(nibName: "mapViewController", bundle: nil)
     var currentMap :Map!            // Map class - used to hold data displayed on MKMapView
-    var map :MapData!               // Struct representing a Map used for storin data in Codable format
+    var map :MapData!               // Struct representing a Map used for storing data in Codable format
     var tracks :[Track] = []
     var polylines :[MKPolyline] = []
     var trackIndex: Int!
@@ -54,21 +54,26 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         trackTableView.allowsMultipleSelection = true
         
         // Setup currentMap and populate from data in JSON data
-        currentMap = Map(name: "Line 48", mapDescription: "Line 48 description")
-        currentMap.tracks = []
         loadSavedMapData()
+        currentMap = Map(mapData: map)
         // At this point, all tracks are loaded from storage.
         
         // Check that there are tracks on the map - possibly only one track with no points!
-        if currentMap.tracks.count > 0 {
-            getTracks()
+        if currentMap.trackData.count > 0 {
+         // getTracks()
+            currentMap.calcBounds()
+            print("Track data count: \(currentMap.trackData.count)")
+            
         }
+        // At this stage, all saved mapdat has been imported
+        mapView.region =  currentMap.region
         self.title = currentMap.name
     }
     
     override func viewDidAppear(_ animated: Bool) {
          super.viewDidAppear(true)
         self.title = currentMap.name
+
      }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -79,7 +84,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     // MARK: Load svaed map data
     func loadSavedMapData () {
         // Read saved map data into Mapdata struct
-        map = MapData(name: "Map name", mapDescription: "A description of my map", date: Date(), northMost: -90, southMost: 90, westMost: -180, eastMost: 180, trackData: [])
+        map = MapData(name: "Map name", mapDescription: "A description of my map", date: Date(),  trackData: [])
         readStoredJSONData()
         map.trackData.sort(by: {$0.name.lowercased() < $1.name.lowercased()} )
         
@@ -87,7 +92,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
          currentMap holds default data as in Line 48 above
          map contains sored data read from storage
          */
-        
+        /*
         currentMap.name = map.name
         currentMap.mapDescription = map.mapDescription
         currentMap.date = map.date
@@ -107,6 +112,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
                 }
             }
         }
+        */
     }
     
     // MARK: Getting tracks for display
@@ -122,7 +128,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
                 mapView.addOverlay(polyline)
             }
         }
-        mapView.region = currentMap.calcBounds()
+        currentMap.calcBounds()
     }
     
     
@@ -222,7 +228,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
                 polylines.append(polyline)
                 mapView.addOverlay(polyline)
                 // Update and set region
-                mapView.region = currentMap.calcBounds()
+                // mapView.region = currentMap.calcBounds()
 
                 // Finally, remove the imported file
                 try
@@ -368,7 +374,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
             tData.append(TrackData.init(name: name, points: points))
         }
         
-        let mapData = MapData(name: currentMap.name, mapDescription: currentMap.mapDescription, date: Date(), northMost: currentMap.northMost, southMost: currentMap.southMost, westMost: currentMap.westMost, eastMost: currentMap.eastMost, trackData: tData)
+        let mapData = MapData(name: currentMap.name, mapDescription: currentMap.mapDescription, date: Date(), trackData: tData)
         
         
         let encoder = JSONEncoder()
@@ -429,7 +435,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         let region = self.currentMap.calcBounds()
         
         mapView.addOverlays(polylines)
-        mapView.setRegion(region, animated: true)
+        // mapView.setRegion(region, animated: true)
         
     }
     
@@ -466,8 +472,8 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
                 fatalError("The selected cell is not being displayed by the table")
             }
             let row = indexPath.row
-            let track = currentMap.tracks[row]
-            TrackViewController.track = track
+            let trackData = currentMap.trackData[row]
+            TrackViewController.track = trackData
             TrackViewController.trackIndex = row
         } else {
             if identifier == "showPrefs" {
@@ -495,7 +501,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
             let cell = tableView.dequeueReusableCell(withIdentifier: "trackTableCell", for: indexPath) as! TrackViewCell
-            let trackName = map.trackData[indexPath.row].name
+            let trackName = currentMap.trackData[indexPath.row].name
             cell.titleLabel?.text = "\(trackName)"
             cell.accessoryType = .checkmark
             return cell
@@ -515,7 +521,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
                 currentMap.tracks.remove(at: indexPath.row)
                 let overlayToRemove = mapView.overlays[indexPath.row]
                 mapView.removeOverlay(overlayToRemove)
-                currentMap.region = currentMap.calcBounds()
+                // currentMap.region = currentMap.calcBounds()
                 saveFileData()
             } else if editingStyle == .insert {
             }

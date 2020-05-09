@@ -18,10 +18,19 @@ class Map: NSObject {
     var region: MKCoordinateRegion!
     var name: String
     var styles: [String]!
-    var northMost :Double = -90.0
-    var southMost :Double = 90.0
-    var westMost :Double = 180
-    var eastMost :Double = -180
+//    var northMost :Double = -90.0
+//    var southMost :Double = 90.0
+//    var westMost :Double = 180
+//    var eastMost :Double = -180
+    var mapData :MapData!
+    var trackData :[TrackData]!
+    
+    init(mapData :MapData) {
+        self.name = mapData.name
+        self.mapDescription = mapData.mapDescription
+        self.date = mapData.date
+        self.trackData = mapData.trackData
+    }
     
     init(name :String, mapDescription: String) {
         self.name = name
@@ -37,25 +46,38 @@ class Map: NSObject {
         self.styles = ["default"]
         
         super.init()
-        self.region = calcBounds(tracks: tracks)
+        calcBounds()
     }
     
-    func calcBounds( tracks: [Track]) -> MKCoordinateRegion {
-        northMost = -90.0
-        southMost = 90.0
-        eastMost = -180.0
-        westMost = 180.0
+    func calcBounds(){
+        var northMost = -90.0
+        var southMost = 90.0
+        var eastMost = -180.0
+        var westMost = 180.0
         
-        for track in tracks {
-            let west = track.west
-            let east = track.east
-            let south = track.south
-            let north = track.north
-            
-            if north > northMost { northMost = north }
-            if south < southMost { southMost = south }
-            if east > eastMost { eastMost = east }
-            if west < westMost { westMost = west }
+        for track in trackData {
+            let numPoints = track.points.count
+            for index in 0..<numPoints {
+                let curPoint = track.points[index]
+                let lat = curPoint.lat
+                let long = curPoint.long
+                let location = CLLocation(latitude: lat, longitude: long)
+                
+                
+                if lat > northMost { northMost = lat }
+                if lat < southMost { southMost = lat }
+                if long > eastMost { eastMost = long }
+                if long < westMost { westMost = long }
+            }
+            //            let west = track.west
+            //            let east = track.east
+            //            let south = track.south
+            //            let north = track.north
+            //
+            //            if north > northMost { northMost = north }
+            //            if south < southMost { southMost = south }
+            //            if east > eastMost { eastMost = east }
+            //            if west < westMost { westMost = west }
         }
         let centreLat = (northMost + southMost)/2
         let centreLong = (eastMost + westMost)/2
@@ -65,38 +87,38 @@ class Map: NSObject {
         let centre = CLLocationCoordinate2D(latitude: centreLat, longitude: centreLong)
         let span = MKCoordinateSpan(latitudeDelta: spanLat, longitudeDelta: spanLong)
         
-        let region = MKCoordinateRegion(center: centre, span: span)
-        return region
+        region = MKCoordinateRegion(center: centre, span: span)
+        
     }
     
-    func calcBounds() -> MKCoordinateRegion {
-        northMost = -90.0
-        southMost = 90.0
-        eastMost = -180.0
-        westMost = 180.0
-        
-        for track in self.tracks {
-            let west = track.west
-            let east = track.east
-            let south = track.south
-            let north = track.north
-            
-            if north > northMost { northMost = north }
-            if south < southMost { southMost = south }
-            if east > eastMost { eastMost = east }
-            if west < westMost { westMost = west }
-        }
-        let centreLat = (northMost + southMost)/2
-        let centreLong = (eastMost + westMost)/2
-        let spanLong = 1.5 * (eastMost - westMost)
-        let spanLat = 1.5 * (northMost - southMost)
-        
-        let centre = CLLocationCoordinate2D(latitude: centreLat, longitude: centreLong)
-        let span = MKCoordinateSpan(latitudeDelta: spanLat, longitudeDelta: spanLong)
-        
-        let region = MKCoordinateRegion(center: centre, span: span)
-        return region
-    }
+    //    func calcBounds() -> MKCoordinateRegion {
+    //        northMost = -90.0
+    //        southMost = 90.0
+    //        eastMost = -180.0
+    //        westMost = 180.0
+    //
+    //        for track in self.tracks {
+    //            let west = track.west
+    //            let east = track.east
+    //            let south = track.south
+    //            let north = track.north
+    //
+    //            if north > northMost { northMost = north }
+    //            if south < southMost { southMost = south }
+    //            if east > eastMost { eastMost = east }
+    //            if west < westMost { westMost = west }
+    //        }
+    //        let centreLat = (northMost + southMost)/2
+    //        let centreLong = (eastMost + westMost)/2
+    //        let spanLong = 1.5 * (eastMost - westMost)
+    //        let spanLat = 1.5 * (northMost - southMost)
+    //
+    //        let centre = CLLocationCoordinate2D(latitude: centreLat, longitude: centreLong)
+    //        let span = MKCoordinateSpan(latitudeDelta: spanLat, longitudeDelta: spanLong)
+    //
+    //        let region = MKCoordinateRegion(center: centre, span: span)
+    //        return region
+    //    }
     
     func addTrack(track :Track) {
         tracks.append(track)

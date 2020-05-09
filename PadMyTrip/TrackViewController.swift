@@ -12,7 +12,7 @@ import CoreLocation
 
 class TrackViewController: UIViewController, MKMapViewDelegate {
     var trackIndex :Int!
-    var track :Track!
+    var track :TrackData!
     var polyline :MKPolyline!
     @IBOutlet weak var mapView: MKMapView!
     
@@ -21,10 +21,10 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
         mapView.delegate = self
         
 
-        polyline = track.getPolyline()
-        mapView.addOverlay(polyline)
-        let region :MKCoordinateRegion = track.region
-        mapView.region = region
+   //     polyline = track.getPolyline()
+  //      mapView.addOverlay(polyline)
+  //      let region :MKCoordinateRegion = track.region
+   //     mapView.region = region
         // Do any additional setup after loading the view.
         print("ViewDidLoad")
     }

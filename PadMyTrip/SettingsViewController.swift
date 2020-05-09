@@ -8,8 +8,8 @@
 
 import UIKit
 
-protocol DataEnteredDelegate: AnyObject {
-    func userDidEnterInformation(mapName: String, mapDescription :String)
+protocol SettingsDelegate: AnyObject {
+    func userDidEnterInformation(mapDetails: [String])
 }
 
 class SettingsViewController: UIViewController {
@@ -18,7 +18,7 @@ class SettingsViewController: UIViewController {
     var mapName :String!
     var mapDescription :String!
     
-    weak var delegate: DataEnteredDelegate? = nil
+    weak var delegate: SettingsDelegate? = nil
     
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var nameInput: UITextField?
@@ -36,6 +36,8 @@ class SettingsViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
     
+ 
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
         var data :[String] = []
@@ -46,10 +48,13 @@ class SettingsViewController: UIViewController {
     }
     
     @IBAction func saveSettings(_ sender: UIBarButtonItem) {
-        let mapName = nameInput!.text
-        let mapDescription = descriptionText!.text
+        var mapDetails  :[String] = []
+        let mapName = nameInput!.text!
+        let mapDescription = descriptionText!.text!
+        mapDetails.append(mapName)
+        mapDetails.append(mapDescription)
         
-        delegate?.userDidEnterInformation(mapName: mapName!, mapDescription: mapDescription!)
+        delegate?.userDidEnterInformation(mapDetails: mapDetails)
         _ = self.navigationController?.popViewController(animated: true)
     }
     

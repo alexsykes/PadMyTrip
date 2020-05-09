@@ -10,10 +10,13 @@ import UIKit
 import MapKit
 import CoreLocation
 
-class MainViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIDocumentPickerDelegate, MKMapViewDelegate, DataEnteredDelegate   {
-    func userDidEnterInformation(mapName: String, mapDescription :String) {
-        currentMap.name = mapName
-        currentMap.mapDescription = mapDescription
+class MainViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIDocumentPickerDelegate, MKMapViewDelegate, SettingsDelegate   {
+    
+    func userDidEnterInformation(mapDetails: [String]) {
+        currentMap.name = mapDetails[0]
+        currentMap.mapDescription = mapDetails[1]
+        map.name = mapDetails[0]
+        map.mapDescription = mapDetails[1]
     }
     
 
@@ -24,7 +27,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     // MARK: Variables
     var files :[URL]! = []
-    var mapViewController = MapViewController(nibName: "mapViewController", bundle: nil)
+ //   var mapViewController = MapViewController(nibName: "mapViewController", bundle: nil)
     var currentMap :Map!            // Map class - used to hold data displayed on MKMapView
     var map :MapData!               // Struct representing a Map used for storin data in Codable format
     var tracks :[Track] = []
@@ -35,8 +38,9 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     // var trackData: [TrackData]!
     
     // MARK: Actions
+    // + Button clicked
     @IBAction func addFromPublic(_ sender: UIBarButtonItem) {
-        addTracksFromPublic()
+        presentFilePicker()
     }
     
     
@@ -59,7 +63,13 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         if currentMap.tracks.count > 0 {
             getTracks()
         }
+        self.title = currentMap.name
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+         super.viewDidAppear(true)
+        self.title = currentMap.name
+     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
@@ -124,18 +134,18 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         writeData(data: data)
     }
     
-    // MARK: File Handling
+    // MARK: File Handling - Import tracks from Public data
     // TODO: Add/check Cancel button
-    func addTracksFromPublic () {
+    func presentFilePicker () {
         
         // open a document picker, select a file
         // documentTypes see - https://developer.apple.com/library/archive/documentation/Miscellaneous/Reference/UTIRef/Articles/System-DeclaredUniformTypeIdentifiers.html#//apple_ref/doc/uid/TP40009259-SW1
         
-        let importFileMenu = UIDocumentPickerViewController(documentTypes: ["public.text"],
+        let importFileMenu = UIDocumentPickerViewController(documentTypes: ["public.plain-text"],
                                                             in: UIDocumentPickerMode.import)
         
         importFileMenu.delegate = self
-        importFileMenu.shouldShowFileExtensions = true
+        importFileMenu.shouldShowFileExtensions = false
         importFileMenu.allowsMultipleSelection = true
         
         if #available(iOS 13.0, *) {
@@ -166,9 +176,13 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         DispatchQueue.main.async { self.trackTableView.reloadData() }
     }
     
+    
+    // MARK: Tracks read from documents
     func processImportedTracks(trackURLs :[URL])  {
         let fileManager = FileManager.init()
         let docDir = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+        
+        // Check that only CSV files are processed
         let csvURLs = trackURLs.filter{ $0.pathExtension == "csv"}
         for trackURL in csvURLs {
             let filename = trackURL.lastPathComponent
@@ -207,10 +221,10 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
                 let polyline = track.getPolyline()
                 polylines.append(polyline)
                 mapView.addOverlay(polyline)
-                
                 // Update and set region
-                
                 mapView.region = currentMap.calcBounds()
+
+                // Finally, remove the imported file
                 try
                     fileManager.removeItem(at: newFileURL)
             } catch {
@@ -219,7 +233,8 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
-    func importAndConvertToJSON(trackURL :URL, newFileURL :URL) throws {
+    /*
+ func importAndConvertToJSON(trackURL :URL, newFileURL :URL) throws {
         let fileManager = FileManager.init()
         do {
             try
@@ -228,6 +243,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
             print("Error copying file: \(error.localizedDescription)")
         }
     }
+ */
     
     func getDocumentsDirectory() -> URL {
         let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)

@@ -60,9 +60,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
         func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-            if let rootVC = window?.rootViewController as? MapViewController {
-                rootVC.container = persistentContainer
-            }
+ 
             return true
         }
         

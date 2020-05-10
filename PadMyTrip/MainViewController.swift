@@ -11,14 +11,13 @@ import MapKit
 import CoreLocation
 
 class MainViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIDocumentPickerDelegate, MKMapViewDelegate, SettingsDelegate   {
-    
+    // Passback from SettingsViewController
     func userDidEnterInformation(mapDetails: [String]) {
         currentMap.name = mapDetails[0]
         currentMap.mapDescription = mapDetails[1]
         map.name = mapDetails[0]
         map.mapDescription = mapDetails[1]
     }
-    
     
     // MARK: Properties
     // MARK: Outlets
@@ -53,18 +52,18 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         currentMap = Map(mapData: map)
         // At this point, all tracks are loaded from storage.
         
-        // Check that there are tracks on the map - possibly only one track with no points!
-        if currentMap.trackData.count > 0 {
-            currentMap.calcBounds()
-        }
-        // At this stage, all saved mapdata has been imported
-        
-        for polyline in currentMap.polylines {
-            mapView.addOverlay(polyline)
-        }
-        if currentMap.region != nil {
-            mapView.region = currentMap.region
-        }
+        //        // Check that there are tracks on the map - possibly only one track with no points!
+        //        if currentMap.trackData.count > 0 {
+        //            currentMap.calcBounds()
+        //        }
+        //        // At this stage, all saved mapdata has been imported
+        //
+        //        for polyline in currentMap.polylines {
+        //            mapView.addOverlay(polyline)
+        //        }
+        //        if currentMap.region != nil {
+        //            mapView.region = currentMap.region
+        //        }
         self.title = currentMap.name
     }
     
@@ -72,6 +71,9 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         super.viewDidAppear(true)
         self.title = currentMap.name
         
+        // Recalc
+        mapRefresh()
+        print("ViewWillAppear fired")
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -131,7 +133,6 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         if urls.count == 0 { return}
         processImportedTracks(trackURLs: urls)
-        
         saveFileData()
         // readStoredData()
         DispatchQueue.main.async { self.trackTableView.reloadData() }
@@ -178,44 +179,58 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
                     locations.append(loc)
                 }
                 currentMap.trackData.append(TrackData.init(name:filename,points: points))
-                var coordinates = locations.map({(location: CLLocation) -> CLLocationCoordinate2D in return location.coordinate})
-                currentMap.polylines.append(MKPolyline(coordinates: &coordinates, count: coordinates.count))
-                
-                
-                mapRefresh()
-//                // Calculate region for new track
-//                mapView.region = calcBounds(trackData: coordinates)
-//
-//                // Update overlay
-//                for polyline in currentMap.polylines {
-//                    mapView.addOverlay(polyline)
-//                }
-//
-                // Finally, remove the imported file
                 try
                     fileManager.removeItem(at: newFileURL)
             } catch {
                 print("Error copying file: \(error.localizedDescription)")
             }
         }
+        mapRefresh()
     }
     
     func mapRefresh() {
-        let polylines = currentMap.polylines
+        // let trackData = currentMap.trackData
         
-        let region :MKCoordinateRegion = mapView.region
-        if polylines.count > 0 {
-        currentMap.calcBounds()
+        // Remove current clutter
+        currentMap.polylines = []
+        var hasValidTracks = false // Boolean flag to avoid map out of bounds errors
+        var overlays = mapView.overlays
+        mapView.removeOverlays(overlays)
+        overlays.removeAll()
+        
+        // Check that there are trackData added
+        if currentMap.trackData.count == 0 {
+            return
+        }
+        
+        // Create a polyline for each track
+        for trackData in currentMap.trackData {
+            var locs :[CLLocationCoordinate2D] = []
+            // Check for empty trackData
+            if trackData.points.count > 0 {
+                hasValidTracks = true
+                for point in trackData.points {
+                    let location = CLLocationCoordinate2D(latitude: point.lat, longitude: point.long)
+                    locs.append(location)
+                }
+            }
+            let polyline = MKPolyline(coordinates: locs, count: locs.count)
+            currentMap.polylines.append(polyline)
+        }
+        if hasValidTracks == true {
         for polyline in currentMap.polylines {
-            mapView.addOverlay(polyline)
+            overlays.append(polyline)
         }
-        } else {
-            let overlays = mapView.overlays
-            mapView.removeOverlays(overlays)
-        }
+        mapView.addOverlays(overlays)
         
+        // Calculate map region then apply
+        currentMap.calcBounds()
         mapView.region = currentMap.region
+        }
+        else { return }
     }
+    
+    
     func getDocumentsDirectory() -> URL {
         let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         return paths[0]
@@ -249,39 +264,6 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         
     }
     
-    /*
-     func prepareLocations(trackData: [String]) -> [CLLocation] {
-     var locations :[CLLocation] = []
-     var theLocation: CLLocation!
-     var elevation: Double!
-     var latitude: Double!
-     var longitude: Double!
-     var hacc: Double!
-     var vacc: Double!
-     var timestampS: String!
-     var coordinate: CLLocationCoordinate2D
-     
-     let formatter = DateFormatter()
-     formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-     
-     var values :[String] = []
-     
-     for point in trackData {
-     values  = point.components(separatedBy: ",")
-     latitude = Double(values[0])
-     longitude = Double(values[1])
-     hacc = Double(values[2])
-     vacc = Double(values[3])
-     elevation = Double(values[4])
-     timestampS = values[5]
-     
-     let date = formatter.date(from: timestampS)
-     coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-     theLocation = CLLocation(coordinate: coordinate, altitude: elevation, horizontalAccuracy: hacc, verticalAccuracy: vacc, timestamp: date ?? Date())
-     locations.append(theLocation)
-     }
-     return locations
-     } */
     
     // MARK: Data encoding
     func readStoredJSONData() {
@@ -450,10 +432,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
             }
             let row = indexPath.row
             let trackData = currentMap.trackData[row]
-            let polyline = currentMap.polylines[row]
-            TrackViewController.track = trackData
-            TrackViewController.trackIndex = row
-            TrackViewController.polyline = polyline
+            TrackViewController.trackData = trackData
         } else {
             if identifier == "showPrefs" {
                 
@@ -481,7 +460,9 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "trackTableCell", for: indexPath) as! TrackViewCell
         let trackName = currentMap.trackData[indexPath.row].name
+        let pointsCount =  currentMap.trackData[indexPath.row].points.count
         cell.titleLabel?.text = "\(trackName)"
+        cell.pointsCount.text = "Track has \(pointsCount) points"
         cell.accessoryType = .checkmark
         return cell
     }
@@ -497,10 +478,8 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         if editingStyle == .delete {
             print ("Row: \(indexPath.row)")
             currentMap.trackData.remove(at: indexPath.row)
-            currentMap.polylines.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
             saveFileData()
-            
             mapRefresh()
         } else if editingStyle == .insert {
             // Insert here

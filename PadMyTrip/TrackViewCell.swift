@@ -13,6 +13,7 @@ class TrackViewCell: UITableViewCell {
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var button: UIButton!
     @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var pointsCount: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()

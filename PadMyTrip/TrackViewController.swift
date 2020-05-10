@@ -12,24 +12,60 @@ import CoreLocation
 
 class TrackViewController: UIViewController, MKMapViewDelegate {
     var trackIndex :Int!
-    var track :TrackData!
+    var trackData :TrackData!
     var polyline :MKPolyline!
+            var locs :[CLLocationCoordinate2D] = []
     @IBOutlet weak var mapView: MKMapView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         mapView.delegate = self
+        
+        var trackPoints = trackData.points.count
+        if trackPoints == 0 {
+        print("Track has \(trackPoints) points")
+            return
+        }
+            for point in trackData.points {
+                let location = CLLocationCoordinate2D(latitude: point.lat, longitude: point.long)
+                locs.append(location)
+            }
+        
+        let polyline = MKPolyline(coordinates: locs, count: locs.count)
         mapView.addOverlay(polyline)
-        cu
+        mapRefresh()
 
-   //     polyline = track.getPolyline()
-  //      mapView.addOverlay(polyline)
-  //      let region :MKCoordinateRegion = track.region
-   //     mapView.region = region
         // Do any additional setup after loading the view.
         print("ViewDidLoad")
     }
-    
+    func mapRefresh() {
+        // Calculate map region then apply
+         var northMost = -90.0
+         var southMost = 90.0
+         var eastMost = -180.0
+         var westMost = 180.0
+
+             for point in locs {
+                let lat = point.latitude
+                 let long = point.longitude
+                 
+                 if lat > northMost { northMost = lat }
+                 if lat < southMost { southMost = lat }
+                 if long > eastMost { eastMost = long }
+                 if long < westMost { westMost = long }
+             }
+ 
+         let centreLat = (northMost + southMost)/2
+         let centreLong = (eastMost + westMost)/2
+         let spanLong = 1.5 * (eastMost - westMost)
+         let spanLat = 1.5 * (northMost - southMost)
+         
+         let centre = CLLocationCoordinate2D(latitude: centreLat, longitude: centreLong)
+         let span = MKCoordinateSpan(latitudeDelta: spanLat, longitudeDelta: spanLong)
+         let region = MKCoordinateRegion(center: centre, span: span)
+      mapView.region = region
+
+    }
 
     /*
     // MARK: - Navigation

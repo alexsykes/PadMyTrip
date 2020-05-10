@@ -83,6 +83,7 @@
                                                     <accessibilityTraits key="traits" button="YES"/>
                                                 </accessibility>
                                                 <connections>
+                                                    <outlet property="pointsCount" destination="aQV-eH-Nh5" id="QxZ-Hh-D5W"/>
                                                     <outlet property="titleLabel" destination="f2D-yo-7D1" id="fd6-ka-BV7"/>
                                                     <segue destination="7Zk-02-Q0m" kind="show" identifier="displayTrack" id="72r-Sp-tWI"/>
                                                 </connections>

@@ -29,6 +29,8 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     var currentMap :Map!            // Map class - used to hold data displayed on MKMapView
     var map :MapData!               // Struct representing a Map used for storing data in Codable format
     var overlays :[MKOverlay]!
+    var defaults :UserDefaults!
+    var nextTrackID: Int!
     
     
     // MARK: Actions
@@ -37,9 +39,12 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         presentFilePicker()
     }
     
-    
+    // MARK: Start here - viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        defaults = UserDefaults.standard
+        nextTrackID = defaults.integer(forKey: "nextTrackID")
         
         // Setup delegation
         mapView.delegate = self
@@ -51,19 +56,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         loadSavedMapData()
         currentMap = Map(mapData: map)
         // At this point, all tracks are loaded from storage.
-        
-        //        // Check that there are tracks on the map - possibly only one track with no points!
-        //        if currentMap.trackData.count > 0 {
-        //            currentMap.calcBounds()
-        //        }
-        //        // At this stage, all saved mapdata has been imported
-        //
-        //        for polyline in currentMap.polylines {
-        //            mapView.addOverlay(polyline)
-        //        }
-        //        if currentMap.region != nil {
-        //            mapView.region = currentMap.region
-        //        }
+
         self.title = currentMap.name
     }
     
@@ -178,7 +171,9 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
                     points.append(newLocation)
                     locations.append(loc)
                 }
-                currentMap.trackData.append(TrackData.init(name:filename,points: points))
+                currentMap.trackData.append(TrackData.init(name: filename, _id: nextTrackID, points: points))
+                nextTrackID += 1
+                defaults.set(nextTrackID, forKey: "nextTrackID")
                 try
                     fileManager.removeItem(at: newFileURL)
             } catch {
@@ -303,6 +298,8 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
+    
+    // MARK: Important - check to nextTrackID
     func encode () -> Data {
         var encodedData :Data!
         // Structs - MapData, Location, TrackData
@@ -315,6 +312,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
             
             // For each track, add each location to the points array
             let name = track.name
+            let _id = track._id
             // Firstly, start with an empty array
             var points :[Location] = []
             for location in track.points {
@@ -330,7 +328,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
             }
             // Once the tack points array is populated,
             // append the array of points to the trackData
-            tData.append(TrackData.init(name: name, points: points))
+            tData.append(TrackData.init(name: name, _id: _id, points: points))
         }
         
         let mapData = MapData(name: currentMap.name, mapDescription: currentMap.mapDescription, date: Date(), trackData: tData)
@@ -461,8 +459,9 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         let cell = tableView.dequeueReusableCell(withIdentifier: "trackTableCell", for: indexPath) as! TrackViewCell
         let trackName = currentMap.trackData[indexPath.row].name
         let pointsCount =  currentMap.trackData[indexPath.row].points.count
+        let _id = currentMap.trackData[indexPath.row]._id
         cell.titleLabel?.text = "\(trackName)"
-        cell.pointsCount.text = "Track has \(pointsCount) points"
+        cell.pointsCount.text = "Track id: \(_id) has \(pointsCount) points"
         cell.accessoryType = .checkmark
         return cell
     }

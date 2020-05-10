@@ -52,18 +52,12 @@ extension MapData :Encodable {
 
 struct TrackData  {
     var name: String
-//    var north :Double = 0.0
-//    var south :Double = 0.0
-//    var east :Double = 0.0
-//    var west :Double = 0.0
+    var _id: Int
     var points :[Location]
     
     enum CodingKeys: String, CodingKey {
         case points
-//        case north
-//        case south
-//        case east
-//        case west
+        case _id
         case name
     }
     
@@ -74,10 +68,7 @@ extension TrackData :Decodable {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         name = try values.decode(String.self, forKey: .name)
         points = try values.decode([Location].self, forKey: .points)
-//        north = try values.decode(Double.self, forKey: .north)
-//        south = try values.decode(Double.self, forKey: .south)
-//        east = try values.decode(Double.self, forKey: .east)
-//        west = try values.decode(Double.self, forKey: .west)
+        _id = try values.decode(Int.self, forKey: ._id)
     }
 }
 
@@ -86,10 +77,7 @@ extension TrackData :Encodable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(points, forKey: .points)
         try container.encode(name, forKey: .name)
-//        try container.encode(north, forKey: .north)
-//        try container.encode(south, forKey: .south)
-//        try container.encode(east, forKey: .east)
-//        try container.encode(west, forKey: .west)
+        try container.encode(_id, forKey: ._id)
     }
 }
 

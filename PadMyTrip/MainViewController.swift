@@ -31,6 +31,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     var overlays :[MKOverlay]!
     var defaults :UserDefaults!
     var nextTrackID: Int!
+    var trackIDs :[Int]!
     
     
     // MARK: Actions
@@ -74,10 +75,10 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         saveFileData()
     }
     
-    // MARK: Load svaed map data
+    // MARK: Load saved map data
     func loadSavedMapData () {
         // Read saved map data into Mapdata struct
-        map = MapData(name: "Map name", mapDescription: "A description of my map", date: Date(),  trackData: [])
+        map = MapData(name: "Map name", mapDescription: "A description of my map", date: Date(),  trackIDs: [], trackData: [])
         readStoredJSONData()
         map.trackData.sort(by: {$0.name.lowercased() < $1.name.lowercased()} )
         
@@ -172,6 +173,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
                     locations.append(loc)
                 }
                 currentMap.trackData.append(TrackData.init(name: filename, _id: nextTrackID, points: points))
+                currentMap.trackIDs.append(nextTrackID)
                 nextTrackID += 1
                 defaults.set(nextTrackID, forKey: "nextTrackID")
                 try
@@ -331,7 +333,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
             tData.append(TrackData.init(name: name, _id: _id, points: points))
         }
         
-        let mapData = MapData(name: currentMap.name, mapDescription: currentMap.mapDescription, date: Date(), trackData: tData)
+        let mapData = MapData(name: currentMap.name, mapDescription: currentMap.mapDescription, date: Date(), trackIDs: currentMap.trackIDs, trackData: tData)
         
         
         let encoder = JSONEncoder()

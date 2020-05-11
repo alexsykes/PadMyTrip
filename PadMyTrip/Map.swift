@@ -20,6 +20,7 @@ class Map: NSObject {
     var styles: [String]!
     var mapData :MapData!
     var trackData :[TrackData]!
+    var trackIDs :[Int]!
     var polylines :[MKPolyline] = []
     
     init(mapData :MapData) {
@@ -27,12 +28,14 @@ class Map: NSObject {
         self.mapDescription = mapData.mapDescription
         self.date = mapData.date
         self.trackData = mapData.trackData
+        self.trackIDs = []
     }
     
     init(name :String, mapDescription: String) {
         self.name = name
         self.mapDescription = mapDescription
         self.date = Date()
+        self.trackIDs = []
     }
     
     init(name :String, mapDescription: String, tracks: [Track]) {
@@ -42,6 +45,7 @@ class Map: NSObject {
         self.name = name
         self.styles = ["default"]
         
+        self.trackIDs = []
         super.init()
         calcBounds()
     }

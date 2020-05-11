@@ -15,6 +15,7 @@ struct MapData  {
     var name :String
     var mapDescription :String
     var date :Date
+    var trackIDs :[Int]
     var trackData :[TrackData]
 //    var styles :[Style]
     
@@ -23,6 +24,7 @@ struct MapData  {
         case description
         case date
         case trackData
+        case trackIDs
 //        case styles
     }
 }
@@ -34,6 +36,7 @@ extension MapData :Decodable  {
         mapDescription = try values.decode(String.self, forKey: .description)
         date = try values.decode(Date.self, forKey: .date)
         trackData = try values.decode([TrackData].self, forKey: .trackData)
+        trackIDs = try values.decode([Int].self, forKey: .trackIDs)
 //        styles = try values.decode([Style].self, forKey: .styles)
     }
 }
@@ -47,6 +50,7 @@ extension MapData :Encodable {
         try container.encode(date, forKey: .date)
 //        try container.encode(styles, forKey: .styles)
         try container.encode(trackData, forKey: .trackData)
+        try container.encode(trackIDs, forKey: .trackIDs)
     }
 }
 

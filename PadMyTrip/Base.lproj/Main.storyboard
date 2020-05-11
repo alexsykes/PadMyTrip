@@ -18,11 +18,49 @@
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="DLX-Wr-uiW">
                                 <rect key="frame" x="0.0" y="50" width="1024" height="718"/>
                             </mapView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ndP-EK-Egg">
+                                <rect key="frame" x="764" y="70" width="240" height="240"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2hb-VX-4bT">
+                                        <rect key="frame" x="8" y="8" width="224" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W6z-wb-437">
+                                        <rect key="frame" x="198" y="202" width="34" height="30"/>
+                                        <state key="normal" title="Save"/>
+                                        <connections>
+                                            <action selector="updateTrackData:" destination="7Zk-02-Q0m" eventType="touchUpInside" id="EKQ-zZ-IgX"/>
+                                        </connections>
+                                    </button>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="8UU-dh-cjW">
+                                        <rect key="frame" x="8" y="37" width="224" height="34"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="W6z-wb-437" secondAttribute="bottom" constant="8" id="0Nn-t2-2QU"/>
+                                    <constraint firstItem="8UU-dh-cjW" firstAttribute="top" secondItem="2hb-VX-4bT" secondAttribute="bottom" constant="8" id="MNp-jE-K6D"/>
+                                    <constraint firstAttribute="trailing" secondItem="8UU-dh-cjW" secondAttribute="trailing" constant="8" id="Vea-gp-KLQ"/>
+                                    <constraint firstItem="2hb-VX-4bT" firstAttribute="leading" secondItem="ndP-EK-Egg" secondAttribute="leading" constant="8" id="a6D-6N-jQd"/>
+                                    <constraint firstAttribute="trailing" secondItem="2hb-VX-4bT" secondAttribute="trailing" constant="8" id="cE2-9c-H8I"/>
+                                    <constraint firstAttribute="height" constant="240" id="dY1-ua-LNR"/>
+                                    <constraint firstItem="2hb-VX-4bT" firstAttribute="top" secondItem="ndP-EK-Egg" secondAttribute="top" constant="8" id="n1m-Dv-IED"/>
+                                    <constraint firstAttribute="trailing" secondItem="W6z-wb-437" secondAttribute="trailing" constant="8" id="v0T-nz-2y9"/>
+                                    <constraint firstAttribute="width" constant="240" id="v8E-Lg-LDB"/>
+                                    <constraint firstItem="8UU-dh-cjW" firstAttribute="leading" secondItem="ndP-EK-Egg" secondAttribute="leading" constant="8" id="wgx-nz-DMu"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
+                            <constraint firstItem="esv-Tw-Yyj" firstAttribute="trailing" secondItem="ndP-EK-Egg" secondAttribute="trailing" constant="20" id="3a7-iM-q1U"/>
                             <constraint firstItem="DLX-Wr-uiW" firstAttribute="top" secondItem="esv-Tw-Yyj" secondAttribute="top" id="GuI-bE-hcJ"/>
                             <constraint firstItem="DLX-Wr-uiW" firstAttribute="leading" secondItem="esv-Tw-Yyj" secondAttribute="leading" id="ctq-EI-r57"/>
+                            <constraint firstItem="ndP-EK-Egg" firstAttribute="top" secondItem="esv-Tw-Yyj" secondAttribute="top" constant="20" id="fB6-e6-s4o"/>
                             <constraint firstItem="esv-Tw-Yyj" firstAttribute="bottom" secondItem="DLX-Wr-uiW" secondAttribute="bottom" id="mdh-MF-cJ0"/>
                             <constraint firstItem="esv-Tw-Yyj" firstAttribute="trailing" secondItem="DLX-Wr-uiW" secondAttribute="trailing" id="tDB-29-SaA"/>
                         </constraints>
@@ -31,11 +69,13 @@
                     <navigationItem key="navigationItem" id="Kj7-eh-vqq"/>
                     <connections>
                         <outlet property="mapView" destination="DLX-Wr-uiW" id="GvO-Cv-7Po"/>
+                        <outlet property="trackID" destination="2hb-VX-4bT" id="LlS-Nu-dFC"/>
+                        <outlet property="trackName" destination="8UU-dh-cjW" id="CEr-uV-zOS"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RVh-cR-z9p" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1941" y="-1449"/>
+            <point key="canvasLocation" x="1940.6249999999998" y="-1449.21875"/>
         </scene>
         <!--Pad my Trip-->
         <scene sceneID="xZV-Lh-M29">

@@ -10,7 +10,21 @@ import UIKit
 import MapKit
 import CoreLocation
 
-class MainViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIDocumentPickerDelegate, MKMapViewDelegate, SettingsDelegate   {
+class MainViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIDocumentPickerDelegate, MKMapViewDelegate, SettingsDelegate, TrackDetailDelegate   {
+    func trackDetailUpdated(trackDetails: [String: String]) {
+        let trackID = trackDetails["trackID"]
+        let trackName = trackDetails["trackName"]
+        
+        for track in currentMap.trackData {
+           var  _id = Int(track._id)
+            if track._id == _id {
+                currentMap.trackData[_id].name = trackName!
+            }
+        }
+        
+        
+    }
+    
     // Passback from SettingsViewController
     func userDidEnterInformation(mapDetails: [String]) {
         currentMap.name = mapDetails[0]
@@ -33,7 +47,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     var nextTrackID: Int!
     var trackIDs :[Int]!
     
-    
+
     // MARK: Actions
     // + Button clicked
     @IBAction func addFromPublic(_ sender: UIBarButtonItem) {
@@ -391,8 +405,6 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         let track :Track = Track(name: name, trackDescription: description, track: locations)
         
         self.currentMap.addTrack(track: track)
-        let region = self.currentMap.calcBounds()
-        
         mapView.addOverlays(currentMap.polylines)
         // mapView.setRegion(region, animated: true)
         
@@ -420,7 +432,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         let identifier = segue.identifier
         if identifier == "displayTrack" {
             
-            guard let TrackViewController = segue.destination as? TrackViewController else {
+            guard let trackViewController = segue.destination as? TrackViewController else {
                 fatalError("Unexpected destination: \(segue.destination)")
             }
             guard let selectedCell = sender as? TrackViewCell else {
@@ -432,7 +444,8 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
             }
             let row = indexPath.row
             let trackData = currentMap.trackData[row]
-            TrackViewController.trackData = trackData
+            trackViewController.trackData = trackData
+            trackViewController.delegate = self
         } else {
             if identifier == "showPrefs" {
                 

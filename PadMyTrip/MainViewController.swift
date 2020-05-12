@@ -11,7 +11,21 @@ import MapKit
 import CoreLocation
 
 class MainViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIDocumentPickerDelegate, MKMapViewDelegate, SettingsDelegate, TrackDetailDelegate   {
-
+    
+    
+    func trackDetailUpdated(trackDetails: [String : String], isTrackIncluded: Bool) {
+        let trackID = Int(trackDetails["trackID"]!)
+        _  = trackDetails["trackName"]
+        let index = 0
+        for _ in 0..<currentMap.trackData.count{
+            print("\(currentMap.trackData[index].name)")
+        }
+        if isTrackIncluded {
+        currentMap.trackIDs.append(trackID!)
+        } else { currentMap.trackIDs = currentMap.trackIDs.filter{ $0 != trackID } }
+    }
+    
+    
     
     // MARK: Properties
     // MARK: Outlets
@@ -397,7 +411,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func writeData(data :Data, filename :String) {
         let url = self.getDocumentsDirectory().appendingPathComponent(filename)
-    
+        
         do {
             try data.write(to: url)
             //      try data.write(to: alt)
@@ -476,8 +490,13 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
             }
             let row = indexPath.row
             let track = trackData[row]
+            let activeTracks = currentMap.trackIDs
+            let id = track._id
+            
             trackViewController.trackData = track
             trackViewController.delegate = self
+            trackViewController.isTrackIncluded = activeTracks?.contains(id)
+            
         } else {
             if identifier == "showPrefs" {
                 
@@ -565,14 +584,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     // MARK: Delegated functions
     // Return from TrackViewController
-    func trackDetailUpdated(trackDetails: [String: String]) {
-        _ = Int(trackDetails["trackID"]!)
-        _  = trackDetails["trackName"]
-        let index = 0
-        for _ in 0..<currentMap.trackData.count{
-            print("\(currentMap.trackData[index].name)")
-        }
-    }
+    
     
     // Passback from SettingsViewController
     func userDidEnterInformation(mapDetails: [String]) {

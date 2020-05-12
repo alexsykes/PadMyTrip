@@ -39,11 +39,22 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
+                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8Eq-hi-7aa">
+                                        <rect key="frame" x="181" y="79" width="51" height="31"/>
+                                    </switch>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Include in current map" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Aff-uh-klP">
+                                        <rect key="frame" x="8" y="84" width="171" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="W6z-wb-437" secondAttribute="bottom" constant="8" id="0Nn-t2-2QU"/>
+                                    <constraint firstAttribute="trailing" secondItem="8Eq-hi-7aa" secondAttribute="trailing" constant="10" id="El7-3o-0zL"/>
                                     <constraint firstItem="8UU-dh-cjW" firstAttribute="top" secondItem="2hb-VX-4bT" secondAttribute="bottom" constant="8" id="MNp-jE-K6D"/>
+                                    <constraint firstItem="8Eq-hi-7aa" firstAttribute="centerY" secondItem="Aff-uh-klP" secondAttribute="centerY" id="SVY-Gh-3gS"/>
                                     <constraint firstAttribute="trailing" secondItem="8UU-dh-cjW" secondAttribute="trailing" constant="8" id="Vea-gp-KLQ"/>
                                     <constraint firstItem="2hb-VX-4bT" firstAttribute="leading" secondItem="ndP-EK-Egg" secondAttribute="leading" constant="8" id="a6D-6N-jQd"/>
                                     <constraint firstAttribute="trailing" secondItem="2hb-VX-4bT" secondAttribute="trailing" constant="8" id="cE2-9c-H8I"/>
@@ -52,6 +63,8 @@
                                     <constraint firstAttribute="trailing" secondItem="W6z-wb-437" secondAttribute="trailing" constant="8" id="v0T-nz-2y9"/>
                                     <constraint firstAttribute="width" constant="240" id="v8E-Lg-LDB"/>
                                     <constraint firstItem="8UU-dh-cjW" firstAttribute="leading" secondItem="ndP-EK-Egg" secondAttribute="leading" constant="8" id="wgx-nz-DMu"/>
+                                    <constraint firstItem="8Eq-hi-7aa" firstAttribute="top" secondItem="8UU-dh-cjW" secondAttribute="bottom" constant="8" id="xEI-pt-4aV"/>
+                                    <constraint firstItem="Aff-uh-klP" firstAttribute="leading" secondItem="ndP-EK-Egg" secondAttribute="leading" constant="8" id="ymo-84-Ac9"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -68,6 +81,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="Kj7-eh-vqq"/>
                     <connections>
+                        <outlet property="isTrackIncludedSwitch" destination="8Eq-hi-7aa" id="lw7-O4-PaT"/>
                         <outlet property="mapView" destination="DLX-Wr-uiW" id="GvO-Cv-7Po"/>
                         <outlet property="trackID" destination="2hb-VX-4bT" id="LlS-Nu-dFC"/>
                         <outlet property="trackName" destination="8UU-dh-cjW" id="CEr-uV-zOS"/>

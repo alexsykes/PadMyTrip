@@ -11,12 +11,13 @@ import MapKit
 import CoreLocation
 
 protocol TrackDetailDelegate: AnyObject {
-    func trackDetailUpdated(trackDetails: [String: String])
+    func trackDetailUpdated(trackDetails: [String: String], isTrackIncluded: Bool)
 }
 
 class TrackViewController: UIViewController, MKMapViewDelegate {
     var trackIndex :Int!
     var trackData :TrackData!
+    var isTrackIncluded: Bool!
     var polyline :MKPolyline!
     var locs :[CLLocationCoordinate2D] = []
     
@@ -26,6 +27,7 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var trackID: UILabel!
     @IBOutlet weak var trackName: UITextField!
+    @IBOutlet weak var isTrackIncludedSwitch: UISwitch!
     
     @IBAction func updateTrackData(_ sender: Any) {
         var data  :[String: String] = [:]
@@ -34,7 +36,7 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
         
         print ("Updated")
         
-        delegate?.trackDetailUpdated(trackDetails: data)
+        delegate?.trackDetailUpdated(trackDetails: data, isTrackIncluded: isTrackIncludedSwitch.isOn)
         _ = self.navigationController?.popViewController(animated: true)
     }
     
@@ -42,6 +44,7 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
         super.viewDidLoad()
         mapView.delegate = self
         trackID.text = "Track ID: \(trackData._id)"
+        isTrackIncludedSwitch.isOn = isTrackIncluded
         trackName.text = trackData.name
         let trackPoints = trackData.points.count
         if trackPoints == 0 {

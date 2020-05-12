@@ -74,8 +74,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {
-            //   let vc :TrackTableViewController = TrackTableViewController(nibName: "tvc", bundle: nil)
-            //   vc.saveFileData()
+               let vc :MainViewController = MainViewController(nibName: "vc", bundle: nil)
+              // vc.saveFileData()
             
             // Called when the user discards a scene session.
             // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.

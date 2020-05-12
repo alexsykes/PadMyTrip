@@ -324,7 +324,6 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         let url = self.getDocumentsDirectory().appendingPathComponent("MapAlt.txt")
         
         let fileManager = FileManager.default
-        
         // Check if file exists, given its path
         let path = url.path
         
@@ -467,12 +466,8 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     
     // MARK: - Navigation
-    
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-        
         super.prepare(for: segue, sender: sender)
         
         let identifier = segue.identifier

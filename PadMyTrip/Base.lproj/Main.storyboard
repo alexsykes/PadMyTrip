@@ -94,7 +94,7 @@
         <!--Pad my Trip-->
         <scene sceneID="xZV-Lh-M29">
             <objects>
-                <viewController id="pK2-tU-nK5" customClass="MainViewController" customModule="PadMyTrip" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="vc" id="pK2-tU-nK5" customClass="MainViewController" customModule="PadMyTrip" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="9VJ-dD-pwt">
                         <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

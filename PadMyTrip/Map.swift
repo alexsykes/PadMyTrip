@@ -30,7 +30,7 @@ class Map: NSObject {
         self.trackData = []
     //    self.trackData = mapData.trackData
       //  self.trackData = []
-        self.trackIDs = []
+        self.trackIDs = mapData.trackIDs
     }
     
     init(name :String, mapDescription: String) {

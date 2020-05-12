@@ -27,7 +27,9 @@ class Map: NSObject {
         self.name = mapData.name
         self.mapDescription = mapData.mapDescription
         self.date = mapData.date
+        self.trackData = []
     //    self.trackData = mapData.trackData
+      //  self.trackData = []
         self.trackIDs = []
     }
     

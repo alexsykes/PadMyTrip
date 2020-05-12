@@ -12,17 +12,12 @@ import CoreLocation
 
 class MainViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIDocumentPickerDelegate, MKMapViewDelegate, SettingsDelegate, TrackDetailDelegate   {
     func trackDetailUpdated(trackDetails: [String: String]) {
-        let trackID = trackDetails["trackID"]
-        let trackName = trackDetails["trackName"]
-        
-        for track in currentMap.trackData {
-           var  _id = Int(track._id)
-            if track._id == _id {
-                currentMap.trackData[_id].name = trackName!
-            }
+        let trackID = Int(trackDetails["trackID"]!)
+        let trackName  = trackDetails["trackName"]
+        var index = 0
+        for _ in 0..<currentMap.trackData.count{
+            print("\(currentMap.trackData[index].name)")
         }
-        
-        
     }
     
     // Passback from SettingsViewController
@@ -92,17 +87,19 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     // MARK: Load saved map data
     func loadSavedMapData () {
         // Read saved map data into Mapdata struct
-        map = MapData(name: "Map name", mapDescription: "A description of my map", date: Date(),  trackIDs: [], trackData: [])
+        map = MapData(name: "Map name", mapDescription: "A description of my map", date: Date(),  trackIDs: [])
         readStoredJSONData()
-        map.trackData.sort(by: {$0.name.lowercased() < $1.name.lowercased()} )
+        // map.trackData.sort(by: {$0.name.lowercased() < $1.name.lowercased()} )
         
     }
     
     // MARK: Write file data
     func saveFileData() {
         // Encode data then write to disk
-        let data :Data = encode()
-        writeData(data: data)
+        let data :Data = encodeTrackData()
+        writeData(data: data, filename: "Tracks.txt")
+        let mapData :Data = encodeMapData()
+        writeData(data: mapData, filename: "MapAlt.txt")
     }
     
     // MARK: File Handling - Import tracks from Public data
@@ -316,7 +313,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     
     // MARK: Important - check to nextTrackID
-    func encode () -> Data {
+    func encodeTrackData () -> Data {
         var encodedData :Data!
         // Structs - MapData, Location, TrackData
         // var points :[Location] = []
@@ -347,8 +344,20 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
             tData.append(TrackData.init(name: name, _id: _id, points: points))
         }
         
-        let mapData = MapData(name: currentMap.name, mapDescription: currentMap.mapDescription, date: Date(), trackIDs: currentMap.trackIDs, trackData: tData)
+        // let mapData = MapData(name: currentMap.name, mapDescription: currentMap.mapDescription, date: Date(), trackIDs: currentMap.trackIDs, trackData: tData)
         
+        let encoder = JSONEncoder()
+        if let encoded = try? encoder.encode(tData) {
+            encodedData = encoded
+        }
+        return encodedData
+    }
+    
+    // MARK: Map data
+    func encodeMapData () -> Data {
+        var encodedData :Data!
+       
+        let mapData = MapData(name: currentMap.name, mapDescription: currentMap.mapDescription, date: Date(), trackIDs: currentMap.trackIDs)
         
         let encoder = JSONEncoder()
         if let encoded = try? encoder.encode(mapData) {
@@ -357,16 +366,16 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         return encodedData
     }
     
-    func writeData(data :Data) {
-        let longFileName = "MyMap.dat"
-        let altFileName = "MyMap.txt"
-        let url = self.getDocumentsDirectory().appendingPathComponent(longFileName)
+    func writeData(data :Data, filename :String) {
+     //   let longFileName = filename + ".trk"
+     //   let altFileName = filename + ".txt"
+        let url = self.getDocumentsDirectory().appendingPathComponent(filename)
         
-        let alt = self.getDocumentsDirectory().appendingPathComponent(altFileName)
+     //   let alt = self.getDocumentsDirectory().appendingPathComponent(altFileName)
         
         do {
             try data.write(to: url)
-            try data.write(to: alt)
+      //      try data.write(to: alt)
         } catch {
             print(error.localizedDescription)
         }

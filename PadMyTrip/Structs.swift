@@ -16,7 +16,7 @@ struct MapData  {
     var mapDescription :String
     var date :Date
     var trackIDs :[Int]
-    var trackData :[TrackData]
+  //  var trackData :[TrackData]
 //    var styles :[Style]
     
     enum CodingKeys: String, CodingKey {
@@ -35,7 +35,7 @@ extension MapData :Decodable  {
         name = try values.decode(String.self, forKey: .name)
         mapDescription = try values.decode(String.self, forKey: .description)
         date = try values.decode(Date.self, forKey: .date)
-        trackData = try values.decode([TrackData].self, forKey: .trackData)
+ //       trackData = try values.decode([TrackData].self, forKey: .trackData)
         trackIDs = try values.decode([Int].self, forKey: .trackIDs)
 //        styles = try values.decode([Style].self, forKey: .styles)
     }
@@ -49,7 +49,7 @@ extension MapData :Encodable {
         try container.encode(mapDescription, forKey: .description)
         try container.encode(date, forKey: .date)
 //        try container.encode(styles, forKey: .styles)
-        try container.encode(trackData, forKey: .trackData)
+//        try container.encode(trackData, forKey: .trackData)
         try container.encode(trackIDs, forKey: .trackIDs)
     }
 }

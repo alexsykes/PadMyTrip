@@ -63,6 +63,11 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
         // Do any additional setup after loading the view.
         print("ViewDidLoad")
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        updateTrackData(self)
+    }
     func mapRefresh() {
         // Calculate map region then apply
         var northMost = -90.0

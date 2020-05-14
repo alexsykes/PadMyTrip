@@ -75,6 +75,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         trackTableView.allowsMultipleSelection = true
         
         // Setup currentMap and populate from data in JSON data
+        trackData = []
         loadSavedMapData()
         loadSavedTrackData()
         
@@ -113,7 +114,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func addVisibleTracksToCurrentMap () {
-        for track in trackData {
+        for track in currentMap.trackData {
             if currentMap.trackIDs.contains(track._id) {
                 print("Visible tracks: \(track._id)")
                 // let newTrack :Track = Track(

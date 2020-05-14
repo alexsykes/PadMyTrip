@@ -41,6 +41,8 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     // MARK: Outlets
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var trackTableView: UITableView!
+    @IBOutlet weak var visibilityButton: UIButton!
+    @IBOutlet weak var eyeImage: UIImageView!
     
     // MARK: Variables
     var files :[URL]! = []
@@ -61,6 +63,9 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         presentFilePicker()
     }
     
+    @IBAction func toggleVisibility(_ sender: UIButton) {
+        print("Toggle button clicked")
+    }
     // MARK: Start here - viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -91,6 +96,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         super.viewDidAppear(true)
         self.title = currentMap.name
         
+        trackTableView.reloadData()
         // Recalc
         mapRefresh()
         print("ViewDidAppear")
@@ -542,9 +548,17 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "trackTableCellWithImage", for: indexPath) as! TrackViewCellWithImage
-        let trackName = trackData[indexPath.row].name
-        let pointsCount =  trackData[indexPath.row].points.count
+        let row = trackData[indexPath.row]
+        let trackName = row.name
+        let pointsCount =  row.points.count
         let _id = trackData[indexPath.row]._id
+        
+        if currentMap.trackIDs.contains(_id) {
+            cell.eyeImageView.image = UIImage.init(systemName: "eye.fill")
+        } else {
+        cell.eyeImageView.image = UIImage.init(systemName: "eye.slash")
+        }
+
         cell.nameLabel?.text = "\(trackName)"
         cell.pointsCount.text = "Track id: \(_id) has \(pointsCount) points"
        // cell.accessoryType = .checkmark

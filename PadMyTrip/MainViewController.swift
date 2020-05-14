@@ -20,9 +20,19 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         for _ in 0..<currentMap.trackData.count{
             print("\(currentMap.trackData[index].name)")
         }
+        // Remove if present
+        currentMap.trackIDs = currentMap.trackIDs.filter{ $0 != trackID }
+        currentMap.trackData = currentMap.trackData.filter{ $0._id != trackID }
+        // Then add a single
         if isTrackIncluded {
-        currentMap.trackIDs.append(trackID!)
-        } else { currentMap.trackIDs = currentMap.trackIDs.filter{ $0 != trackID } }
+            currentMap.trackIDs.append(trackID!)
+         //   add trackDatato currentMap
+            for track in trackData {
+                if track._id == trackID {
+                    currentMap.trackData.append(track)
+                }
+            }
+        }
     }
     
     
@@ -41,6 +51,8 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     var nextTrackID: Int!
     var trackIDs :[Int]!
     var trackData :[TrackData]!
+    let mapFileName = "Map.txt"
+    let trackFileName = "Tracks.txt"
     
     
     // MARK: Actions
@@ -52,7 +64,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     // MARK: Start here - viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        print("ViewDidLoad")
         defaults = UserDefaults.standard
         nextTrackID = defaults.integer(forKey: "nextTrackID")
         
@@ -68,6 +80,8 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         currentMap = Map(mapData: map)
         // At this point, all tracks are loaded from storage.
+        // Add visible tracks to currentMap
+        addVisibleTracksToCurrentMap()
         
         self.title = currentMap.name
     }
@@ -78,7 +92,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         // Recalc
         mapRefresh()
-        print("ViewWillAppear fired")
+        print("ViewDidAppear")
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -100,13 +114,23 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         
     }
     
+    func addVisibleTracksToCurrentMap () {
+        for track in trackData {
+            if currentMap.trackIDs.contains(track._id) {
+                print("Visible tracks: \(track._id)")
+               // let newTrack :Track = Track(
+                currentMap.trackData.append(track)
+            }
+        }
+    }
+    
     // MARK: Write file data
     func saveFileData() {
         // Encode data then write to disk
         let data :Data = encodeTrackData()
-        writeData(data: data, filename: "Tracks.txt")
+        writeData(data: data, filename: trackFileName)
         let mapData :Data = encodeMapData()
-        writeData(data: mapData, filename: "MapAlt.txt")
+        writeData(data: mapData, filename: mapFileName)
     }
     
     // MARK: File Handling - Import tracks from Public data
@@ -281,8 +305,9 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     
     // MARK: Data decoding
+    // Reads all saved trackData from storage
     func readStoredJSONTrackData() {
-        let url = self.getDocumentsDirectory().appendingPathComponent("Tracks.txt")
+        let url = self.getDocumentsDirectory().appendingPathComponent(trackFileName)
         
         let fileManager = FileManager.default
         
@@ -321,7 +346,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     // MARK: Data encoding
     func readStoredJSONMapData() {
-        let url = self.getDocumentsDirectory().appendingPathComponent("MapAlt.txt")
+        let url = self.getDocumentsDirectory().appendingPathComponent(mapFileName)
         
         let fileManager = FileManager.default
         // Check if file exists, given its path

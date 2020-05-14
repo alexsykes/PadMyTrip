@@ -112,8 +112,6 @@ class Track: NSObject {
         let spanLong = 1.5 * (east - west)
         let spanLat = 1.5 * (north - south)
         
-        // let northWest = CLLocationCoordinate2D(latitude: north, longitude: west)
-        // let southEast = CLLocationCoordinate2D(latitude: south, longitude: east)
         let centre = CLLocationCoordinate2D(latitude: centreLat, longitude: centreLong)
         let span = MKCoordinateSpan(latitudeDelta: spanLat, longitudeDelta: spanLong)
         

@@ -74,7 +74,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {
-               let vc :MainViewController = MainViewController(nibName: "vc", bundle: nil)
+               // let vc :MainViewController = MainViewController(nibName: "vc", bundle: nil)
               // vc.saveFileData()
             
             // Called when the user discards a scene session.

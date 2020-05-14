@@ -541,13 +541,13 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "trackTableCell", for: indexPath) as! TrackViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "trackTableCellWithImage", for: indexPath) as! TrackViewCellWithImage
         let trackName = trackData[indexPath.row].name
         let pointsCount =  trackData[indexPath.row].points.count
         let _id = trackData[indexPath.row]._id
-        cell.titleLabel?.text = "\(trackName)"
+        cell.nameLabel?.text = "\(trackName)"
         cell.pointsCount.text = "Track id: \(_id) has \(pointsCount) points"
-        cell.accessoryType = .checkmark
+       // cell.accessoryType = .checkmark
         return cell
     }
     

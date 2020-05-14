@@ -26,7 +26,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         // Then add a single
         if isTrackIncluded {
             currentMap.trackIDs.append(trackID!)
-         //   add trackDatato currentMap
+            //   add trackDatato currentMap
             for track in trackData {
                 if track._id == trackID {
                     currentMap.trackData.append(track)
@@ -105,8 +105,6 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         // Read saved map data into Mapdata struct
         map = MapData(name: "Map name", mapDescription: "A description of my map", date: Date(),  trackIDs: [])
         readStoredJSONMapData()
-        // map.trackData.sort(by: {$0.name.lowercased() < $1.name.lowercased()} )
-        
     }
     
     func loadSavedTrackData () {
@@ -118,7 +116,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         for track in trackData {
             if currentMap.trackIDs.contains(track._id) {
                 print("Visible tracks: \(track._id)")
-               // let newTrack :Track = Track(
+                // let newTrack :Track = Track(
                 currentMap.trackData.append(track)
             }
         }
@@ -243,7 +241,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
         
         // Create a polyline for each track
-        for trackData in trackData {
+        for trackData in currentMap.trackData {
             var locs :[CLLocationCoordinate2D] = []
             // Check for empty trackData
             if trackData.points.count > 0 {
@@ -472,9 +470,9 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
             locations.append(location)
         }
         
-        let track :Track = Track(name: name, trackDescription: description, track: locations)
+       // let track :Track = Track(name: name, trackDescription: description, track: locations)
         
-        self.currentMap.addTrack(track: track)
+       // self.currentMap.addTrack(track: track)
         mapView.addOverlays(currentMap.polylines)
         // mapView.setRegion(region, animated: true)
         
@@ -576,7 +574,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         tableView.deselectRow(at: indexPath, animated: true)
         let row = indexPath.row
         displayTrack(track: row)
-        print("Clicked: \(row) ")
+       // print("Clicked: \(row) ")
     }
     
     // MARK:  Events
@@ -595,12 +593,12 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         return renderer
     }
     
-    /*
+    
      func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
      let row = indexPath.row
      print ("Button tapped: \(row)")
      }
-     */
+     
     
     // MARK: Delegated functions
     // Return from TrackViewController
@@ -615,4 +613,3 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
 }
-

@@ -12,7 +12,7 @@ import MapKit
 
 class Map: NSObject {
     // MARK: Properties
-    var tracks: [Track]! = []
+    //var tracks: [Track]! = []
     var mapDescription: String
     var date: Date
     var region: MKCoordinateRegion!
@@ -43,7 +43,7 @@ class Map: NSObject {
     init(name :String, mapDescription: String, tracks: [Track]) {
         self.mapDescription = mapDescription
         self.date = Date()
-        self.tracks = tracks
+      //  self.tracks = tracks
         self.name = name
         self.styles = ["default"]
         
@@ -91,6 +91,6 @@ class Map: NSObject {
     }
     
     func addTrack(track :Track) {
-        tracks.append(track)
+     //   tracks.append(track)
     }
 }

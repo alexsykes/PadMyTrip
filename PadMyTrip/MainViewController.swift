@@ -461,8 +461,8 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     func displayTrack(track trackId: Int) {
         let theTrack = trackData[trackId]
         var locations : [CLLocation] = []
-        let name = theTrack.name
-        let description = "A track"
+   //     let name = theTrack.name
+    //    let description = "A track"
         let points = theTrack.points
         for point in points {
             let lat = point.lat
@@ -500,7 +500,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
             guard let trackViewController = segue.destination as? TrackViewController else {
                 fatalError("Unexpected destination: \(segue.destination)")
             }
-            guard let selectedCell = sender as? TrackViewCell else {
+            guard let selectedCell = sender as? TrackViewCellWithImage else {
                 fatalError("Unexpected sender: \(String(describing: sender))")
             }
             

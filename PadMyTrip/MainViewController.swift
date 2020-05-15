@@ -85,6 +85,13 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         loadSavedTrackData()
         
         currentMap = Map(mapData: map)
+        
+        // Pull trackdata into currentMap
+        for trackID in currentMap.trackIDs {
+            let track = trackData.filter{$0._id == trackID}
+            currentMap.trackData.append(contentsOf: track)
+        }
+        
         // At this point, all tracks are loaded from storage.
         // Add visible tracks to currentMap
         // addVisibleTracksToCurrentMap()
@@ -243,7 +250,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         overlays.removeAll()
         
         // Check that there are trackData added
-        if currentMap.trackData.count == 0 {
+        if currentMap.trackIDs.count == 0 {
             return
         }
         
@@ -573,6 +580,8 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     // Override to support editing the table view.
+    
+    // MARK: Check if track is included in current map
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             print ("Row: \(indexPath.row)")
@@ -639,11 +648,14 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         if self.currentMap.trackIDs.contains(trackID){
             // Visible at start
             // var trackToRemove = self.currentMap.trackIDs.filter{$0 == trackID}
-            self.currentMap.trackIDs = self.currentMap.trackIDs.filter{$0 == trackID}
+            self.currentMap.trackIDs = self.currentMap.trackIDs.filter{$0 != trackID}
+            self.currentMap.trackData = self.currentMap.trackData.filter{$0._id != trackID}
             cell.button.setImage(UIImage.init(systemName: "eye.slash"), for: .normal)
         } else {
             cell.button.setImage(UIImage.init(systemName: "eye.fill"), for: .normal)
             self.currentMap.trackIDs.append(trackID)
+            let track = trackData.filter{$0._id == trackID}
+            currentMap.trackData.append(contentsOf: track)
             // Hidden at start
         }
         trackTableView.reloadData()

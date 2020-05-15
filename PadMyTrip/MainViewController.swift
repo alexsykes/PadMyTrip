@@ -10,7 +10,7 @@ import UIKit
 import MapKit
 import CoreLocation
 
-class MainViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIDocumentPickerDelegate, MKMapViewDelegate, SettingsDelegate, TrackDetailDelegate   {
+class MainViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIDocumentPickerDelegate, MKMapViewDelegate, SettingsDelegate, TrackDetailDelegate, NewTableViewCellDelegate {
     
     
     func trackDetailUpdated(trackDetails: [String : String], isTrackIncluded: Bool) {
@@ -87,7 +87,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         currentMap = Map(mapData: map)
         // At this point, all tracks are loaded from storage.
         // Add visible tracks to currentMap
-        addVisibleTracksToCurrentMap()
+        // addVisibleTracksToCurrentMap()
         
         self.title = currentMap.name
     }
@@ -467,8 +467,8 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     func displayTrack(track trackId: Int) {
         let theTrack = trackData[trackId]
         var locations : [CLLocation] = []
-   //     let name = theTrack.name
-    //    let description = "A track"
+        //     let name = theTrack.name
+        //    let description = "A track"
         let points = theTrack.points
         for point in points {
             let lat = point.lat
@@ -477,9 +477,9 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
             locations.append(location)
         }
         
-       // let track :Track = Track(name: name, trackDescription: description, track: locations)
+        // let track :Track = Track(name: name, trackDescription: description, track: locations)
         
-       // self.currentMap.addTrack(track: track)
+        // self.currentMap.addTrack(track: track)
         mapView.addOverlays(currentMap.polylines)
         // mapView.setRegion(region, animated: true)
         
@@ -506,7 +506,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
             guard let trackViewController = segue.destination as? TrackViewController else {
                 fatalError("Unexpected destination: \(segue.destination)")
             }
-            guard let selectedCell = sender as? TrackViewCellWithImage else {
+            guard let selectedCell = sender as? NewTableViewCell else {
                 fatalError("Unexpected sender: \(String(describing: sender))")
             }
             
@@ -547,21 +547,22 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "trackTableCellWithImage", for: indexPath) as! TrackViewCellWithImage
+        let cell = tableView.dequeueReusableCell(withIdentifier: "newTableViewCell", for: indexPath) as! NewTableViewCell
         let row = trackData[indexPath.row]
         let trackName = row.name
         let pointsCount =  row.points.count
         let _id = trackData[indexPath.row]._id
+        cell.delegate = self
         
-        if currentMap.trackIDs.contains(_id) {
-            cell.eyeImageView.image = UIImage.init(systemName: "eye.fill")
+        if self.currentMap.trackIDs.contains(_id) {
+            cell.button.setImage(UIImage.init(systemName: "eye.fill"), for: .normal)
         } else {
-        cell.eyeImageView.image = UIImage.init(systemName: "eye.slash")
+            cell.button.setImage(UIImage.init(systemName: "eye.slash"), for: .normal)
         }
-
+        
         cell.nameLabel?.text = "\(trackName)"
         cell.pointsCount.text = "Track id: \(_id) has \(pointsCount) points"
-       // cell.accessoryType = .checkmark
+        // cell.accessoryType = .checkmark
         return cell
     }
     
@@ -589,7 +590,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         tableView.deselectRow(at: indexPath, animated: true)
         let row = indexPath.row
         displayTrack(track: row)
-       // print("Clicked: \(row) ")
+        // print("Clicked: \(row) ")
     }
     
     // MARK:  Events
@@ -609,11 +610,11 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     
-     func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
-     let row = indexPath.row
-     print ("Button tapped: \(row)")
-     }
-     
+    func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
+        let row = indexPath.row
+        print ("Button tapped: \(row)")
+    }
+    
     
     // MARK: Delegated functions
     // Return from TrackViewController
@@ -625,6 +626,29 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         currentMap.mapDescription = mapDetails[1]
         map.name = mapDetails[0]
         map.mapDescription = mapDetails[1]
+    }
+    // MARK: NewTableViewCellDelegate
+    
+    func buttonTapped(cell: NewTableViewCell) {
+        guard let indexPath = self.trackTableView.indexPath(for: cell) else {
+            return
+        }
+        
+        let row = indexPath.row
+        let trackID = trackData[row]._id
+        if self.currentMap.trackIDs.contains(trackID){
+            // Visible at start
+            // var trackToRemove = self.currentMap.trackIDs.filter{$0 == trackID}
+            self.currentMap.trackIDs = self.currentMap.trackIDs.filter{$0 == trackID}
+            cell.button.setImage(UIImage.init(systemName: "eye.slash"), for: .normal)
+        } else {
+            cell.button.setImage(UIImage.init(systemName: "eye.fill"), for: .normal)
+            self.currentMap.trackIDs.append(trackID)
+            // Hidden at start
+        }
+        trackTableView.reloadData()
+        mapRefresh()
+        //   print("Button tapped on row\(indexPath.row)")
     }
     
 }

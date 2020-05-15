@@ -12,7 +12,6 @@ class TrackViewCellWithImage: UITableViewCell {
 
     @IBOutlet weak var pointsCount: UILabel!
     @IBOutlet weak var nameLabel: UILabel!
-    
     @IBOutlet weak var eyeImageView: UIImageView!
     
     override func awakeFromNib() {

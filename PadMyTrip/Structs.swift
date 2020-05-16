@@ -15,7 +15,7 @@ struct MapData  {
     var name :String
     var mapDescription :String
     var date :Date
-    var trackIDs :[Int]
+//    var trackIDs :[Int]
   //  var trackData :[TrackData]
 //    var styles :[Style]
     
@@ -36,7 +36,7 @@ extension MapData :Decodable  {
         mapDescription = try values.decode(String.self, forKey: .description)
         date = try values.decode(Date.self, forKey: .date)
  //       trackData = try values.decode([TrackData].self, forKey: .trackData)
-        trackIDs = try values.decode([Int].self, forKey: .trackIDs)
+ //       trackIDs = try values.decode([Int].self, forKey: .trackIDs)
 //        styles = try values.decode([Style].self, forKey: .styles)
     }
 }
@@ -50,17 +50,19 @@ extension MapData :Encodable {
         try container.encode(date, forKey: .date)
 //        try container.encode(styles, forKey: .styles)
 //        try container.encode(trackData, forKey: .trackData)
-        try container.encode(trackIDs, forKey: .trackIDs)
+ //       try container.encode(trackIDs, forKey: .trackIDs)
     }
 }
 
 struct TrackData  {
     var name: String
+    var isIncluded :Bool
     var _id: Int
     var points :[Location]
     
     enum CodingKeys: String, CodingKey {
         case points
+        case isVisible
         case _id
         case name
     }
@@ -71,6 +73,7 @@ extension TrackData :Decodable {
     init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         name = try values.decode(String.self, forKey: .name)
+        isIncluded = try values.decode(Bool.self, forKey: .isVisible)
         points = try values.decode([Location].self, forKey: .points)
         _id = try values.decode(Int.self, forKey: ._id)
     }
@@ -82,6 +85,7 @@ extension TrackData :Encodable {
         try container.encode(points, forKey: .points)
         try container.encode(name, forKey: .name)
         try container.encode(_id, forKey: ._id)
+        try container.encode(isIncluded, forKey: .isVisible)
     }
 }
 

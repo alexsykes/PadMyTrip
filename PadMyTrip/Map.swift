@@ -19,40 +19,42 @@ class Map: NSObject {
     var name: String
     var styles: [String]!
     var mapData :MapData!
-    var trackData :[TrackData]!
-    var trackIDs :[Int]!
+    // var trackData :[TrackData]!
+    // var trackIDs :[Int]!
     var polylines :[MKPolyline] = []
     
     init(mapData :MapData) {
         self.name = mapData.name
         self.mapDescription = mapData.mapDescription
         self.date = mapData.date
-        self.trackData = []
-    //    self.trackData = mapData.trackData
-      //  self.trackData = []
-        self.trackIDs = mapData.trackIDs
+        //   self.trackData = []
+        //    self.trackData = mapData.trackData
+        //  self.trackData = []
+        //  self.trackIDs = mapData.trackIDs
     }
     
     init(name :String, mapDescription: String) {
         self.name = name
         self.mapDescription = mapDescription
         self.date = Date()
-        self.trackIDs = []
+        //     self.trackIDs = []
     }
     
-    init(name :String, mapDescription: String, tracks: [Track]) {
+  /*
+     init(name :String, mapDescription: String, tracks: [Track]) {
         self.mapDescription = mapDescription
         self.date = Date()
-      //  self.tracks = tracks
+        //  self.tracks = tracks
         self.name = name
         self.styles = ["default"]
         
-        self.trackIDs = []
+        //    self.trackIDs = []
         super.init()
-        calcBounds()
+      //  calcBounds()
     }
+ */
     
-    func calcBounds(){
+/*    func calcBounds(){
         var northMost = -90.0
         var southMost = 90.0
         var eastMost = -180.0
@@ -89,8 +91,9 @@ class Map: NSObject {
         region = MKCoordinateRegion(center: centre, span: span)
         
     }
+ */
     
     func addTrack(track :Track) {
-     //   tracks.append(track)
+        //   tracks.append(track)
     }
 }

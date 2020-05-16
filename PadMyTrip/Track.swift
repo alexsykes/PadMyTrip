@@ -13,6 +13,7 @@ import MapKit
 class Track: NSObject {
     // MARK: Properties
     var _id :Int
+    var isIncluded :Bool!
     var locations: [CLLocation]!
     var trackDescription: String
     var date: Date
@@ -92,9 +93,6 @@ class Track: NSObject {
     }
     
     func calcBounds(track :[CLLocation]) -> MKCoordinateRegion {
-        // var region :MKCoordinateRegion!
-        // Latitude increases further north
-        // Longitude increases further east
         var lat :Double!
         var long :Double!
         

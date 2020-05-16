@@ -3,4 +3,166 @@
    uuid = "78B03F48-B1F3-45C6-B09D-43FAD48850F3"
    type = "1"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "F36AEAC7-7844-41C4-A744-3C78A013FE88"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "PadMyTrip/MainViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "31"
+            endingLineNumber = "31"
+            landmarkName = "trackDetailUpdated(trackDetails:isTrackIncluded:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "DA17C276-E7D8-4B4C-B9C7-174CA12CD25C"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "PadMyTrip/MainViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "22"
+            endingLineNumber = "22"
+            landmarkName = "trackDetailUpdated(trackDetails:isTrackIncluded:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "DA17C276-E7D8-4B4C-B9C7-174CA12CD25C - 2d1c4a8cab2bd6ce"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "PadMyTrip.MainViewController.trackDetailUpdated(trackDetails: Swift.Dictionary&lt;Swift.String, Swift.String&gt;, isTrackIncluded: Swift.Bool) -&gt; ()"
+                  moduleName = "PadMyTrip"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/alex/Documents/GitHub/PadMyTrip/PadMyTrip/MainViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "22"
+                  endingLineNumber = "22"
+                  offsetFromSymbolStart = "971">
+               </Location>
+               <Location
+                  uuid = "DA17C276-E7D8-4B4C-B9C7-174CA12CD25C - 4b30494b2fbaf3fe"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (PadMyTrip.TrackData) -&gt; Swift.Bool in PadMyTrip.MainViewController.trackDetailUpdated(trackDetails: Swift.Dictionary&lt;Swift.String, Swift.String&gt;, isTrackIncluded: Swift.Bool) -&gt; ()"
+                  moduleName = "PadMyTrip"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/alex/Documents/GitHub/PadMyTrip/PadMyTrip/MainViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "22"
+                  endingLineNumber = "22"
+                  offsetFromSymbolStart = "59">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "776BC7CF-C400-4673-8053-64D0A92D30CD"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "PadMyTrip/MainViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "23"
+            endingLineNumber = "23"
+            landmarkName = "trackDetailUpdated(trackDetails:isTrackIncluded:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "C2A90611-09C1-4053-A875-FC88B384D6FE"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "PadMyTrip/MainViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "38"
+            endingLineNumber = "38"
+            landmarkName = "trackDetailUpdated(trackDetails:isTrackIncluded:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "04349298-D0A3-4CDB-9BB7-A80ACBCBC77A"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "PadMyTrip/MainViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "46"
+            endingLineNumber = "46"
+            landmarkName = "trackDetailUpdated(trackDetails:isTrackIncluded:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "886D595A-47C2-4630-A8B1-2035B859B662"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "PadMyTrip/MainViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "25"
+            endingLineNumber = "25"
+            landmarkName = "trackDetailUpdated(trackDetails:isTrackIncluded:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "886D595A-47C2-4630-A8B1-2035B859B662 - 2d1c4a8cab2bd6ce"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "PadMyTrip.MainViewController.trackDetailUpdated(trackDetails: Swift.Dictionary&lt;Swift.String, Swift.String&gt;, isTrackIncluded: Swift.Bool) -&gt; ()"
+                  moduleName = "PadMyTrip"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/alex/Documents/GitHub/PadMyTrip/PadMyTrip/MainViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "26"
+                  endingLineNumber = "26"
+                  offsetFromSymbolStart = "1711">
+               </Location>
+               <Location
+                  uuid = "886D595A-47C2-4630-A8B1-2035B859B662 - c67c601790cb8ffc"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #2 (PadMyTrip.TrackData) -&gt; Swift.Bool in PadMyTrip.MainViewController.trackDetailUpdated(trackDetails: Swift.Dictionary&lt;Swift.String, Swift.String&gt;, isTrackIncluded: Swift.Bool) -&gt; ()"
+                  moduleName = "PadMyTrip"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/alex/Documents/GitHub/PadMyTrip/PadMyTrip/MainViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "26"
+                  endingLineNumber = "26"
+                  offsetFromSymbolStart = "59">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>

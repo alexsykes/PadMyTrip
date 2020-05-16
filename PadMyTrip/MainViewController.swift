@@ -14,12 +14,23 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     
     func trackDetailUpdated(trackDetails: [String : String], isTrackIncluded: Bool) {
+        // Not sure if this is still necessary / helpful
+        print ("MainViewController.trackDetailsUpdated")
         let trackID = Int(trackDetails["trackID"]!)
-        _  = trackDetails["trackName"]
-        let index = 0
-        for _ in 0..<currentMap.trackData.count{
-            print("\(currentMap.trackData[index].name)")
+        let newName  = trackDetails["trackName"]
+        
+        var tracks :[TrackData] = self.trackData.filter{$0._id == trackID}
+        var track = tracks[0]
+        track.name = newName!
+        
+        tracks = self.currentMap.trackData.filter{$0._id == trackID}
+        if tracks.count > 0 {
+        track = tracks[0]
+        track.name = newName!
         }
+//        for track in 0..<trackData.count{
+//            print("\(trackData[track]._id)")
+//        }
         // Remove if present
         currentMap.trackIDs = currentMap.trackIDs.filter{ $0 != trackID }
         currentMap.trackData = currentMap.trackData.filter{ $0._id != trackID }
@@ -27,12 +38,13 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         if isTrackIncluded {
             currentMap.trackIDs.append(trackID!)
             //   add trackDatato currentMap
-            for track in trackData {
-                if track._id == trackID {
+            for each in trackData {
+                if each._id == trackID {
                     currentMap.trackData.append(track)
                 }
             }
         }
+        trackTableView.reloadData()
     }
     
     

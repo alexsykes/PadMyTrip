@@ -20,9 +20,11 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
     var isTrackIncluded: Bool!
     var polyline :MKPolyline!
     var locs :[CLLocationCoordinate2D] = []
+    var data  :[String: String] = [:]
     
     
     weak var delegate: TrackDetailDelegate? = nil
+    
     
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var trackID: UILabel!
@@ -30,14 +32,17 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
     @IBOutlet weak var isTrackIncludedSwitch: UISwitch!
     
     @IBAction func updateTrackData(_ sender: Any) {
-        var data  :[String: String] = [:]
         data["trackID"] = String(trackData._id)
-        data["trackName"] = trackName.text!
-        
+        data["trackName"] = trackName.text
         print ("Updated")
         
         delegate?.trackDetailUpdated(trackDetails: data, isTrackIncluded: isTrackIncludedSwitch.isOn)
         _ = self.navigationController?.popViewController(animated: true)
+    }
+    
+    @IBAction func nameDidChange(_ sender: UITextField) {
+        data["trackName"] = trackName.text
+        print("nameDidChange")
     }
     
     override func viewDidLoad() {

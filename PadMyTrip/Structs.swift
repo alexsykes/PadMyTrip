@@ -15,9 +15,6 @@ struct MapData  {
     var name :String
     var mapDescription :String
     var date :Date
-//    var trackIDs :[Int]
-  //  var trackData :[TrackData]
-//    var styles :[Style]
     
     enum CodingKeys: String, CodingKey {
         case name
@@ -35,9 +32,6 @@ extension MapData :Decodable  {
         name = try values.decode(String.self, forKey: .name)
         mapDescription = try values.decode(String.self, forKey: .description)
         date = try values.decode(Date.self, forKey: .date)
- //       trackData = try values.decode([TrackData].self, forKey: .trackData)
- //       trackIDs = try values.decode([Int].self, forKey: .trackIDs)
-//        styles = try values.decode([Style].self, forKey: .styles)
     }
 }
 
@@ -48,9 +42,6 @@ extension MapData :Encodable {
         try container.encode(name, forKey: .name)
         try container.encode(mapDescription, forKey: .description)
         try container.encode(date, forKey: .date)
-//        try container.encode(styles, forKey: .styles)
-//        try container.encode(trackData, forKey: .trackData)
- //       try container.encode(trackIDs, forKey: .trackIDs)
     }
 }
 
@@ -59,12 +50,14 @@ struct TrackData  {
     var isVisible :Bool
     var _id: Int
     var points :[Location]
+    var style :String
     
     enum CodingKeys: String, CodingKey {
         case points
         case isVisible
         case _id
         case name
+        case style
     }
     
 }
@@ -76,6 +69,7 @@ extension TrackData :Decodable {
         isVisible = try values.decode(Bool.self, forKey: .isVisible)
         points = try values.decode([Location].self, forKey: .points)
         _id = try values.decode(Int.self, forKey: ._id)
+        style = try values.decode(String.self, forKey: .style)
     }
 }
 
@@ -86,24 +80,31 @@ extension TrackData :Encodable {
         try container.encode(name, forKey: .name)
         try container.encode(_id, forKey: ._id)
         try container.encode(isVisible, forKey: .isVisible)
+        try container.encode(style, forKey: .style)
     }
 }
 
 struct Style  {
+    var name :String
     var lineWidth :Double
     var strokeColour :Double
+    var lineDashPattern: [Int]
     
     enum CodingKeys: String, CodingKey {
+        case name
         case lineWidth
         case strokeColour
+        case lineDashPattern
     }
 }
 
 extension Style :Decodable {
     init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
+        name = try values.decode(String.self, forKey: .name)
         lineWidth = try values.decode(Double.self, forKey: .lineWidth)
         strokeColour = try values.decode(Double.self, forKey: .strokeColour)
+        lineDashPattern = try values.decode([Int].self, forKey: .lineDashPattern)
     }
 }
 
@@ -112,6 +113,7 @@ extension Style :Encodable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(lineWidth, forKey: .lineWidth)
         try container.encode(strokeColour, forKey: .strokeColour)
+        try container.encode(name, forKey: .name)
     }
 }
 

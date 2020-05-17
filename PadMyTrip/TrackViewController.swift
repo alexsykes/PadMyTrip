@@ -126,7 +126,7 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
         let renderer = MKPolylineRenderer(overlay: overlay)
         renderer.strokeColor = .purple
         renderer.lineWidth = 3
-        // renderer.lineDashPattern = .some([4, 16, 16])
+        renderer.lineDashPattern = .some([4, 16, 16])
         
         return renderer
     }

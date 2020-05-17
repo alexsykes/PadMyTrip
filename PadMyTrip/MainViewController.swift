@@ -32,7 +32,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     var trackData :[TrackData]!
     let mapFileName = "Map.txt"
     let trackFileName = "Tracks.txt"
-    var polylines :[MKPolyline] = []
+    var polylines :[CustomPolyline] = []
     var region: MKCoordinateRegion!
     
     // MARK: Actions
@@ -545,6 +545,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     // Render track on map
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         let renderer = MKPolylineRenderer(overlay: overlay)
+        
         renderer.strokeColor = UIColor.blue
         renderer.lineWidth = 5
         //    }

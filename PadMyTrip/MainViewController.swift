@@ -23,31 +23,8 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.trackData = self.trackData.filter{$0._id != trackID}
         var track = tracks[0]
         track.name = newName!
-        track.isIncluded = isTrackIncluded
+        track.isVisible = isTrackIncluded
         self.trackData.append(track)
-//
-//        tracks = self.trackData.filter{$0._id == trackID}
-//        if tracks.count > 0 {
-//        track = tracks[0]
-//        track.name = newName!
-//        }
-////        for track in 0..<trackData.count{
-////            print("\(trackData[track]._id)")
-////        }
-//        // Remove if present
-//        currentMap.trackIDs = currentMap.trackIDs.filter{ $0 != trackID }
-//        trackData = trackData.filter{ $0._id != trackID }
-//        // Then add a single
-//        if isTrackIncluded {
-//            currentMap.trackIDs.append(trackID!)
-//
-//            //   add trackDatato currentMap
-//            /*for each in trackData {
-//                if each._id == trackID {
-//                    trackData.append(track)
-//                }
-//            }*/
-//        }
         trackTableView.reloadData()
     }
     
@@ -244,7 +221,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
                     points.append(newLocation)
                     locations.append(loc)
                 }
-                trackData.append(TrackData.init(name: filename, isIncluded: true, _id: nextTrackID, points: points))
+                trackData.append(TrackData.init(name: filename, isVisible: true, _id: nextTrackID, points: points))
                 // currentMap.trackIDs.append(nextTrackID)
                 nextTrackID += 1
                 defaults.set(nextTrackID, forKey: "nextTrackID")
@@ -258,8 +235,6 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func mapRefresh() {
-        // let trackData = currentMap.trackData
-        
         // Remove current clutter
         currentMap.polylines = []
         var hasValidTracks = false // Boolean flag to avoid map out of bounds errors
@@ -276,7 +251,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         for trackData in trackData {
             var locs :[CLLocationCoordinate2D] = []
             // Check for empty trackData
-            if trackData.points.count > 0 {
+            if trackData.points.count > 0 && trackData.isVisible{
                 hasValidTracks = true
                 for point in trackData.points {
                     let location = CLLocationCoordinate2D(latitude: point.lat, longitude: point.long)
@@ -414,7 +389,6 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     func encodeTrackData () -> Data {
         var encodedData :Data!
         // Structs - MapData, Location, TrackData
-        // var points :[Location] = []
         var tData :[TrackData] = []
         
         // Work through data track by track :: point by point
@@ -424,7 +398,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
             // For each track, add each location to the points array
             let name = track.name
             let _id = track._id
-            let isVisible :Bool = track.isIncluded
+            let isVisible :Bool = track.isVisible
             // Firstly, start with an empty array
             var points :[Location] = []
             for location in track.points {
@@ -440,11 +414,8 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
             }
             // Once the tack points array is populated,
             // append the array of points to the trackData
-            tData.append(TrackData.init(name: name, isIncluded: isVisible, _id: _id, points: points))
+            tData.append(TrackData.init(name: name, isVisible: isVisible, _id: _id, points: points))
         }
-        
-        // let mapData = MapData(name: currentMap.name, mapDescription: currentMap.mapDescription, date: Date(), trackIDs: currentMap.trackIDs, trackData: tData)
-        
         let encoder = JSONEncoder()
         if let encoded = try? encoder.encode(tData) {
             encodedData = encoded
@@ -469,7 +440,6 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         do {
             try data.write(to: url)
-            //      try data.write(to: alt)
         } catch {
             print(error.localizedDescription)
         }
@@ -493,8 +463,6 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     func displayTrack(track trackId: Int) {
         let theTrack = trackData[trackId]
         var locations : [CLLocation] = []
-        //     let name = theTrack.name
-        //    let description = "A track"
         let points = theTrack.points
         for point in points {
             let lat = point.lat
@@ -502,22 +470,12 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
             let location = CLLocation(latitude: lat, longitude: long)
             locations.append(location)
         }
-        
-        // let track :Track = Track(name: name, trackDescription: description, track: locations)
-        
-        // self.currentMap.addTrack(track: track)
         mapView.addOverlays(currentMap.polylines)
-        // mapView.setRegion(region, animated: true)
         
     }
     
     // Plots track loaded from visitedLocations array
     func plotCurrentTrack() {
-        // if (visitedLocations.last as CLLocation?) != nil {
-        //   var coordinates = visitedLocations.map({(location: CLLocation) -> CLLocationCoordinate2D in return location.coordinate})
-        //   let polyline = MKPolyline(coordinates: &coordinates, count: coordinates.count)
-        //   mapView.addOverlay(polyline)
-        //  }
     }
     
     
@@ -579,12 +537,9 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
             }
             let row = indexPath.row
             let track = trackData[row]
-            let activeTracks = self.trackIDs
-            let id = track._id
             
             trackViewController.trackData = track
             trackViewController.delegate = self
-            trackViewController.isTrackIncluded = activeTracks?.contains(id)
             
         } else {
             if identifier == "showPrefs" {
@@ -618,7 +573,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         let _id = trackData[indexPath.row]._id
         cell.delegate = self
         
-        if row.isIncluded == true {
+        if row.isVisible == true {
             cell.button.setImage(UIImage.init(systemName: "eye.fill"), for: .normal)
         } else {
             cell.button.setImage(UIImage.init(systemName: "eye.slash"), for: .normal)
@@ -656,14 +611,12 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         tableView.deselectRow(at: indexPath, animated: true)
         let row = indexPath.row
         displayTrack(track: row)
-        // print("Clicked: \(row) ")
     }
     
     // MARK:  Events
     // Plot currently active track when map loads
     func mapViewDidFinishLoadingMap(_ mapView: MKMapView) {
         print("mapViewDidFinishLoadingMap")
-        // plotCurrentTrack()
     }
     
     // Render track on map
@@ -671,7 +624,6 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         let renderer = MKPolylineRenderer(overlay: overlay)
         renderer.strokeColor = UIColor.blue
         renderer.lineWidth = 5
-        // renderer.lineDashPattern = .some([4, 16, 16])
         return renderer
     }
     
@@ -701,23 +653,16 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
         
         let row = indexPath.row
-        let trackID = trackData[row]._id
-        if self.trackIDs.contains(trackID){
-            // Visible at start
-            // var trackToRemove = self.currentMap.trackIDs.filter{$0 == trackID}
-            self.trackIDs = self.trackIDs.filter{$0 != trackID}
-            self.trackData = self.trackData.filter{$0._id != trackID}
+        let isVisible = trackData[row].isVisible
+        if isVisible {
+            trackData[row].isVisible = false
             cell.button.setImage(UIImage.init(systemName: "eye.slash"), for: .normal)
         } else {
+            trackData[row].isVisible = true
             cell.button.setImage(UIImage.init(systemName: "eye.fill"), for: .normal)
-            self.trackIDs.append(trackID)
-            let track = trackData.filter{$0._id == trackID}
-            trackData.append(contentsOf: track)
-            // Hidden at start
         }
         trackTableView.reloadData()
         mapRefresh()
-        //   print("Button tapped on row\(indexPath.row)")
     }
     
 }

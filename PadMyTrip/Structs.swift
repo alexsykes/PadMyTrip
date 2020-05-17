@@ -56,7 +56,7 @@ extension MapData :Encodable {
 
 struct TrackData  {
     var name: String
-    var isIncluded :Bool
+    var isVisible :Bool
     var _id: Int
     var points :[Location]
     
@@ -73,7 +73,7 @@ extension TrackData :Decodable {
     init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         name = try values.decode(String.self, forKey: .name)
-        isIncluded = try values.decode(Bool.self, forKey: .isVisible)
+        isVisible = try values.decode(Bool.self, forKey: .isVisible)
         points = try values.decode([Location].self, forKey: .points)
         _id = try values.decode(Int.self, forKey: ._id)
     }
@@ -85,7 +85,7 @@ extension TrackData :Encodable {
         try container.encode(points, forKey: .points)
         try container.encode(name, forKey: .name)
         try container.encode(_id, forKey: ._id)
-        try container.encode(isIncluded, forKey: .isVisible)
+        try container.encode(isVisible, forKey: .isVisible)
     }
 }
 

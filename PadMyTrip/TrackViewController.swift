@@ -49,7 +49,7 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
         super.viewDidLoad()
         mapView.delegate = self
         trackID.text = "Track ID: \(trackData._id)"
-        isTrackIncludedSwitch.isOn = isTrackIncluded
+        isTrackIncludedSwitch.isOn = trackData.isVisible
         trackName.text = trackData.name
         let trackPoints = trackData.points.count
         if trackPoints == 0 {

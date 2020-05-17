@@ -9,6 +9,7 @@
 import UIKit
 import MapKit
 import CoreLocation
+import Foundation
 
 class MainViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIDocumentPickerDelegate, MKMapViewDelegate, SettingsDelegate, TrackDetailDelegate, NewTableViewCellDelegate {
     
@@ -221,8 +222,8 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
                     locs.append(location)
                 }
             }
-            var polyline = CustomPolyline(coordinates: locs, count: locs.count)
-            polyline.style = "default"
+            var polyline = MKPolyline(coordinates: locs, count: locs.count)
+          //  polyline.style = "default"
             if locs.count > 100 {
                 // polyline.title = "default"
             }
@@ -423,11 +424,6 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
                 if long > eastMost { eastMost = long }
                 if long < westMost { westMost = long }
             }
-            /*         var coordinates = locations.map({(location: CLLocation) -> CLLocationCoordinate2D in return location.coordinate})
-             var polyline = MKPolyline(coordinates: &coordinates, count: coordinates.count)
-             // polyline.style = "default"
-             polylines.append(polyline)
-             */
         }
         let centreLat = (northMost + southMost)/2
         let centreLong = (eastMost + westMost)/2
@@ -561,6 +557,16 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         return renderer
     }
     
+    func mapView(mapView: MKMapView!, rendererForOverlay overlay: MKOverlay!) -> MKOverlayRenderer! {
+        if (overlay is CustomPolyline)  {
+            var pr = MKPolylineRenderer(overlay: overlay);
+            pr.strokeColor = UIColor.red
+            pr.lineWidth = 10
+            return pr
+        }
+        return nil
+    }
+    
     
     func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
         let row = indexPath.row
@@ -614,10 +620,6 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.trackData.append(track)
         saveFileData()
         trackTableView.reloadData()
-    }
-    
-    class CustomPolyline :MKPolyline {
-        var style :String!
     }
     
     // MARK: Retired
@@ -681,4 +683,8 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     //        return MKCoordinateRegion(center: centre, span: span)
     //
     //    }
+}
+
+class CustomPolyline :MKPolyline {
+    var style :String!
 }

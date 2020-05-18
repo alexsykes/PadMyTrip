@@ -33,7 +33,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     var trackData :[TrackData]!
     let mapFileName = "Map.txt"
     let trackFileName = "Tracks.txt"
-    var polylines :[CustomPolyline] = []
+    var polylines :[MKPolyline] = []
     var region: MKCoordinateRegion!
     
     // MARK: Actions
@@ -222,12 +222,13 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
                     locs.append(location)
                 }
             }
-            var polyline = MKPolyline(coordinates: locs, count: locs.count)
-          //  polyline.style = "default"
             if locs.count > 100 {
-                // polyline.title = "default"
+             let   bpolyline = RoadOverlay(coordinates: locs, count: locs.count)
+             currentMap.polylines.append(bpolyline)
+            } else {
+                 let gpolyline = PathOverlay(coordinates: locs, count: locs.count)
+                currentMap.polylines.append(gpolyline)
             }
-            currentMap.polylines.append(polyline)
         }
         if hasValidTracks == true {
             for polyline in currentMap.polylines {
@@ -269,7 +270,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         do {
             jsonData = try Data(contentsOf: url)
             
-            if jsonData.count == 0 {
+            if jsonData.isEmpty{
                 print("Map file contains no data")
                 return
             }
@@ -537,36 +538,31 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     func mapViewDidFinishLoadingMap(_ mapView: MKMapView) {
         print("mapViewDidFinishLoadingMap")
     }
+
+    // MARK: Rendering
     
-    // Render track on map
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
-        let renderer = MKPolylineRenderer(overlay: overlay)
-        
-        renderer.strokeColor = UIColor.blue
-        renderer.lineWidth = 5
-        //    }
-        return renderer
-    }
-    
-    // Render track on map
-    func mapView(_ mapView: MKMapView, rendererFor overlay: CustomPolyline!) -> MKOverlayRenderer {
-        let renderer = MKPolylineRenderer(overlay: overlay)
-        renderer.strokeColor = UIColor.red
-        renderer.lineWidth = 5
-        // }
-        return renderer
-    }
-    
-    func mapView(mapView: MKMapView!, rendererForOverlay overlay: MKOverlay!) -> MKOverlayRenderer! {
-        if (overlay is CustomPolyline)  {
-            var pr = MKPolylineRenderer(overlay: overlay);
-            pr.strokeColor = UIColor.red
-            pr.lineWidth = 10
-            return pr
+        let renderer = MKPolylineRenderer(polyline: overlay as! MKPolyline)
+        if overlay is RoadOverlay {
+
+            renderer.strokeColor = UIColor.black
+            renderer.alpha = 1
+            renderer.lineWidth = 3
+          //  renderer.lineDashPattern = [4,16,4,8]
+            
+        } else if overlay is PathOverlay {
+            renderer.strokeColor = .brown
+            renderer.lineWidth = 2
+            renderer.lineDashPattern = [16,8,8,8]
+            renderer.lineDashPhase = 12
+            
+        } else {
+            renderer.strokeColor = UIColor.blue
+            renderer.lineWidth = 5
         }
-        return nil
+
+        return renderer
     }
-    
     
     func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
         let row = indexPath.row
@@ -685,6 +681,9 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     //    }
 }
 
-class CustomPolyline :MKPolyline {
-    var style :String!
+fileprivate class RoadOverlay: MKPolyline{
+
+}
+fileprivate class PathOverlay: MKPolyline{
+
 }

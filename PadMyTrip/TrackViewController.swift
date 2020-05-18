@@ -102,17 +102,6 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
         
     }
     
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destination.
-     // Pass the selected object to the new view controller.
-     }
-     */
-    
-    
     // MARK:  Events
     // Plot currently active track when map loads
     func mapViewDidFinishLoadingMap(_ mapView: MKMapView) {
@@ -124,10 +113,9 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
     // Render track on map
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         let renderer = MKPolylineRenderer(overlay: overlay)
-        renderer.strokeColor = .purple
+        renderer.strokeColor = UIColor.gray
         renderer.lineWidth = 3
-        renderer.lineDashPattern = .some([4, 16, 16])
-        
+        renderer.lineDashPattern = [4,16,4,8]
         return renderer
     }
 }

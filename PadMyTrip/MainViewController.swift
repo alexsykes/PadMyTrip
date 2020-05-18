@@ -544,23 +544,33 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         let renderer = MKPolylineRenderer(polyline: overlay as! MKPolyline)
         if overlay is RoadOverlay {
-
             renderer.strokeColor = UIColor.black
             renderer.alpha = 1
             renderer.lineWidth = 3
           //  renderer.lineDashPattern = [4,16,4,8]
             
+        } else if overlay is TrackOverlay {
+            renderer.strokeColor = .black
+            renderer.lineWidth = 2
+           // renderer.lineDashPattern = [16,8,8,8]
+          //  renderer.lineDashPhase = 12
+            
         } else if overlay is PathOverlay {
             renderer.strokeColor = .brown
             renderer.lineWidth = 2
-            renderer.lineDashPattern = [16,8,8,8]
-            renderer.lineDashPhase = 12
+            renderer.lineDashPattern = [16,8]
+            renderer.lineDashPhase = 8
+            
+        } else if overlay is SmallPathOverlay {
+            renderer.strokeColor = .brown
+            renderer.lineWidth = 2
+            renderer.lineDashPattern = [8,88]
+            renderer.lineDashPhase = 4
             
         } else {
-            renderer.strokeColor = UIColor.blue
+            renderer.strokeColor = UIColor.red
             renderer.lineWidth = 5
         }
-
         return renderer
     }
     
@@ -580,6 +590,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         currentMap.mapDescription = mapDetails[1]
         map.name = mapDetails[0]
         map.mapDescription = mapDetails[1]
+        
     }
     // MARK: NewTableViewCellDelegate
     
@@ -613,6 +624,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         var track = tracks[0]
         track.name = newName!
         track.isVisible = isTrackIncluded
+        track.style = trackDetails["lineStyle"]!
         self.trackData.append(track)
         saveFileData()
         trackTableView.reloadData()
@@ -682,8 +694,10 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
 }
 
 fileprivate class RoadOverlay: MKPolyline{
-
+}
+fileprivate class TrackOverlay: MKPolyline{
 }
 fileprivate class PathOverlay: MKPolyline{
-
+}
+fileprivate class SmallPathOverlay: MKPolyline{
 }

@@ -30,6 +30,7 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
     @IBOutlet weak var trackID: UILabel!
     @IBOutlet weak var trackName: UITextField!
     @IBOutlet weak var isTrackIncludedSwitch: UISwitch!
+    @IBOutlet weak var lineStyleSelect: UISegmentedControl!
     
     @IBAction func updateTrackData(_ sender: Any) {
         data["trackID"] = String(trackData._id)
@@ -43,8 +44,16 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
     @IBAction func nameDidChange(_ sender: UITextField) {
         data["trackName"] = trackName.text
         print("nameDidChange")
+        
+        delegate?.trackDetailUpdated(trackDetails: data, isTrackIncluded: isTrackIncludedSwitch.isOn)
+        _ = self.navigationController?.popViewController(animated: true)
     }
     
+    @IBAction func lineStyleChanged(_ sender: UISegmentedControl) {
+        let lineStyle = lineStyleSelect.titleForSegment(at: lineStyleSelect.selectedSegmentIndex)
+        data["lineStyle"] = lineStyle!
+        print("Line style: \(lineStyle!)")
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         mapView.delegate = self

@@ -60,7 +60,7 @@
                                             <segment title="Minor Path"/>
                                         </segments>
                                         <connections>
-                                            <action selector="lineStyleChanged:" destination="7Zk-02-Q0m" eventType="valueChanged" id="9aD-VI-KNJ"/>
+                                            <action selector="styleDidChange:" destination="7Zk-02-Q0m" eventType="valueChanged" id="8rw-eH-0Lh"/>
                                         </connections>
                                     </segmentedControl>
                                 </subviews>

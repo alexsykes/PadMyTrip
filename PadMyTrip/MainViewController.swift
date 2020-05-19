@@ -185,7 +185,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
                     points.append(newLocation)
                     locations.append(loc)
                 }
-                trackData.append(TrackData.init(name: filename, isVisible: true, _id: nextTrackID, points: points, style: "normal"))
+                trackData.append(TrackData.init(name: filename, isVisible: true, _id: nextTrackID, points: points, style: 0))
                 // currentMap.trackIDs.append(nextTrackID)
                 nextTrackID += 1
                 defaults.set(nextTrackID, forKey: "nextTrackID")
@@ -625,7 +625,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         var track = tracks[0]
         track.name = newName!
         track.isVisible = isTrackIncluded
-        track.style = trackDetails["lineStyle"]!
+        track.style = Int(trackDetails["lineStyle"]!)!
         self.trackData.append(track)
         saveFileData()
         trackTableView.reloadData()

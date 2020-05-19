@@ -50,7 +50,7 @@ struct TrackData  {
     var isVisible :Bool
     var _id: Int
     var points :[Location]
-    var style :String
+    var style :Int
     
     enum CodingKeys: String, CodingKey {
         case points
@@ -69,7 +69,7 @@ extension TrackData :Decodable {
         isVisible = try values.decode(Bool.self, forKey: .isVisible)
         points = try values.decode([Location].self, forKey: .points)
         _id = try values.decode(Int.self, forKey: ._id)
-        style = try values.decode(String.self, forKey: .style)
+        style = try values.decode(Int.self, forKey: .style)
     }
 }
 

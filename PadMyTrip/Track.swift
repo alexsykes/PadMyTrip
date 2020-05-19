@@ -19,7 +19,7 @@ class Track: NSObject {
     var date: Date
     var region: MKCoordinateRegion!
     var name: String
-    var style: String
+    var style: Int
     var north :Double = -90.0
     var south :Double = 90.0
     var west :Double = 180
@@ -31,7 +31,7 @@ class Track: NSObject {
         self.date = Date()
         self.locations = track
         self.name = name
-        self.style = "default"
+        self.style = 0
         self._id = Track.serial
         super.init()
         self.region = calcBounds(track: track)
@@ -42,7 +42,7 @@ class Track: NSObject {
         self.date = Date()
         self.locations = track
         self.name = name
-        self.style = "default"
+        self.style = 0
         self._id = _id
         super.init()
         self.region = calcBounds(track: track)
@@ -60,7 +60,7 @@ class Track: NSObject {
         self.trackDescription = "Track description"
         self.date = Date()
         self.name = "Track name"
-        self.style = "default"
+        self.style = 0
         self._id = Track.serial
         super.init()
         self.region = calcBounds(track: track)
@@ -71,7 +71,7 @@ class Track: NSObject {
         self.date = Date()
         self.locations = track
         self.name = "Track name"
-        self.style = "default"
+        self.style = 0
         self._id = Track.serial
         super.init()
         self.region = calcBounds(track: track)
@@ -82,7 +82,7 @@ class Track: NSObject {
         self.date = Date()
         self.locations = track
         self.name = "Track name"
-        self.style = "default"
+        self.style = 0
         self._id = Track.serial
         super.init()
         self.region = calcBounds(track: track)

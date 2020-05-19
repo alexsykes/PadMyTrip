@@ -35,6 +35,8 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
     @IBAction func updateTrackData(_ sender: Any) {
         data["trackID"] = String(trackData._id)
         data["trackName"] = trackName.text
+        let lineStyle = lineStyleSelect.selectedSegmentIndex
+        data["lineStyle"] = String(lineStyle)
         print ("Updated")
         
         delegate?.trackDetailUpdated(trackDetails: data, isTrackIncluded: isTrackIncludedSwitch.isOn)
@@ -49,10 +51,12 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
         _ = self.navigationController?.popViewController(animated: true)
     }
     
-    @IBAction func lineStyleChanged(_ sender: UISegmentedControl) {
-        let lineStyle = lineStyleSelect.titleForSegment(at: lineStyleSelect.selectedSegmentIndex)
-        data["lineStyle"] = lineStyle!
-        print("Line style: \(lineStyle!)")
+    @IBAction func styleDidChange(_ sender: Any) {
+        // Change line style
+        print("Styles has changed to: ")
+        
+        // Reload map
+        
     }
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,6 +64,7 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
         trackID.text = "Track ID: \(trackData._id)"
         isTrackIncludedSwitch.isOn = trackData.isVisible
         trackName.text = trackData.name
+        lineStyleSelect.selectedSegmentIndex = trackData.style
         let trackPoints = trackData.points.count
         if trackPoints == 0 {
             print("Track has \(trackPoints) points")

@@ -326,7 +326,8 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
             print(error.localizedDescription)
         }
     }
-    // MARK: Important - check to nextTrackID
+    
+    // MARK: Encoding data for writing
     func encodeTrackData () -> Data {
         var encodedData :Data!
         // Structs - MapData, Location, TrackData
@@ -339,6 +340,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
             // For each track, add each location to the points array
             let name = track.name
             let _id = track._id
+            let style = track.style
             let isVisible :Bool = track.isVisible
             // Firstly, start with an empty array
             var points :[Location] = []
@@ -355,7 +357,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
             }
             // Once the tack points array is populated,
             // append the array of points to the trackData
-            tData.append(TrackData.init(name: name, isVisible: isVisible, _id: _id, points: points, style: "Normal"))
+            tData.append(TrackData.init(name: name, isVisible: isVisible, _id: _id, points: points, style: style))
         }
         let encoder = JSONEncoder()
         if let encoded = try? encoder.encode(tData) {
@@ -364,7 +366,6 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         return encodedData
     }
     
-    // MARK: Map data
     func encodeMapData () -> Data {
         var encodedData :Data!
         let mapData = MapData(name: currentMap.name, mapDescription: currentMap.mapDescription, date: Date())
@@ -629,68 +630,6 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         saveFileData()
         trackTableView.reloadData()
     }
-    
-    // MARK: Retired
-    
-    // Display tracks on MapView
-    /*  func displayTrack(track trackId: Int) {
-     let theTrack = trackData[trackId]
-     var locations : [CLLocation] = []
-     let points = theTrack.points
-     for point in points {
-     let lat = point.lat
-     let long = point.long
-     let location = CLLocation(latitude: lat, longitude: long)
-     locations.append(location)
-     }
-     mapView.addOverlays(currentMap.polylines)
-     
-     } */
-    
-    /* Plots track loaded from visitedLocations array
-     func plotCurrentTrack() {
-     } */
-    
-    
-    /*func addVisibleTracksToCurrentMap () {
-     for track in trackData {
-     if trackIDs.contains(track._id) {
-     print("Visible tracks: \(track._id)")
-     // let newTrack :Track = Track(
-     trackData.append(track)
-     }
-     }
-     }*/
-    
-    
-    
-    //    func calcBounds(trackData :[CLLocationCoordinate2D]) -> MKCoordinateRegion {
-    //        var northMost = -90.0
-    //        var southMost = 90.0
-    //        var eastMost = -180.0
-    //        var westMost = 180.0
-    //
-    //        for curPoint in trackData {
-    //            let lat = curPoint.latitude
-    //            let long = curPoint.longitude
-    //
-    //            if lat > northMost { northMost = lat }
-    //            if lat < southMost { southMost = lat }
-    //            if long > eastMost { eastMost = long }
-    //            if long < westMost { westMost = long }
-    //        }
-    //
-    //
-    //        let centreLat = (northMost + southMost)/2
-    //        let centreLong = (eastMost + westMost)/2
-    //        let spanLong = 1.5 * (eastMost - westMost)
-    //        let spanLat = 1.5 * (northMost - southMost)
-    //
-    //        let centre = CLLocationCoordinate2D(latitude: centreLat, longitude: centreLong)
-    //        let span = MKCoordinateSpan(latitudeDelta: spanLat, longitudeDelta: spanLong)
-    //        return MKCoordinateRegion(center: centre, span: span)
-    //
-    //    }
 }
 
 fileprivate class RoadOverlay: MKPolyline{

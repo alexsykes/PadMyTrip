@@ -149,13 +149,13 @@ extension Location :Encodable {
 struct GPXTrack {
     var long :Double
     var lat: Double
-    var time: Date
+    var date: String
     var ele: Double
     
     enum CodingKeys: String, CodingKey {
         case long
         case lat
-        case time
+        case date
         case ele
     }
 }
@@ -166,7 +166,7 @@ extension GPXTrack :Decodable {
         long = try values.decode(Double.self, forKey: .long)
         lat = try values.decode(Double.self, forKey: .lat)
         ele = try values.decode(Double.self, forKey: .ele)
-        time = try values.decode(Date.self, forKey: .time)
+        date = try values.decode(String.self, forKey: .date)
     }
 }
 
@@ -176,7 +176,7 @@ extension GPXTrack :Encodable {
         try container.encode(lat, forKey: .lat)
         try container.encode(long, forKey: .long)
         try container.encode(ele, forKey: .ele)
-        try container.encode(time, forKey: .time)
+        try container.encode(date, forKey: .date)
     }
 }
 
@@ -185,13 +185,13 @@ extension GPXTrack :Encodable {
 struct KMLTrack {
     var long :Double
     var lat: Double
-    var time: Date
+    var date: String
     var ele: Double
     
     enum CodingKeys: String, CodingKey {
         case long
         case lat
-        case time
+        case date
         case ele
     }
 }
@@ -202,7 +202,7 @@ extension KMLTrack :Decodable {
         long = try values.decode(Double.self, forKey: .long)
         lat = try values.decode(Double.self, forKey: .lat)
         ele = try values.decode(Double.self, forKey: .ele)
-        time = try values.decode(Date.self, forKey: .time)
+        date = try values.decode(String.self, forKey: .date)
     }
 }
 
@@ -212,6 +212,6 @@ extension KMLTrack :Encodable {
         try container.encode(lat, forKey: .lat)
         try container.encode(long, forKey: .long)
         try container.encode(ele, forKey: .ele)
-        try container.encode(time, forKey: .time)
+        try container.encode(date, forKey: .date)
     }
 }

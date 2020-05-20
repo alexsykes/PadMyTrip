@@ -11,7 +11,7 @@ import MapKit
 import CoreLocation
 import Foundation
 
-class MainViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIDocumentPickerDelegate, MKMapViewDelegate, SettingsDelegate, TrackDetailDelegate, NewTableViewCellDelegate {
+class MainViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIDocumentPickerDelegate, MKMapViewDelegate, SettingsDelegate, TrackDetailDelegate, NewTableViewCellDelegate, XMLParserDelegate {
     
     
     
@@ -23,8 +23,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet weak var eyeImage: UIImageView!
     
     // MARK: Variables
-    var files :[URL]! = []
-    var trkpt: [GPXTrack] = []         // Garmin track imports
+    var files :[URL]! = []       // Garmin track imports
     var currentMap :Map!            // Map class - used to hold data displayed on MKMapView
     var map :MapData!               // Struct representing a Map used for storing data in Codable format
     var overlays :[MKOverlay]!
@@ -32,10 +31,19 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     var nextTrackID: Int!
     var trackIDs :[Int]!
     var trackData :[TrackData]!
+    var gPXTracks: [GPXTrack]!
     let mapFileName = "Map.txt"
     let trackFileName = "Tracks.txt"
     var polylines :[MKPolyline] = []
     var region: MKCoordinateRegion!
+    
+    // Added for parsing
+    var pointData:[String] = []
+    var ele: String!
+    var long: String!
+    var lat: String!
+    var date: String!
+    var elementName: String!
     
     // MARK: Actions
     // + Button clicked
@@ -112,7 +120,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         // open a document picker, select a file
         // documentTypes see - https://developer.apple.com/library/archive/documentation/Miscellaneous/Reference/UTIRef/Articles/System-DeclaredUniformTypeIdentifiers.html#//apple_ref/doc/uid/TP40009259-SW1
         
-        let importFileMenu = UIDocumentPickerViewController(documentTypes: ["public.plain-text","public.text"],
+        let importFileMenu = UIDocumentPickerViewController(documentTypes: ["public.content", "public.data"],
                                                             in: UIDocumentPickerMode.import)
         
         importFileMenu.delegate = self
@@ -149,72 +157,99 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     // MARK: Tracks read from documents
     func processImportedTracks(trackURLs :[URL])  {
-        let fileManager = FileManager.init()
-        let docDir = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
-        
         // Check that only CSV files are processed
-        let csvURLs = trackURLs.filter{ $0.pathExtension == "csv" || $0.pathExtension == "gpx" || $0.pathExtension == "kml"}
+        let importFileURLs = trackURLs.filter{ $0.pathExtension == "csv" || $0.pathExtension == "gpx" || $0.pathExtension == "kml"}
         
         
-        for trackURL in csvURLs {
+        for trackURL in importFileURLs {
+            let filename = trackURL.lastPathComponent
+            let path = trackURL.path
+            
+            
             // Check for filetype
             if trackURL.pathExtension == "csv" {
-                let filename = trackURL.lastPathComponent
-                let newFileURL = docDir.appendingPathComponent(filename)
-                do {
-                    try
-                        fileManager.copyItem(at: trackURL, to: newFileURL)
-                    // Convert to JSON
-                    var pointData:[String] = []
-                    let path = newFileURL.path
-                    let fileContents = FileManager.default.contents(atPath: path)
-                    let fileContentsAsString = String(bytes: fileContents!, encoding: .utf8)
-                    
-                    // Split lines then append to array
-                    let lines = fileContentsAsString!.split(separator: "\n")
-                    for line in lines {
-                        pointData.append(String(line))
-                    }
-                    // Return here?
-            
-                    print("Points: \(pointData.count)")
-                    var points :[Location] = []
-                    var locations :[CLLocation] = []
-                    for point in pointData {
-                        let location = point.split(separator: ",")
-                        let lat = Double(location[0])!
-                        let long = Double(location[1])!
-                        let elev = Double(location[2])!
-                        
-                        let newLocation = Location(long: long, lat: lat, elevation: elev)
-                        let loc = CLLocation(latitude: lat, longitude: long)
-                        points.append(newLocation)
-                        locations.append(loc)
-                    }
-                    trackData.append(TrackData.init(name: filename, isVisible: true, _id: nextTrackID, points: points, style: 0))
-                    // currentMap.trackIDs.append(nextTrackID)
-                    nextTrackID += 1
-                    defaults.set(nextTrackID, forKey: "nextTrackID")
-                    try
-                        fileManager.removeItem(at: newFileURL)
-                } catch {
-                    print("Error copying file: \(error.localizedDescription)")
+                // Convert to JSON
+                let fileContents = FileManager.default.contents(atPath: path)
+                let fileContentsAsString = String(bytes: fileContents!, encoding: .utf8)
+                
+                // Split lines then append to array
+                let lines = fileContentsAsString!.split(separator: "\n")
+                for line in lines {
+                    pointData.append(String(line))
                 }
-            }
                 
+                //  pointData contains CSV String of lat, long, hacc, vacc, elev ,??, date
+                
+                print("Points: \(pointData.count)")
+                var points :[Location] = []
+                var locations :[CLLocation] = []
+                for point in pointData {
+                    let location = point.split(separator: ",")
+                    let lat = Double(location[0])!
+                    let long = Double(location[1])!
+                    let elev = Double(location[2])!
+                    
+                    let newLocation = Location(long: long, lat: lat, elevation: elev)
+                    let loc = CLLocation(latitude: lat, longitude: long)
+                    points.append(newLocation)
+                    locations.append(loc)
+                }
+                trackData.append(TrackData.init(name: filename, isVisible: true, _id: nextTrackID, points: points, style: 0))
+                // currentMap.trackIDs.append(nextTrackID)
+                nextTrackID += 1
+                defaults.set(nextTrackID, forKey: "nextTrackID")
+                
+                mapRefresh()
+                return
+            }
             else if trackURL.pathExtension == "gpx" {
-                
-                
+                if let parser = XMLParser(contentsOf: trackURL) {
+                    parser.delegate = self
+                    parser.parse()
+                }
                 print("GPX file")
+                print("Points: \(pointData.count)")
+                var points :[Location] = []
+                var locations :[CLLocation] = []
+                for point in pointData {
+                    let location = point.split(separator: ",")
+                    let lat = Double(location[0])!
+                    let long = Double(location[1])!
+                    let elev = Double(location[2])!
+                    
+                    let newLocation = Location(long: long, lat: lat, elevation: elev)
+                    let loc = CLLocation(latitude: lat, longitude: long)
+                    points.append(newLocation)
+                    locations.append(loc)
+                }
+                trackData.append(TrackData.init(name: filename, isVisible: true, _id: nextTrackID, points: points, style: 0))
+                // currentMap.trackIDs.append(nextTrackID)
+                nextTrackID += 1
+                defaults.set(nextTrackID, forKey: "nextTrackID")
+                
+                mapRefresh()
+                return
             }
-            
         }
-        mapRefresh()
     }
     
-    func importCSVTracks() {
+    func importCSVTracks() -> [CLLocation]{
+        var locations :[CLLocation] = []
         
+        return locations
     }
+    
+    func importGPXTracks() -> [CLLocation]{
+           var locations :[CLLocation] = []
+           
+           return locations
+       }
+    
+    func importKMLTracks()  -> [CLLocation]{
+           var locations :[CLLocation] = []
+           
+           return locations
+       }
     
     func mapRefresh() {
         // Remove current clutter
@@ -660,5 +695,39 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     class PathOverlay: MKPolyline{
     }
     class SmallPathOverlay: MKPolyline{
+    }
+    
+    // XMLParser additions
+    func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qname: String?, attributes attributeDict: [String : String] = [:]) {
+        
+        
+        if elementName == "trkpt" {
+            lat = attributeDict["lat"]!
+            long = attributeDict["lon"]!        }
+        
+        self.elementName = elementName
+    }
+    
+    func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
+        if elementName == "trkpt" {
+
+            //  pointData contains CSV String of lat, long, hacc, vacc, elev ,??, date
+            let point: String = lat + "," + long + ",0,0," + ele + "," + date
+            pointData.append(point)
+            //  gPXTracks.append(GPXTrack(long: long, lat: lat, date: date, ele: ele))
+        }
+    }
+    
+    func parser(_ parser: XMLParser, foundCharacters string: String) {
+        let data = string.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+        
+        if (!data.isEmpty) {
+            if self.elementName == "time" {
+                self.date = data
+            }
+            else if self.elementName == "ele" {
+                self.ele = data
+            }
+        }
     }
 }

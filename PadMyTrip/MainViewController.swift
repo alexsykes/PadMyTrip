@@ -24,6 +24,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     // MARK: Variables
     var files :[URL]! = []
+    var trkpt: [GPXTrack] = []         // Garmin track imports
     var currentMap :Map!            // Map class - used to hold data displayed on MKMapView
     var map :MapData!               // Struct representing a Map used for storing data in Codable format
     var overlays :[MKOverlay]!
@@ -111,7 +112,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         // open a document picker, select a file
         // documentTypes see - https://developer.apple.com/library/archive/documentation/Miscellaneous/Reference/UTIRef/Articles/System-DeclaredUniformTypeIdentifiers.html#//apple_ref/doc/uid/TP40009259-SW1
         
-        let importFileMenu = UIDocumentPickerViewController(documentTypes: ["public.plain-text"],
+        let importFileMenu = UIDocumentPickerViewController(documentTypes: ["public.plain-text","public.text"],
                                                             in: UIDocumentPickerMode.import)
         
         importFileMenu.delegate = self
@@ -152,50 +153,67 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         let docDir = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
         
         // Check that only CSV files are processed
-        let csvURLs = trackURLs.filter{ $0.pathExtension == "csv"}
+        let csvURLs = trackURLs.filter{ $0.pathExtension == "csv" || $0.pathExtension == "gpx" || $0.pathExtension == "kml"}
+        
+        
         for trackURL in csvURLs {
-            let filename = trackURL.lastPathComponent
-            let newFileURL = docDir.appendingPathComponent(filename)
-            do {
-                try
-                    fileManager.copyItem(at: trackURL, to: newFileURL)
-                // Convert to JSON
-                var pointData:[String] = []
-                let path = newFileURL.path
-                let fileContents = FileManager.default.contents(atPath: path)
-                let fileContentsAsString = String(bytes: fileContents!, encoding: .utf8)
-                
-                // Split lines then append to array
-                let lines = fileContentsAsString!.split(separator: "\n")
-                for line in lines {
-                    pointData.append(String(line))
-                }
-                
-                print("Points: \(pointData.count)")
-                var points :[Location] = []
-                var locations :[CLLocation] = []
-                for point in pointData {
-                    let location = point.split(separator: ",")
-                    let lat = Double(location[0])!
-                    let long = Double(location[1])!
-                    let elev = Double(location[2])!
+            // Check for filetype
+            if trackURL.pathExtension == "csv" {
+                let filename = trackURL.lastPathComponent
+                let newFileURL = docDir.appendingPathComponent(filename)
+                do {
+                    try
+                        fileManager.copyItem(at: trackURL, to: newFileURL)
+                    // Convert to JSON
+                    var pointData:[String] = []
+                    let path = newFileURL.path
+                    let fileContents = FileManager.default.contents(atPath: path)
+                    let fileContentsAsString = String(bytes: fileContents!, encoding: .utf8)
                     
-                    let newLocation = Location(long: long, lat: lat, elevation: elev)
-                    let loc = CLLocation(latitude: lat, longitude: long)
-                    points.append(newLocation)
-                    locations.append(loc)
+                    // Split lines then append to array
+                    let lines = fileContentsAsString!.split(separator: "\n")
+                    for line in lines {
+                        pointData.append(String(line))
+                    }
+                    // Return here?
+            
+                    print("Points: \(pointData.count)")
+                    var points :[Location] = []
+                    var locations :[CLLocation] = []
+                    for point in pointData {
+                        let location = point.split(separator: ",")
+                        let lat = Double(location[0])!
+                        let long = Double(location[1])!
+                        let elev = Double(location[2])!
+                        
+                        let newLocation = Location(long: long, lat: lat, elevation: elev)
+                        let loc = CLLocation(latitude: lat, longitude: long)
+                        points.append(newLocation)
+                        locations.append(loc)
+                    }
+                    trackData.append(TrackData.init(name: filename, isVisible: true, _id: nextTrackID, points: points, style: 0))
+                    // currentMap.trackIDs.append(nextTrackID)
+                    nextTrackID += 1
+                    defaults.set(nextTrackID, forKey: "nextTrackID")
+                    try
+                        fileManager.removeItem(at: newFileURL)
+                } catch {
+                    print("Error copying file: \(error.localizedDescription)")
                 }
-                trackData.append(TrackData.init(name: filename, isVisible: true, _id: nextTrackID, points: points, style: 0))
-                // currentMap.trackIDs.append(nextTrackID)
-                nextTrackID += 1
-                defaults.set(nextTrackID, forKey: "nextTrackID")
-                try
-                    fileManager.removeItem(at: newFileURL)
-            } catch {
-                print("Error copying file: \(error.localizedDescription)")
             }
+                
+            else if trackURL.pathExtension == "gpx" {
+                
+                
+                print("GPX file")
+            }
+            
         }
         mapRefresh()
+    }
+    
+    func importCSVTracks() {
+        
     }
     
     func mapRefresh() {
@@ -222,12 +240,15 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
                     locs.append(location)
                 }
             }
-            if locs.count > 100 {
-             let   bpolyline = RoadOverlay(coordinates: locs, count: locs.count)
-             currentMap.polylines.append(bpolyline)
-            } else {
-                 let gpolyline = PathOverlay(coordinates: locs, count: locs.count)
-                currentMap.polylines.append(gpolyline)
+            
+            if trackData.style == 0 {
+                currentMap.polylines.append(RoadOverlay(coordinates: locs, count: locs.count))
+            } else if trackData.style == 1{
+                currentMap.polylines.append(TrackOverlay(coordinates: locs, count: locs.count))
+            }  else if trackData.style == 2{
+                currentMap.polylines.append(PathOverlay(coordinates: locs, count: locs.count))
+            }  else if trackData.style == 3{
+                currentMap.polylines.append(SmallPathOverlay(coordinates: locs, count: locs.count))
             }
         }
         if hasValidTracks == true {
@@ -539,7 +560,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     func mapViewDidFinishLoadingMap(_ mapView: MKMapView) {
         print("mapViewDidFinishLoadingMap")
     }
-
+    
     // MARK: Rendering
     
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
@@ -548,13 +569,13 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
             renderer.strokeColor = UIColor.black
             renderer.alpha = 1
             renderer.lineWidth = 3
-          //  renderer.lineDashPattern = [4,16,4,8]
+            //  renderer.lineDashPattern = [4,16,4,8]
             
         } else if overlay is TrackOverlay {
             renderer.strokeColor = .black
             renderer.lineWidth = 2
-           // renderer.lineDashPattern = [16,8,8,8]
-          //  renderer.lineDashPhase = 12
+            // renderer.lineDashPattern = [16,8,8,8]
+            //  renderer.lineDashPhase = 12
             
         } else if overlay is PathOverlay {
             renderer.strokeColor = .brown
@@ -565,7 +586,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         } else if overlay is SmallPathOverlay {
             renderer.strokeColor = .brown
             renderer.lineWidth = 2
-            renderer.lineDashPattern = [8,88]
+            renderer.lineDashPattern = [8,8]
             renderer.lineDashPhase = 4
             
         } else {
@@ -630,13 +651,14 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         saveFileData()
         trackTableView.reloadData()
     }
-}
-
-fileprivate class RoadOverlay: MKPolyline{
-}
-fileprivate class TrackOverlay: MKPolyline{
-}
-fileprivate class PathOverlay: MKPolyline{
-}
-fileprivate class SmallPathOverlay: MKPolyline{
+    
+    
+    class RoadOverlay: MKPolyline{
+    }
+    class TrackOverlay: MKPolyline{
+    }
+    class PathOverlay: MKPolyline{
+    }
+    class SmallPathOverlay: MKPolyline{
+    }
 }

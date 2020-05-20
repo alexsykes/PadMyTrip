@@ -125,11 +125,54 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
     
     // MARK: MapView functions
     // Render track on map
+//    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+//        let renderer = MKPolylineRenderer(overlay: overlay)
+//        renderer.strokeColor = UIColor.gray
+//        renderer.lineWidth = 3
+//        renderer.lineDashPattern = [4,16,4,8]
+//        return renderer
+//    }
+    
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
-        let renderer = MKPolylineRenderer(overlay: overlay)
-        renderer.strokeColor = UIColor.gray
-        renderer.lineWidth = 3
-        renderer.lineDashPattern = [4,16,4,8]
-        return renderer
+           let renderer = MKPolylineRenderer(polyline: overlay as! MKPolyline)
+           if overlay is RoadOverlay {
+               renderer.strokeColor = UIColor.black
+               renderer.alpha = 1
+               renderer.lineWidth = 3
+             //  renderer.lineDashPattern = [4,16,4,8]
+               
+           } else if overlay is TrackOverlay {
+               renderer.strokeColor = .black
+               renderer.lineWidth = 2
+              // renderer.lineDashPattern = [16,8,8,8]
+             //  renderer.lineDashPhase = 12
+               
+           } else if overlay is PathOverlay {
+               renderer.strokeColor = .brown
+               renderer.lineWidth = 2
+               renderer.lineDashPattern = [16,8]
+               renderer.lineDashPhase = 8
+               
+           } else if overlay is SmallPathOverlay {
+               renderer.strokeColor = .brown
+               renderer.lineWidth = 2
+               renderer.lineDashPattern = [8,88]
+               renderer.lineDashPhase = 4
+               
+           } else {
+               renderer.strokeColor = UIColor.red
+               renderer.lineWidth = 5
+           }
+           return renderer
+       }
+    
+    class RoadOverlay: MKPolyline{
     }
+    class TrackOverlay: MKPolyline{
+    }
+    class PathOverlay: MKPolyline{
+    }
+    class SmallPathOverlay: MKPolyline{
+    }
+    
 }

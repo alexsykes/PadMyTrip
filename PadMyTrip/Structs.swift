@@ -22,7 +22,7 @@ struct MapData  {
         case date
         case trackData
         case trackIDs
-//        case styles
+        //        case styles
     }
 }
 
@@ -143,5 +143,75 @@ extension Location :Encodable {
         try container.encode(lat, forKey: .lat)
         try container.encode(long, forKey: .long)
         try container.encode(elevation, forKey: .elevation)
+    }
+}
+
+struct GPXTrack {
+    var long :Double
+    var lat: Double
+    var time: Date
+    var ele: Double
+    
+    enum CodingKeys: String, CodingKey {
+        case long
+        case lat
+        case time
+        case ele
+    }
+}
+
+extension GPXTrack :Decodable {
+    init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        long = try values.decode(Double.self, forKey: .long)
+        lat = try values.decode(Double.self, forKey: .lat)
+        ele = try values.decode(Double.self, forKey: .ele)
+        time = try values.decode(Date.self, forKey: .time)
+    }
+}
+
+extension GPXTrack :Encodable {
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(lat, forKey: .lat)
+        try container.encode(long, forKey: .long)
+        try container.encode(ele, forKey: .ele)
+        try container.encode(time, forKey: .time)
+    }
+}
+
+
+
+struct KMLTrack {
+    var long :Double
+    var lat: Double
+    var time: Date
+    var ele: Double
+    
+    enum CodingKeys: String, CodingKey {
+        case long
+        case lat
+        case time
+        case ele
+    }
+}
+
+extension KMLTrack :Decodable {
+    init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        long = try values.decode(Double.self, forKey: .long)
+        lat = try values.decode(Double.self, forKey: .lat)
+        ele = try values.decode(Double.self, forKey: .ele)
+        time = try values.decode(Date.self, forKey: .time)
+    }
+}
+
+extension KMLTrack :Encodable {
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(lat, forKey: .lat)
+        try container.encode(long, forKey: .long)
+        try container.encode(ele, forKey: .ele)
+        try container.encode(time, forKey: .time)
     }
 }

@@ -122,4 +122,23 @@ class Track: NSObject {
         let polyline = MKPolyline(coordinates: &coordinates, count: coordinates.count)
         return polyline
     }
+    
+    
+//    func getStyle (polyline :MKPolyline) -> Any {
+//        switch style {
+//        case 0 :
+//            return RoadOverlay(points: <#T##UnsafePointer<MKMapPoint>#>, count: <#T##Int#>)
+//        }
+//        default: return nil
+//    }
+    
+    
+    class RoadOverlay: MKPolyline{
+    }
+    class TrackOverlay: MKPolyline{
+    }
+    class PathOverlay: MKPolyline{
+    }
+    class SmallPathOverlay: MKPolyline{
+    }
 }

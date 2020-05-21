@@ -158,15 +158,18 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     // MARK: Tracks read from documents
     func processImportedTracks(trackURLs :[URL])  {
         // Check that only CSV files are processed
-        let importFileURLs = trackURLs.filter{ $0.pathExtension == "csv" || $0.pathExtension == "gpx" || $0.pathExtension == "kml"}
+        let importFileURLs = trackURLs.filter{ $0.pathExtension == "csv" || $0.pathExtension == "gpx" /* || $0.pathExtension == "kml"*/ }
         
         
         for trackURL in importFileURLs {
             let filename = trackURL.lastPathComponent
             let path = trackURL.path
             
+            // Start again
+            pointData.removeAll()
             
             // Check for filetype
+            // Start CSV file
             if trackURL.pathExtension == "csv" {
                 // Convert to JSON
                 let fileContents = FileManager.default.contents(atPath: path)
@@ -177,36 +180,15 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
                 for line in lines {
                     pointData.append(String(line))
                 }
+                // End CSV file
+            }  else if trackURL.pathExtension == "gpx" {
+                // Start GPX file
                 
-                //  pointData contains CSV String of lat, long, hacc, vacc, elev ,??, date
-                
-                print("Points: \(pointData.count)")
-                var points :[Location] = []
-                var locations :[CLLocation] = []
-                for point in pointData {
-                    let location = point.split(separator: ",")
-                    let lat = Double(location[0])!
-                    let long = Double(location[1])!
-                    let elev = Double(location[2])!
-                    
-                    let newLocation = Location(long: long, lat: lat, elevation: elev)
-                    let loc = CLLocation(latitude: lat, longitude: long)
-                    points.append(newLocation)
-                    locations.append(loc)
-                }
-                trackData.append(TrackData.init(name: filename, isVisible: true, _id: nextTrackID, points: points, style: 0))
-                // currentMap.trackIDs.append(nextTrackID)
-                nextTrackID += 1
-                defaults.set(nextTrackID, forKey: "nextTrackID")
-                
-                mapRefresh()
-                return
-            }
-            else if trackURL.pathExtension == "gpx" {
                 if let parser = XMLParser(contentsOf: trackURL) {
                     parser.delegate = self
                     parser.parse()
                 }
+            }
                 print("GPX file")
                 print("Points: \(pointData.count)")
                 var points :[Location] = []
@@ -215,7 +197,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
                     let location = point.split(separator: ",")
                     let lat = Double(location[0])!
                     let long = Double(location[1])!
-                    let elev = Double(location[2])!
+                    let elev = Double(location[4])!
                     
                     let newLocation = Location(long: long, lat: lat, elevation: elev)
                     let loc = CLLocation(latitude: lat, longitude: long)
@@ -230,23 +212,23 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
                 mapRefresh()
                 return
             }
-        }
+        
     }
     
     func importCSVTracks() -> [CLLocation]{
-        var locations :[CLLocation] = []
+        let locations :[CLLocation] = []
         
         return locations
     }
     
     func importGPXTracks() -> [CLLocation]{
-           var locations :[CLLocation] = []
+        let locations :[CLLocation] = []
            
            return locations
        }
     
     func importKMLTracks()  -> [CLLocation]{
-           var locations :[CLLocation] = []
+        let locations :[CLLocation] = []
            
            return locations
        }
@@ -729,5 +711,15 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
                 self.ele = data
             }
         }
+    }
+    
+    func parserDidStartDocument(_ parser: XMLParser) {
+        print("XMLParser parserDidStartDocument")
+    }
+    
+    func parser(_ parser: XMLParser,
+    didStartMappingPrefix prefix: String,
+    toURI namespaceURI: String) {
+        print("XMLParser didStartMappingPrefix: \(prefix)")
     }
 }

@@ -69,8 +69,8 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         // Setup currentMap and populate from data in JSON data
         trackData = []
-        loadSavedMapData()
-        loadSavedTrackData()
+        readStoredJSONMapData()
+        readStoredJSONTrackData()
         
         currentMap = Map(mapData: map)
         
@@ -93,15 +93,81 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     // MARK: Load saved map data
-    func loadSavedMapData () {
+    func readStoredJSONMapData() {
         // Read saved map data into Mapdata struct
         map = MapData(name: "Map name", mapDescription: "A description of my map", date: Date())
-        readStoredJSONMapData()
+        let url = self.getDocumentsDirectory().appendingPathComponent(mapFileName)
+        
+        let fileManager = FileManager.default
+        // Check if file exists, given its path
+        let path = url.path
+        
+        if(!fileManager.fileExists(atPath:path)){
+            fileManager.createFile(atPath: path, contents: nil, attributes: nil)
+        }else{
+            print("Map file exists")
+        }
+        
+        var jsonData :Data!
+        do {
+            jsonData = try Data(contentsOf: url)
+            
+            if jsonData.count == 0 {
+                print("Map file contains no data")
+                return
+            }
+        } catch {
+            print(error.localizedDescription)
+            return
+        }
+        
+        let decoder = JSONDecoder()
+        
+        do {
+            map = try decoder.decode(MapData.self, from: jsonData)
+            // print(map!)
+        } catch {
+            print(error.localizedDescription)
+        }
     }
     
-    func loadSavedTrackData () {
-        readStoredJSONTrackData()
+    // MARK: Load saved track data
+    // Reads all saved trackData from storage
+    func readStoredJSONTrackData() {
+        let url = self.getDocumentsDirectory().appendingPathComponent(trackFileName)
         
+        let fileManager = FileManager.default
+        
+        // Check if file exists, given its path
+        let path = url.path
+        
+        if(!fileManager.fileExists(atPath:path)){
+            fileManager.createFile(atPath: path, contents: nil, attributes: nil)
+        }else{
+            print("Track file exists")
+        }
+        
+        var jsonData :Data!
+        do {
+            jsonData = try Data(contentsOf: url)
+            
+            if jsonData.isEmpty{
+                print("Map file contains no data")
+                return
+            }
+        } catch {
+            print(error.localizedDescription)
+            return
+        }
+        
+        let decoder = JSONDecoder()
+        
+        do {
+            trackData  = try decoder.decode([TrackData].self, from: jsonData)
+            // print(map!)
+        } catch {
+            print(error.localizedDescription)
+        }
     }
     
     // MARK: Write file data
@@ -287,84 +353,6 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         return paths[0]
     }
     
-    
-    // MARK: Data decoding
-    // Reads all saved trackData from storage
-    func readStoredJSONTrackData() {
-        let url = self.getDocumentsDirectory().appendingPathComponent(trackFileName)
-        
-        let fileManager = FileManager.default
-        
-        // Check if file exists, given its path
-        let path = url.path
-        
-        if(!fileManager.fileExists(atPath:path)){
-            fileManager.createFile(atPath: path, contents: nil, attributes: nil)
-        }else{
-            print("Track file exists")
-        }
-        
-        var jsonData :Data!
-        do {
-            jsonData = try Data(contentsOf: url)
-            
-            if jsonData.isEmpty{
-                print("Map file contains no data")
-                return
-            }
-        } catch {
-            print(error.localizedDescription)
-            return
-        }
-        
-        let decoder = JSONDecoder()
-        
-        do {
-            trackData  = try decoder.decode([TrackData].self, from: jsonData)
-            // print(map!)
-        } catch {
-            print(error.localizedDescription)
-        }
-    }
-    
-    
-    // MARK: Data encoding
-    func readStoredJSONMapData() {
-        let url = self.getDocumentsDirectory().appendingPathComponent(mapFileName)
-        
-        let fileManager = FileManager.default
-        // Check if file exists, given its path
-        let path = url.path
-        
-        if(!fileManager.fileExists(atPath:path)){
-            fileManager.createFile(atPath: path, contents: nil, attributes: nil)
-        }else{
-            print("Map file exists")
-        }
-        
-        var jsonData :Data!
-        do {
-            jsonData = try Data(contentsOf: url)
-            
-            if jsonData.count == 0 {
-                print("Map file contains no data")
-                return
-            }
-        } catch {
-            print(error.localizedDescription)
-            return
-        }
-        
-        let decoder = JSONDecoder()
-        
-        do {
-            map = try decoder.decode(MapData.self, from: jsonData)
-            // print(map!)
-        } catch {
-            print(error.localizedDescription)
-        }
-    }
-    
     // MARK: Encoding data for writing
     func encodeTrackData () -> Data {
         var encodedData :Data!
@@ -447,8 +435,9 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         var eastMost = -180.0
         var westMost = 180.0
         
+        let visibleTracks: [TrackData] = self.trackData.filter{$0.isVisible == true}
         
-        for track in trackData {
+        for track in visibleTracks {
             var locations:[CLLocation] = []
             let numPoints = track.points.count
             

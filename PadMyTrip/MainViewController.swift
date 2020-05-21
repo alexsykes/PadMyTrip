@@ -40,6 +40,10 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     var selected: Int = 0
     
+    // GPX Import stuff
+    var trackCount: Int!
+    var pointCount: Int!
+    
     // Added for parsing
     var pointData:[String] = []
     var ele: String!
@@ -692,13 +696,23 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         if elementName == "trkpt" {
             lat = attributeDict["lat"]!
-            long = attributeDict["lon"]!        }
+            long = attributeDict["lon"]!
+            
+        }
+        else if elementName == "trkseg" {
+            trackCount += 1
+            pointCount = 0
+            print("\(trackCount ?? 0) tracks")
+        }
         
         self.elementName = elementName
     }
     
     func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
         if elementName == "trkpt" {
+            
+            pointCount += 1
+            print("\(pointCount ?? 0) points")
             
             //  pointData contains CSV String of lat, long, hacc, vacc, elev ,??, date
             let point: String = lat + "," + long + ",0,0," + ele + "," + date
@@ -721,6 +735,9 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func parserDidStartDocument(_ parser: XMLParser) {
+        pointData = []
+        trackCount = 0
+        pointCount = 0
         print("XMLParser parserDidStartDocument")
     }
     

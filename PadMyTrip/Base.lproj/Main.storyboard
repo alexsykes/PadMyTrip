@@ -19,16 +19,27 @@
                                 <rect key="frame" x="0.0" y="50" width="1024" height="718"/>
                             </mapView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="uBf-wC-ldT">
-                                <rect key="frame" x="671" y="60" width="343" height="116.5"/>
+                                <rect key="frame" x="671" y="60" width="343" height="147.5"/>
                                 <subviews>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="sin-Pw-FSl">
+                                        <rect key="frame" x="0.0" y="0.0" width="343" height="32"/>
+                                        <segments>
+                                            <segment title="Map"/>
+                                            <segment title="Hybrid"/>
+                                            <segment title="Satellite"/>
+                                        </segments>
+                                        <connections>
+                                            <action selector="mapTypeSelected:" destination="7Zk-02-Q0m" eventType="valueChanged" id="8W3-8D-tS0"/>
+                                        </connections>
+                                    </segmentedControl>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2hb-VX-4bT">
-                                        <rect key="frame" x="0.0" y="0.0" width="343" height="20.5"/>
+                                        <rect key="frame" x="0.0" y="31" width="343" height="20.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="8UU-dh-cjW">
-                                        <rect key="frame" x="0.0" y="20.5" width="343" height="34"/>
+                                        <rect key="frame" x="0.0" y="51.5" width="343" height="34"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                         <connections>
@@ -36,7 +47,7 @@
                                         </connections>
                                     </textField>
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1Bw-1s-JZW">
-                                        <rect key="frame" x="0.0" y="54.5" width="343" height="31"/>
+                                        <rect key="frame" x="0.0" y="85.5" width="343" height="31"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Include in current map" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="240" translatesAutoresizingMaskIntoConstraints="NO" id="Aff-uh-klP">
                                                 <rect key="frame" x="0.0" y="0.0" width="294" height="31"/>
@@ -52,7 +63,7 @@
                                         </subviews>
                                     </stackView>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="qUE-xf-X1q">
-                                        <rect key="frame" x="0.0" y="85.5" width="343" height="32"/>
+                                        <rect key="frame" x="0.0" y="116.5" width="343" height="32"/>
                                         <segments>
                                             <segment title="Road"/>
                                             <segment title="Track"/>
@@ -82,6 +93,7 @@
                     <connections>
                         <outlet property="isTrackIncludedSwitch" destination="8Eq-hi-7aa" id="lw7-O4-PaT"/>
                         <outlet property="lineStyleSelect" destination="qUE-xf-X1q" id="obM-23-IiF"/>
+                        <outlet property="mapTypeSelector" destination="sin-Pw-FSl" id="d5b-Tr-oI6"/>
                         <outlet property="mapView" destination="DLX-Wr-uiW" id="GvO-Cv-7Po"/>
                         <outlet property="trackID" destination="2hb-VX-4bT" id="LlS-Nu-dFC"/>
                         <outlet property="trackName" destination="8UU-dh-cjW" id="CEr-uV-zOS"/>
@@ -168,11 +180,25 @@
                                     </mapView>
                                 </subviews>
                             </stackView>
+                            <segmentedControl opaque="NO" alpha="0.80000000000000004" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="WrE-KU-WOC">
+                                <rect key="frame" x="805" y="60" width="209" height="32"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <segments>
+                                    <segment title="Map"/>
+                                    <segment title="Hybrid"/>
+                                    <segment title="Satellite"/>
+                                </segments>
+                                <connections>
+                                    <action selector="mapViewSelected:" destination="pK2-tU-nK5" eventType="valueChanged" id="Mde-qK-DfV"/>
+                                </connections>
+                            </segmentedControl>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="lwM-Yf-iCy" firstAttribute="centerX" secondItem="9VJ-dD-pwt" secondAttribute="centerX" id="Z0N-US-bSL"/>
                             <constraint firstItem="lwM-Yf-iCy" firstAttribute="top" secondItem="KbC-kY-sVU" secondAttribute="top" id="emI-8A-Bp7"/>
+                            <constraint firstItem="KbC-kY-sVU" firstAttribute="trailing" secondItem="WrE-KU-WOC" secondAttribute="trailing" constant="10" id="g1C-Jv-dh1"/>
+                            <constraint firstItem="WrE-KU-WOC" firstAttribute="top" secondItem="KbC-kY-sVU" secondAttribute="top" constant="10" id="pzV-KH-eIs"/>
                             <constraint firstItem="lwM-Yf-iCy" firstAttribute="bottom" secondItem="KbC-kY-sVU" secondAttribute="bottom" id="vfT-By-Kra"/>
                             <constraint firstItem="lwM-Yf-iCy" firstAttribute="leading" secondItem="KbC-kY-sVU" secondAttribute="leading" id="xi6-fb-u22"/>
                         </constraints>
@@ -191,6 +217,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="mapTypeSelector" destination="WrE-KU-WOC" id="62d-0I-XSi"/>
                         <outlet property="mapView" destination="yMb-ML-8rX" id="QvV-XI-xGc"/>
                         <outlet property="trackTableView" destination="TQE-L2-bfW" id="rJZ-8k-7j8"/>
                     </connections>

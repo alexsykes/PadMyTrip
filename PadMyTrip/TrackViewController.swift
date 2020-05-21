@@ -21,6 +21,7 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
     var polyline :MKPolyline!
     var locs :[CLLocationCoordinate2D] = []
     var data  :[String: String] = [:]
+    var mapType: Int = 0
     
     
     weak var delegate: TrackDetailDelegate? = nil
@@ -31,6 +32,7 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
     @IBOutlet weak var trackName: UITextField!
     @IBOutlet weak var isTrackIncludedSwitch: UISwitch!
     @IBOutlet weak var lineStyleSelect: UISegmentedControl!
+    @IBOutlet weak var mapTypeSelector: UISegmentedControl!
     
     @IBAction func updateTrackData(_ sender: Any) {
         data["trackID"] = String(trackData._id)
@@ -41,6 +43,20 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
         
         delegate?.trackDetailUpdated(trackDetails: data, isTrackIncluded: isTrackIncludedSwitch.isOn)
         _ = self.navigationController?.popViewController(animated: true)
+    }
+    
+    @IBAction func mapTypeSelected(_ sender: UISegmentedControl) {
+        mapType = sender.selectedSegmentIndex
+        switch mapType {
+        case 0:
+            mapView.mapType = .standard
+        case 1:
+            mapView.mapType = .hybrid
+        case 2:
+            mapView.mapType = .satellite
+        default:
+            mapView.mapType = .standard
+        }
     }
     
     @IBAction func nameDidChange(_ sender: UITextField) {
@@ -61,6 +77,19 @@ class TrackViewController: UIViewController, MKMapViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         mapView.delegate = self
+        
+        switch mapType {
+        case 0:
+            mapView.mapType = .standard
+        case 1:
+            mapView.mapType = .hybrid
+        case 2:
+            mapView.mapType = .satellite
+        default:
+            mapView.mapType = .standard
+        }
+        mapTypeSelector.selectedSegmentIndex = mapType
+        
         trackID.text = "Track ID: \(trackData._id)"
         isTrackIncludedSwitch.isOn = trackData.isVisible
         trackName.text = trackData.name

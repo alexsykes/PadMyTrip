@@ -21,6 +21,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet weak var trackTableView: UITableView!
     @IBOutlet weak var visibilityButton: UIButton!
     @IBOutlet weak var eyeImage: UIImageView!
+    @IBOutlet weak var mapTypeSelector: UISegmentedControl!
     
     // MARK: Variables
     var files :[URL]! = []       // Garmin track imports
@@ -37,6 +38,8 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     var polylines :[MKPolyline] = []
     var region: MKCoordinateRegion!
     
+    var selected: Int = 0
+    
     // Added for parsing
     var pointData:[String] = []
     var ele: String!
@@ -49,6 +52,20 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     // + Button clicked
     @IBAction func addFromPublic(_ sender: UIBarButtonItem) {
         presentFilePicker()
+    }
+    
+    @IBAction func mapViewSelected(_ sender: UISegmentedControl) {
+        selected = sender.selectedSegmentIndex
+        switch selected {
+        case 0:
+            mapView.mapType = .standard
+        case 1:
+            mapView.mapType = .hybrid
+        case 2:
+            mapView.mapType = .satellite
+        default:
+            mapView.mapType = .standard
+        }
     }
     
     @IBAction func toggleVisibility(_ sender: UIButton) {
@@ -255,29 +272,29 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
                     parser.parse()
                 }
             }
-                print("GPX file")
-                print("Points: \(pointData.count)")
-                var points :[Location] = []
-                var locations :[CLLocation] = []
-                for point in pointData {
-                    let location = point.split(separator: ",")
-                    let lat = Double(location[0])!
-                    let long = Double(location[1])!
-                    let elev = Double(location[4])!
-                    
-                    let newLocation = Location(long: long, lat: lat, elevation: elev)
-                    let loc = CLLocation(latitude: lat, longitude: long)
-                    points.append(newLocation)
-                    locations.append(loc)
-                }
-                trackData.append(TrackData.init(name: filename, isVisible: true, _id: nextTrackID, points: points, style: 0))
-                // currentMap.trackIDs.append(nextTrackID)
-                nextTrackID += 1
-                defaults.set(nextTrackID, forKey: "nextTrackID")
+            print("GPX file")
+            print("Points: \(pointData.count)")
+            var points :[Location] = []
+            var locations :[CLLocation] = []
+            for point in pointData {
+                let location = point.split(separator: ",")
+                let lat = Double(location[0])!
+                let long = Double(location[1])!
+                let elev = Double(location[4])!
                 
-                mapRefresh()
-                return
+                let newLocation = Location(long: long, lat: lat, elevation: elev)
+                let loc = CLLocation(latitude: lat, longitude: long)
+                points.append(newLocation)
+                locations.append(loc)
             }
+            trackData.append(TrackData.init(name: filename, isVisible: true, _id: nextTrackID, points: points, style: 0))
+            // currentMap.trackIDs.append(nextTrackID)
+            nextTrackID += 1
+            defaults.set(nextTrackID, forKey: "nextTrackID")
+            
+            mapRefresh()
+            return
+        }
         
     }
     
@@ -289,15 +306,15 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func importGPXTracks() -> [CLLocation]{
         let locations :[CLLocation] = []
-           
-           return locations
-       }
+        
+        return locations
+    }
     
     func importKMLTracks()  -> [CLLocation]{
         let locations :[CLLocation] = []
-           
-           return locations
-       }
+        
+        return locations
+    }
     
     func mapRefresh() {
         // Remove current clutter
@@ -488,6 +505,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
             
             trackViewController.trackData = track
             trackViewController.delegate = self
+            trackViewController.mapType = selected
             
         } else {
             if identifier == "showPrefs" {
@@ -572,25 +590,25 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         let renderer = MKPolylineRenderer(polyline: overlay as! MKPolyline)
         if overlay is RoadOverlay {
-            renderer.strokeColor = UIColor.black
+            renderer.strokeColor = UIColor.cyan
             renderer.alpha = 1
             renderer.lineWidth = 3
             //  renderer.lineDashPattern = [4,16,4,8]
             
         } else if overlay is TrackOverlay {
-            renderer.strokeColor = .black
+            renderer.strokeColor = .cyan
             renderer.lineWidth = 2
             // renderer.lineDashPattern = [16,8,8,8]
             //  renderer.lineDashPhase = 12
             
         } else if overlay is PathOverlay {
-            renderer.strokeColor = .brown
+            renderer.strokeColor = .magenta
             renderer.lineWidth = 2
             renderer.lineDashPattern = [16,8]
             renderer.lineDashPhase = 8
             
         } else if overlay is SmallPathOverlay {
-            renderer.strokeColor = .brown
+            renderer.strokeColor = .magenta
             renderer.lineWidth = 2
             renderer.lineDashPattern = [8,8]
             renderer.lineDashPhase = 4
@@ -681,7 +699,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
         if elementName == "trkpt" {
-
+            
             //  pointData contains CSV String of lat, long, hacc, vacc, elev ,??, date
             let point: String = lat + "," + long + ",0,0," + ele + "," + date
             pointData.append(point)
@@ -707,8 +725,8 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func parser(_ parser: XMLParser,
-    didStartMappingPrefix prefix: String,
-    toURI namespaceURI: String) {
+                didStartMappingPrefix prefix: String,
+                toURI namespaceURI: String) {
         print("XMLParser didStartMappingPrefix: \(prefix)")
     }
 }

@@ -15,15 +15,17 @@
 	<key>CFBundlePackageType</key>
 	<string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
+	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Allow Map my Trip to access your location</string>
+	<key>MKDirectionsApplicationSupportedModes</key>
+	<array/>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Always mode is strongly recommended for this app for improved location tracking</string>
+	<string>Allow location access when the app is not in use</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Allow location access while in use</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

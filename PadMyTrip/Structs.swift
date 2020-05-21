@@ -8,29 +8,21 @@
 
 import Foundation
 import CoreLocation
+import MapKit
 
 
 struct MapData  {
     var name :String
     var mapDescription :String
     var date :Date
-    var northMost :Double
-    var southMost :Double
-    var westMost :Double
-    var eastMost :Double
-    var trackData :[TrackData]
-//    var styles :[Style]
     
     enum CodingKeys: String, CodingKey {
         case name
         case description
         case date
-        case northMost
-        case eastMost
-        case southMost
-        case westMost
         case trackData
-//        case styles
+        case trackIDs
+        //        case styles
     }
 }
 
@@ -40,12 +32,6 @@ extension MapData :Decodable  {
         name = try values.decode(String.self, forKey: .name)
         mapDescription = try values.decode(String.self, forKey: .description)
         date = try values.decode(Date.self, forKey: .date)
-        northMost = try values.decode(Double.self , forKey: .northMost)
-        southMost = try values.decode(Double.self , forKey: .southMost)
-        eastMost = try values.decode(Double.self , forKey: .eastMost)
-        westMost = try values.decode(Double.self , forKey: .westMost)
-        trackData = try values.decode([TrackData].self, forKey: .trackData)
-//        styles = try values.decode([Style].self, forKey: .styles)
     }
 }
 
@@ -56,27 +42,34 @@ extension MapData :Encodable {
         try container.encode(name, forKey: .name)
         try container.encode(mapDescription, forKey: .description)
         try container.encode(date, forKey: .date)
-        try container.encode(northMost, forKey: .northMost)
-        try container.encode(eastMost, forKey: .eastMost)
-        try container.encode(westMost, forKey: .westMost)
-        try container.encode(southMost, forKey: .southMost)
-//        try container.encode(styles, forKey: .styles)
-        try container.encode(trackData, forKey: .trackData)
     }
 }
 
 struct TrackData  {
+    var name: String
+    var isVisible :Bool
+    var _id: Int
     var points :[Location]
+    var style :Int
     
     enum CodingKeys: String, CodingKey {
         case points
+        case isVisible
+        case _id
+        case name
+        case style
     }
+    
 }
 
 extension TrackData :Decodable {
     init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
+        name = try values.decode(String.self, forKey: .name)
+        isVisible = try values.decode(Bool.self, forKey: .isVisible)
         points = try values.decode([Location].self, forKey: .points)
+        _id = try values.decode(Int.self, forKey: ._id)
+        style = try values.decode(Int.self, forKey: .style)
     }
 }
 
@@ -84,24 +77,34 @@ extension TrackData :Encodable {
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(points, forKey: .points)
+        try container.encode(name, forKey: .name)
+        try container.encode(_id, forKey: ._id)
+        try container.encode(isVisible, forKey: .isVisible)
+        try container.encode(style, forKey: .style)
     }
 }
 
 struct Style  {
+    var name :String
     var lineWidth :Double
     var strokeColour :Double
+    var lineDashPattern: [Int]
     
     enum CodingKeys: String, CodingKey {
+        case name
         case lineWidth
         case strokeColour
+        case lineDashPattern
     }
 }
 
 extension Style :Decodable {
     init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
+        name = try values.decode(String.self, forKey: .name)
         lineWidth = try values.decode(Double.self, forKey: .lineWidth)
         strokeColour = try values.decode(Double.self, forKey: .strokeColour)
+        lineDashPattern = try values.decode([Int].self, forKey: .lineDashPattern)
     }
 }
 
@@ -110,13 +113,14 @@ extension Style :Encodable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(lineWidth, forKey: .lineWidth)
         try container.encode(strokeColour, forKey: .strokeColour)
+        try container.encode(name, forKey: .name)
     }
 }
 
 struct Location  {
     var long :Double
     var lat :Double
-    var elevation :Double!
+    var elevation :Double
     
     enum CodingKeys: String, CodingKey {
         case long
@@ -139,5 +143,75 @@ extension Location :Encodable {
         try container.encode(lat, forKey: .lat)
         try container.encode(long, forKey: .long)
         try container.encode(elevation, forKey: .elevation)
+    }
+}
+
+struct GPXTrack {
+    var long :Double
+    var lat: Double
+    var date: String
+    var ele: Double
+    
+    enum CodingKeys: String, CodingKey {
+        case long
+        case lat
+        case date
+        case ele
+    }
+}
+
+extension GPXTrack :Decodable {
+    init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        long = try values.decode(Double.self, forKey: .long)
+        lat = try values.decode(Double.self, forKey: .lat)
+        ele = try values.decode(Double.self, forKey: .ele)
+        date = try values.decode(String.self, forKey: .date)
+    }
+}
+
+extension GPXTrack :Encodable {
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(lat, forKey: .lat)
+        try container.encode(long, forKey: .long)
+        try container.encode(ele, forKey: .ele)
+        try container.encode(date, forKey: .date)
+    }
+}
+
+
+
+struct KMLTrack {
+    var long :Double
+    var lat: Double
+    var date: String
+    var ele: Double
+    
+    enum CodingKeys: String, CodingKey {
+        case long
+        case lat
+        case date
+        case ele
+    }
+}
+
+extension KMLTrack :Decodable {
+    init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        long = try values.decode(Double.self, forKey: .long)
+        lat = try values.decode(Double.self, forKey: .lat)
+        ele = try values.decode(Double.self, forKey: .ele)
+        date = try values.decode(String.self, forKey: .date)
+    }
+}
+
+extension KMLTrack :Encodable {
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(lat, forKey: .lat)
+        try container.encode(long, forKey: .long)
+        try container.encode(ele, forKey: .ele)
+        try container.encode(date, forKey: .date)
     }
 }

@@ -9,14 +9,22 @@
 /* Begin PBXBuildFile section */
 		FA2304862455B135004C0819 /* Structs.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2304852455B135004C0819 /* Structs.swift */; };
 		FA6EA99B245429C0002F6C85 /* Track.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6EA99A245429C0002F6C85 /* Track.swift */; };
+		FA75E83E245BFC5000E9A26F /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA75E83D245BFC5000E9A26F /* MapKit.framework */; };
+		FA75E844245C3D5300E9A26F /* TrackViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA75E843245C3D5300E9A26F /* TrackViewCell.swift */; };
+		FA8A9433246E7E7E00B0C302 /* NewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8A9432246E7E7E00B0C302 /* NewTableViewCell.swift */; };
 		FA96A580245304FC001863CA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA96A57F245304FC001863CA /* AppDelegate.swift */; };
 		FA96A582245304FC001863CA /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA96A581245304FC001863CA /* SceneDelegate.swift */; };
-		FA96A584245304FC001863CA /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA96A583245304FC001863CA /* ViewController.swift */; };
 		FA96A587245304FC001863CA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA96A585245304FC001863CA /* Main.storyboard */; };
 		FA96A589245304FD001863CA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FA96A588245304FD001863CA /* Assets.xcassets */; };
 		FA96A58C245304FD001863CA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA96A58A245304FD001863CA /* LaunchScreen.storyboard */; };
 		FA96A597245304FD001863CA /* PadMyTripTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA96A596245304FD001863CA /* PadMyTripTests.swift */; };
+		FAB801B324615F9F0049E1C1 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB801B224615F9F0049E1C1 /* MainViewController.swift */; };
+		FABA9FDF246320DF008F7F7F /* TrackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FABA9FDE246320DF008F7F7F /* TrackViewController.swift */; };
+		FAC8B30624657C0800410486 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC8B30524657C0800410486 /* SettingsViewController.swift */; };
+		FACB201D246D497100FC10C6 /* TrackViewCellWithImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = FACB201C246D497100FC10C6 /* TrackViewCellWithImage.swift */; };
 		FADD144D2454C49900044425 /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADD144C2454C49900044425 /* Map.swift */; };
+		FAFBA0B724603D8500FB7A98 /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FAFBA0B524603D8500FB7A98 /* DataModel.xcdatamodeld */; };
+		FAFBA0B92460447B00FB7A98 /* PersistentContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAFBA0B82460447B00FB7A98 /* PersistentContainer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -31,11 +39,14 @@
 
 /* Begin PBXFileReference section */
 		FA2304852455B135004C0819 /* Structs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Structs.swift; sourceTree = "<group>"; };
+		FA571A27245B078A0086A9E6 /* PadMyTripRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PadMyTripRelease.entitlements; sourceTree = "<group>"; };
 		FA6EA99A245429C0002F6C85 /* Track.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Track.swift; sourceTree = "<group>"; };
+		FA75E83D245BFC5000E9A26F /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		FA75E843245C3D5300E9A26F /* TrackViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackViewCell.swift; sourceTree = "<group>"; };
+		FA8A9432246E7E7E00B0C302 /* NewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTableViewCell.swift; sourceTree = "<group>"; };
 		FA96A57C245304FC001863CA /* PadMyTrip.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PadMyTrip.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA96A57F245304FC001863CA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FA96A581245304FC001863CA /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		FA96A583245304FC001863CA /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		FA96A586245304FC001863CA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		FA96A588245304FD001863CA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FA96A58B245304FD001863CA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -44,7 +55,13 @@
 		FA96A596245304FD001863CA /* PadMyTripTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PadMyTripTests.swift; sourceTree = "<group>"; };
 		FA96A598245304FD001863CA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FA96A5A1245348EB001863CA /* PadMyTrip.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PadMyTrip.entitlements; sourceTree = "<group>"; };
+		FAB801B224615F9F0049E1C1 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		FABA9FDE246320DF008F7F7F /* TrackViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackViewController.swift; sourceTree = "<group>"; };
+		FAC8B30524657C0800410486 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		FACB201C246D497100FC10C6 /* TrackViewCellWithImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackViewCellWithImage.swift; sourceTree = "<group>"; };
 		FADD144C2454C49900044425 /* Map.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Map.swift; sourceTree = "<group>"; };
+		FAFBA0B624603D8500FB7A98 /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
+		FAFBA0B82460447B00FB7A98 /* PersistentContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistentContainer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,6 +69,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA75E83E245BFC5000E9A26F /* MapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,12 +83,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		FA75E83C245BFC5000E9A26F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				FA75E83D245BFC5000E9A26F /* MapKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		FA96A573245304FC001863CA = {
 			isa = PBXGroup;
 			children = (
 				FA96A57E245304FC001863CA /* PadMyTrip */,
 				FA96A595245304FD001863CA /* PadMyTripTests */,
 				FA96A57D245304FC001863CA /* Products */,
+				FA75E83C245BFC5000E9A26F /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -86,15 +113,23 @@
 		FA96A57E245304FC001863CA /* PadMyTrip */ = {
 			isa = PBXGroup;
 			children = (
+				FAFBA0B82460447B00FB7A98 /* PersistentContainer.swift */,
+				FAFBA0B524603D8500FB7A98 /* DataModel.xcdatamodeld */,
+				FA8A9432246E7E7E00B0C302 /* NewTableViewCell.swift */,
+				FA75E843245C3D5300E9A26F /* TrackViewCell.swift */,
+				FACB201C246D497100FC10C6 /* TrackViewCellWithImage.swift */,
+				FA571A27245B078A0086A9E6 /* PadMyTripRelease.entitlements */,
+				FADD144C2454C49900044425 /* Map.swift */,
 				FA2304852455B135004C0819 /* Structs.swift */,
+				FA6EA99A245429C0002F6C85 /* Track.swift */,
 				FA96A5A1245348EB001863CA /* PadMyTrip.entitlements */,
 				FA96A57F245304FC001863CA /* AppDelegate.swift */,
 				FA96A581245304FC001863CA /* SceneDelegate.swift */,
-				FA96A583245304FC001863CA /* ViewController.swift */,
-				FA6EA99A245429C0002F6C85 /* Track.swift */,
-				FADD144C2454C49900044425 /* Map.swift */,
-				FA96A585245304FC001863CA /* Main.storyboard */,
+				FAB801B224615F9F0049E1C1 /* MainViewController.swift */,
+				FABA9FDE246320DF008F7F7F /* TrackViewController.swift */,
+				FAC8B30524657C0800410486 /* SettingsViewController.swift */,
 				FA96A588245304FD001863CA /* Assets.xcassets */,
+				FA96A585245304FC001863CA /* Main.storyboard */,
 				FA96A58A245304FD001863CA /* LaunchScreen.storyboard */,
 				FA96A58D245304FD001863CA /* Info.plist */,
 			);
@@ -212,11 +247,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				FA2304862455B135004C0819 /* Structs.swift in Sources */,
+				FAB801B324615F9F0049E1C1 /* MainViewController.swift in Sources */,
 				FADD144D2454C49900044425 /* Map.swift in Sources */,
-				FA96A584245304FC001863CA /* ViewController.swift in Sources */,
+				FAFBA0B92460447B00FB7A98 /* PersistentContainer.swift in Sources */,
+				FABA9FDF246320DF008F7F7F /* TrackViewController.swift in Sources */,
 				FA96A580245304FC001863CA /* AppDelegate.swift in Sources */,
+				FACB201D246D497100FC10C6 /* TrackViewCellWithImage.swift in Sources */,
+				FA8A9433246E7E7E00B0C302 /* NewTableViewCell.swift in Sources */,
 				FA96A582245304FC001863CA /* SceneDelegate.swift in Sources */,
 				FA6EA99B245429C0002F6C85 /* Track.swift in Sources */,
+				FAFBA0B724603D8500FB7A98 /* DataModel.xcdatamodeld in Sources */,
+				FAC8B30624657C0800410486 /* SettingsViewController.swift in Sources */,
+				FA75E844245C3D5300E9A26F /* TrackViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -384,8 +426,10 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.alexsykes.PadMyTrip;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -395,7 +439,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = PadMyTrip/PadMyTrip.entitlements;
+				CODE_SIGN_ENTITLEMENTS = PadMyTrip/PadMyTripRelease.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 88UXW8RGH2;
 				INFOPLIST_FILE = PadMyTrip/Info.plist;
@@ -403,8 +447,10 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.alexsykes.PadMyTrip;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -485,6 +531,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		FAFBA0B524603D8500FB7A98 /* DataModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				FAFBA0B624603D8500FB7A98 /* DataModel.xcdatamodel */,
+			);
+			currentVersion = FAFBA0B624603D8500FB7A98 /* DataModel.xcdatamodel */;
+			path = DataModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = FA96A574245304FC001863CA /* Project object */;
 }

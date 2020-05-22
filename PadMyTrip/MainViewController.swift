@@ -250,7 +250,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         
         for trackURL in importFileURLs {
-            let filename = trackURL.lastPathComponent
+         //   let filename = trackURL.lastPathComponent
             let path = trackURL.path
             
             // Start again
@@ -277,24 +277,24 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
                     parser.parse()
                 }
             }
-            print("GPX file")
-            print("Points: \(pointData.count)")
-            var points :[Location] = []
-            var locations :[CLLocation] = []
-            for point in pointData {
-                let location = point.split(separator: ",")
-                let lat = Double(location[0])!
-                let long = Double(location[1])!
-                let elev = Double(location[4])!
-                
-                let newLocation = Location(long: long, lat: lat, elevation: elev)
-                let loc = CLLocation(latitude: lat, longitude: long)
-                points.append(newLocation)
-                locations.append(loc)
-            }
-            trackData.append(TrackData.init(name: filename, isVisible: true, _id: nextTrackID, points: points, style: 0))
-            // currentMap.trackIDs.append(nextTrackID)
-            nextTrackID += 1
+//            print("GPX file")
+//            print("Points: \(pointData.count)")
+//            var points :[Location] = []
+//            var locations :[CLLocation] = []
+//            for point in pointData {
+//                let location = point.split(separator: ",")
+//                let lat = Double(location[0])!
+//                let long = Double(location[1])!
+//                let elev = Double(location[4])!
+//
+//                let newLocation = Location(long: long, lat: lat, elevation: elev)
+//                let loc = CLLocation(latitude: lat, longitude: long)
+//                points.append(newLocation)
+//                locations.append(loc)
+//            }
+//            trackData.append(TrackData.init(name: filename, isVisible: true, _id: nextTrackID, points: points, style: 0))
+//            // currentMap.trackIDs.append(nextTrackID)
+//            nextTrackID += 1
             defaults.set(nextTrackID, forKey: "nextTrackID")
             
             mapRefresh()
@@ -711,7 +711,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         else if elementName == "trkseg" {
             trackCount += 1
             pointCount = 0
-            print("\(trackCount ?? 0) tracks")
+       //     print("\(trackCount ?? 0) tracks")
         }
     
         self.elementName = elementName
@@ -757,8 +757,35 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     // MARK: parserDidEndDocument
     func parserDidEndDocument(_ parser: XMLParser) {
-        print("XML Parser ended document")
-        let message = "Number of tracks: " + String(trackCount) + "\nPoints count: " + String(pointCount)
-        print("\(message)")
+//        print("XML Parser ended document")
+//        let message = "Number of tracks: " + String(tracksRead.count)
+//        print("\(message)")
+        
+        // At this stage, we have all tracks imported and held in tracksRead array
+
+        var segment = 1
+        
+        for trackRead in tracksRead {
+            var points :[Location] = []
+            var locations :[CLLocation] = []
+            for point in trackRead {
+            
+                let location = point.split(separator: ",")
+                let lat = Double(location[0])!
+                let long = Double(location[1])!
+                let elev = Double(location[4])!
+                
+                let newLocation = Location(long: long, lat: lat, elevation: elev)
+                let loc = CLLocation(latitude: lat, longitude: long)
+                points.append(newLocation)
+                locations.append(loc)
+            }
+            let trackName = "Segment \(segment)"
+            trackData.append(TrackData.init(name: trackName, isVisible: true, _id: nextTrackID, points: points, style: 0))
+            segment += 1
+            
+            nextTrackID += 1
+            defaults.set(nextTrackID, forKey: "nextTrackID")
+        }
     }
 }

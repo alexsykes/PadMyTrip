@@ -1,0 +1,1093 @@
+<?xml version="1.0" encoding="utf-8"?>
+<gpx xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.0" creator="Groundspeak, Inc. All Rights Reserved. http://www.groundspeak.com" xsi:schemaLocation="http://www.topografix.com/GPX/1/0 http://www.topografix.com/GPX/1/0/gpx.xsd http://www.groundspeak.com/cache/1/0 http://www.groundspeak.com/cache/1/0/cache.xsd" xmlns="http://www.topografix.com/GPX/1/0">
+  <name>Waypoints for Cache Listings Generated from Geocaching.com</name>
+  <desc>This is a list of supporting waypoints for caches generated from Geocaching.com</desc>
+  <author>Various users from Geocaching.com</author>
+  <email>contact@geocaching.com</email>
+  <url>http://www.geocaching.com</url>
+  <urlname>Geocaching - High Tech Treasure Hunting</urlname>
+  <time>2019-10-11T11:46:51.8572291Z</time>
+  <keywords>cache, geocache, waypoints</keywords>
+  <bounds minlat="53.640067" minlon="-2.637133" maxlat="53.740267" maxlon="-2.422733" />
+  <wpt lat="53.66675" lon="-2.577783">
+    <time>2006-06-27T15:05:20.297</time>
+    <name>PAWVC8</name>
+    <cmt>White Coppice Cricket Ground</cmt>
+    <desc>Parking</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=25e686ef-57ce-4943-ba16-8b037064e565</url>
+    <urlname>Parking</urlname>
+    <sym>Parking Area</sym>
+    <type>Waypoint|Parking Area</type>
+  </wpt>
+  <wpt lat="53.667367" lon="-2.575117">
+    <time>2006-06-27T15:04:27.11</time>
+    <name>PHWVC8</name>
+    <cmt>Turning point in the path</cmt>
+    <desc>Path</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=674848d6-7068-4bcc-a0ac-fc2961eeaa4c</url>
+    <urlname>Path</urlname>
+    <sym>Trailhead</sym>
+    <type>Waypoint|Trailhead</type>
+  </wpt>
+  <wpt lat="53.69165" lon="-2.54135">
+    <time>2008-03-24T15:41:48.93</time>
+    <name>PT1AH7T</name>
+    <cmt>Good unmarked path starts here.  Park very close to here, too.</cmt>
+    <desc>Start of the new plantation and quarry path</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=c4ff5704-5880-4942-87ed-736e5beabf30</url>
+    <urlname>Start of the new plantation and quarry path</urlname>
+    <sym>Trailhead</sym>
+    <type>Waypoint|Trailhead</type>
+  </wpt>
+  <wpt lat="53.680767" lon="-2.5581">
+    <time>2008-05-23T14:39:26.223</time>
+    <name>PA1CHD2</name>
+    <cmt />
+    <desc>Parking</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=e1bd3697-3fea-4fc8-b37f-81a321c4d726</url>
+    <urlname>Parking</urlname>
+    <sym>Parking Area</sym>
+    <type>Waypoint|Parking Area</type>
+  </wpt>
+  <wpt lat="53.715817" lon="-2.538583">
+    <time>2018-01-11T09:23:43.733</time>
+    <name>011M284</name>
+    <cmt />
+    <desc>Reference</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=3a196015-b670-4be9-b5e6-6c13d6f29671</url>
+    <urlname>Reference</urlname>
+    <sym>Final Location</sym>
+    <type>Waypoint|Final Location</type>
+  </wpt>
+  <wpt lat="53.676733" lon="-2.5192">
+    <time>2010-06-05T03:24:39.31</time>
+    <name>BP29PPY</name>
+    <cmt />
+    <desc>Parking</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=0cf5dbc3-24b4-4eaa-88f7-3091f2fbdf0f</url>
+    <urlname>Parking</urlname>
+    <sym>Parking Area</sym>
+    <type>Waypoint|Parking Area</type>
+  </wpt>
+  <wpt lat="53.689217" lon="-2.516133">
+    <time>2011-05-21T09:47:11.807</time>
+    <name>BG2MZ3F</name>
+    <cmt>This might help to keep your feet dry. No point cwying over wet feet eh?</cmt>
+    <desc>GC2MZ3F Bridge</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=03f4a361-9f76-4dc7-a381-94f7f68747b4</url>
+    <urlname>GC2MZ3F Bridge</urlname>
+    <sym>Reference Point</sym>
+    <type>Waypoint|Reference Point</type>
+  </wpt>
+  <wpt lat="53.689167" lon="-2.508967">
+    <time>2011-05-21T09:45:38.173</time>
+    <name>PF2MZ3F</name>
+    <cmt>A good place to start your journey on foot</cmt>
+    <desc>GC2MZ3F - Public Footpath</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=0349e46b-fbfc-4cb5-8ed9-04a827c576e0</url>
+    <urlname>GC2MZ3F - Public Footpath</urlname>
+    <sym>Trailhead</sym>
+    <type>Waypoint|Trailhead</type>
+  </wpt>
+  <wpt lat="53.700752" lon="-2.547213">
+    <time>2012-05-17T06:48:54.89</time>
+    <name>PK3JX4B</name>
+    <cmt>Parking available for a few cars here.</cmt>
+    <desc>GC3JX4B Parking</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=9ed2aba6-5ba5-4d4f-a7cf-e5cfacdc2ed0</url>
+    <urlname>GC3JX4B Parking</urlname>
+    <sym>Parking Area</sym>
+    <type>Waypoint|Parking Area</type>
+  </wpt>
+  <wpt lat="53.704025" lon="-2.545528">
+    <time>2012-05-17T06:50:21.537</time>
+    <name>S13JX4B</name>
+    <cmt>Here the path either goes straight on through the farm yard or along the old railway. You need to stay on the left path along the old railway</cmt>
+    <desc>Footpath along old railway embankment</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=3d71542b-1c1c-41e1-9531-befe72ee73a7</url>
+    <urlname>Footpath along old railway embankment</urlname>
+    <sym>Trailhead</sym>
+    <type>Waypoint|Trailhead</type>
+  </wpt>
+  <wpt lat="53.706819" lon="-2.54402">
+    <time>2012-05-17T06:51:43.117</time>
+    <name>S23JX4B</name>
+    <cmt>Here you come to a footbridge, from here follow the fenceline until the river comes into view, then follow that to the tunnel.</cmt>
+    <desc>Footbridge</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=03320f97-38c8-45a1-8967-64910723ea02</url>
+    <urlname>Footbridge</urlname>
+    <sym>Trailhead</sym>
+    <type>Waypoint|Trailhead</type>
+  </wpt>
+  <wpt lat="53.707952" lon="-2.541465">
+    <time>2012-05-17T06:53:47.2</time>
+    <name>S33JX4B</name>
+    <cmt>The entrance to the tunnel is here. This is the only safe..ish route to the cache.</cmt>
+    <desc>Tunnel Entrance</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=7d09a370-7879-4c4b-97ed-4384f860c801</url>
+    <urlname>Tunnel Entrance</urlname>
+    <sym>Trailhead</sym>
+    <type>Waypoint|Trailhead</type>
+  </wpt>
+  <wpt lat="53.72315" lon="-2.470767">
+    <time>2013-08-25T02:54:28.84</time>
+    <name>PK4KP9G</name>
+    <cmt />
+    <desc>GC4KP9G Parking</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=1304cc7e-276a-488b-9972-333c985aaf72</url>
+    <urlname>GC4KP9G Parking</urlname>
+    <sym>Parking Area</sym>
+    <type>Waypoint|Parking Area</type>
+  </wpt>
+  <wpt lat="53.686733" lon="-2.56385">
+    <time>2014-06-18T07:39:48.233</time>
+    <name>FN4TBCK</name>
+    <cmt />
+    <desc>GC4TBCK Final</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=d6f9531d-c56d-437c-9224-167b418eede9</url>
+    <urlname>GC4TBCK Final</urlname>
+    <sym>Final Location</sym>
+    <type>Waypoint|Final Location</type>
+  </wpt>
+  <wpt lat="53.680517" lon="-2.5585">
+    <time>2014-06-18T07:31:42.647</time>
+    <name>FN5763K</name>
+    <cmt />
+    <desc>GC5763K Final</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=0ff2ca8f-d500-4037-bea8-b1220c29d569</url>
+    <urlname>GC5763K Final</urlname>
+    <sym>Final Location</sym>
+    <type>Waypoint|Final Location</type>
+  </wpt>
+  <wpt lat="53.686967" lon="-2.493317">
+    <time>2014-07-20T10:21:50.43</time>
+    <name>FN59800</name>
+    <cmt />
+    <desc>Final Location</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=25f13281-2f6f-4e08-83d9-eca987953716</url>
+    <urlname>Final Location</urlname>
+    <sym>Final Location</sym>
+    <type>Waypoint|Final Location</type>
+  </wpt>
+  <wpt lat="53.697545" lon="-2.475872">
+    <time>2014-07-31T14:09:04.277</time>
+    <name>P15A0D2</name>
+    <cmt />
+    <desc>Parking on Tockholes road</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=0d402ce9-a92a-4df5-a272-d50091e77072</url>
+    <urlname>Parking on Tockholes road</urlname>
+    <sym>Parking Area</sym>
+    <type>Waypoint|Parking Area</type>
+  </wpt>
+  <wpt lat="53.699914" lon="-2.478688">
+    <time>2014-08-22T11:09:21.643</time>
+    <name>P15BEHY</name>
+    <cmt />
+    <desc>Drive by parking</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=9df657f9-6642-4da9-9124-4a9dd6baea42</url>
+    <urlname>Drive by parking</urlname>
+    <sym>Parking Area</sym>
+    <type>Waypoint|Parking Area</type>
+  </wpt>
+  <wpt lat="53.6861" lon="-2.462217">
+    <time>2015-01-09T11:35:22.1</time>
+    <name>P15K0WR</name>
+    <cmt>You can park your car here as its a good place to start theres a chippy and a cafe</cmt>
+    <desc> Car park</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=a7735870-84f7-481d-be74-7987c75cdea6</url>
+    <urlname> Car park</urlname>
+    <sym>Parking Area</sym>
+    <type>Waypoint|Parking Area</type>
+  </wpt>
+  <wpt lat="53.684267" lon="-2.4648">
+    <time>2015-01-09T11:35:22.1</time>
+    <name>R15K0WR</name>
+    <cmt />
+    <desc>Blue Plaque</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=5bc983e1-94e8-4e9e-ace8-d15948a92b0b</url>
+    <urlname>Blue Plaque</urlname>
+    <sym>Reference Point</sym>
+    <type>Waypoint|Reference Point</type>
+  </wpt>
+  <wpt lat="53.6861" lon="-2.462217">
+    <time>2015-01-12T04:58:08.423</time>
+    <name>015K0XW</name>
+    <cmt />
+    <desc>Parking</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=9ef2b2b5-0c2e-41e2-9ca3-7ee4f2c372aa</url>
+    <urlname>Parking</urlname>
+    <sym>Parking Area</sym>
+    <type>Waypoint|Parking Area</type>
+  </wpt>
+  <wpt lat="53.684267" lon="-2.4648">
+    <time>2015-01-11T14:34:14.823</time>
+    <name>025K0XW</name>
+    <cmt />
+    <desc>Blue Plaque</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=448b59ff-716b-401d-8089-633f5404020a</url>
+    <urlname>Blue Plaque</urlname>
+    <sym>Reference Point</sym>
+    <type>Waypoint|Reference Point</type>
+  </wpt>
+  <wpt lat="53.67665" lon="-2.467483">
+    <time>2015-01-09T12:52:37.327</time>
+    <name>R15K112</name>
+    <cmt>Waypoint to save walking up the steep hill
+</cmt>
+    <desc>Easier route</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=30c521d0-a93c-477a-9f54-2fd27c03f2d7</url>
+    <urlname>Easier route</urlname>
+    <sym>Reference Point</sym>
+    <type>Waypoint|Reference Point</type>
+  </wpt>
+  <wpt lat="53.68575" lon="-2.500383">
+    <time>2016-06-06T12:46:49.96</time>
+    <name>L16JEPE</name>
+    <cmt>View from path over glaciofluvial landscape</cmt>
+    <desc>Location #1</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=63309726-08b3-43c9-953c-e86f69ec408e</url>
+    <urlname>Location #1</urlname>
+    <sym>Reference Point</sym>
+    <type>Waypoint|Reference Point</type>
+  </wpt>
+  <wpt lat="53.683983" lon="-2.49565">
+    <time>2016-06-06T12:48:12.123</time>
+    <name>L26JEPE</name>
+    <cmt>Exposed diamicton</cmt>
+    <desc>Location #2</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=9c1f5d21-1645-446a-bfa0-bef4ed2b4f45</url>
+    <urlname>Location #2</urlname>
+    <sym>Reference Point</sym>
+    <type>Waypoint|Reference Point</type>
+  </wpt>
+  <wpt lat="53.6829" lon="-2.49435">
+    <time>2016-06-09T10:19:40.967</time>
+    <name>L36JEPE</name>
+    <cmt>The waterfall site</cmt>
+    <desc>Location #3</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=e212af0b-aa10-43f3-a0d0-14a290609e0e</url>
+    <urlname>Location #3</urlname>
+    <sym>Reference Point</sym>
+    <type>Waypoint|Reference Point</type>
+  </wpt>
+  <wpt lat="53.688317" lon="-2.508667">
+    <time>2016-06-06T13:39:43.98</time>
+    <name>PK6JEPE</name>
+    <cmt>Lots of free parking</cmt>
+    <desc>GC6JEPE Parking</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=6f09a7dd-5a30-44b7-8a92-adb9c9593068</url>
+    <urlname>GC6JEPE Parking</urlname>
+    <sym>Parking Area</sym>
+    <type>Waypoint|Parking Area</type>
+  </wpt>
+  <wpt lat="53.688" lon="-2.507983">
+    <time>2016-06-06T13:42:33.677</time>
+    <name>TH6JEPE</name>
+    <cmt />
+    <desc>GC6JEPE Trailhead</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=9d37a1d8-c9ea-4ce2-b8f4-2c75b2ea30ac</url>
+    <urlname>GC6JEPE Trailhead</urlname>
+    <sym>Trailhead</sym>
+    <type>Waypoint|Trailhead</type>
+  </wpt>
+  <wpt lat="53.688317" lon="-2.508667">
+    <time>2016-06-19T10:49:38</time>
+    <name>PK6M1DE</name>
+    <cmt>Lots of free parking</cmt>
+    <desc>GC6M1DE Parking</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=7702f28c-37c9-475f-9e67-110a1e5535ab</url>
+    <urlname>GC6M1DE Parking</urlname>
+    <sym>Parking Area</sym>
+    <type>Waypoint|Parking Area</type>
+  </wpt>
+  <wpt lat="53.688" lon="-2.507983">
+    <time>2016-06-19T10:51:13.14</time>
+    <name>TH6M1DE</name>
+    <cmt />
+    <desc>GC6M1DE Trailhead</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=5440c8cf-aff0-4690-b4c6-c73e0683f1c1</url>
+    <urlname>GC6M1DE Trailhead</urlname>
+    <sym>Trailhead</sym>
+    <type>Waypoint|Trailhead</type>
+  </wpt>
+  <wpt lat="53.681367" lon="-2.547383">
+    <time>2016-07-08T06:36:06.407</time>
+    <name>FN6N3K4</name>
+    <cmt />
+    <desc>Final Location</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=a0dfe94b-5927-472d-b051-8de000b551d0</url>
+    <urlname>Final Location</urlname>
+    <sym>Final Location</sym>
+    <type>Waypoint|Final Location</type>
+  </wpt>
+  <wpt lat="53.681" lon="-2.56135">
+    <time>2018-01-25T05:40:05.56</time>
+    <name>FN7HHHY</name>
+    <cmt />
+    <desc>Final Location</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=53840059-9bb2-48fe-9038-694df73cd077</url>
+    <urlname>Final Location</urlname>
+    <sym>Final Location</sym>
+    <type>Waypoint|Final Location</type>
+  </wpt>
+  <wpt lat="53.678116" lon="-2.457778">
+    <time>2018-12-22T09:28:53.413</time>
+    <name>P081JWV</name>
+    <cmt />
+    <desc>Parking For Free.</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=dc004ef1-8dfd-4f8f-875b-9d6ac8febd05</url>
+    <urlname>Parking For Free.</urlname>
+    <sym>Parking Area</sym>
+    <type>Waypoint|Parking Area</type>
+  </wpt>
+  <wpt lat="53.702482" lon="-2.518936">
+    <time>2019-01-26T09:19:36.97</time>
+    <name>P082XHB</name>
+    <cmt>Parking at the church.</cmt>
+    <desc>Parking at the church.</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=85522b09-d31d-4f98-8b26-e6465cb8b706</url>
+    <urlname>Parking at the church.</urlname>
+    <sym>Parking Area</sym>
+    <type>Waypoint|Parking Area</type>
+  </wpt>
+  <wpt lat="53.702531" lon="-2.518927">
+    <time>2019-01-26T09:34:07.31</time>
+    <name>P082XJ7</name>
+    <cmt>Park at the church.</cmt>
+    <desc>Parking</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=788083e5-1199-4093-b7fc-e93af29f2fad</url>
+    <urlname>Parking</urlname>
+    <sym>Parking Area</sym>
+    <type>Waypoint|Parking Area</type>
+  </wpt>
+  <wpt lat="53.644217" lon="-2.637133">
+    <time>2007-02-10T11:14:11.64</time>
+    <name>MM10W4G</name>
+    <cmt>Chinese Takeaway - Menu in cache!</cmt>
+    <desc>Chinese Takeaway</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=b4e3a38f-02af-4279-a5d1-b9a73cb906a1</url>
+    <urlname>Chinese Takeaway</urlname>
+    <sym>Reference Point</sym>
+    <type>Waypoint|Reference Point</type>
+  </wpt>
+  <wpt lat="53.66675" lon="-2.577783">
+    <time>2007-02-10T11:16:58.897</time>
+    <name>PA10W4G</name>
+    <cmt>White Coppice Cricket Ground</cmt>
+    <desc>Parking</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=fc10017a-6dee-4c46-8c7d-962ece2f88d7</url>
+    <urlname>Parking</urlname>
+    <sym>Parking Area</sym>
+    <type>Waypoint|Parking Area</type>
+  </wpt>
+  <wpt lat="53.667367" lon="-2.575117">
+    <time>2007-02-10T11:17:42.38</time>
+    <name>PH10W4G</name>
+    <cmt>Turning point in the path</cmt>
+    <desc>Path</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=5a275f83-6d33-4a33-8a0c-6f6f5a2df96a</url>
+    <urlname>Path</urlname>
+    <sym>Reference Point</sym>
+    <type>Waypoint|Reference Point</type>
+  </wpt>
+  <wpt lat="53.738883" lon="-2.513617">
+    <time>2007-10-22T12:00:42.01</time>
+    <name>MG13FVE</name>
+    <cmt />
+    <desc>Witton Country Park Car Park 1</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=21ad98f4-455f-4f6c-bbc7-7e4b3e65e727</url>
+    <urlname>Witton Country Park Car Park 1</urlname>
+    <sym>Parking Area</sym>
+    <type>Waypoint|Parking Area</type>
+  </wpt>
+  <wpt lat="53.73655" lon="-2.5232">
+    <time>2007-10-23T07:55:43.243</time>
+    <name>WG13FVE</name>
+    <cmt />
+    <desc>Witton Country Park Car Park 2</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=b3a92dc2-51f7-42d6-956c-d09a5b514957</url>
+    <urlname>Witton Country Park Car Park 2</urlname>
+    <sym>Parking Area</sym>
+    <type>Waypoint|Parking Area</type>
+  </wpt>
+  <wpt lat="53.652267" lon="-2.552283">
+    <time>2007-09-07T04:04:32.39</time>
+    <name>RL15QKM</name>
+    <cmt>Walk from Lead Mines Clough to here, then onto Round Loaf.  Doing it this way, you are on proper footpaths all the way!</cmt>
+    <desc>Shooting Huts</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=378808db-6095-40bc-9c7e-97dc285b8552</url>
+    <urlname>Shooting Huts</urlname>
+    <sym>Trailhead</sym>
+    <type>Waypoint|Trailhead</type>
+  </wpt>
+  <wpt lat="53.738883" lon="-2.513617">
+    <time>2007-10-23T12:54:27.747</time>
+    <name>MG15R2F</name>
+    <cmt />
+    <desc>Witton Country Park Car Park 1</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=be2f4941-9b1a-4511-ae7f-07f830ab6a7c</url>
+    <urlname>Witton Country Park Car Park 1</urlname>
+    <sym>Parking Area</sym>
+    <type>Waypoint|Parking Area</type>
+  </wpt>
+  <wpt lat="53.73655" lon="-2.5232">
+    <time>2007-10-23T12:57:39.28</time>
+    <name>WG15R2F</name>
+    <cmt />
+    <desc>Witton Country Park Car Park 2</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=83325c6e-54c7-422d-82d5-43281bea93dd</url>
+    <urlname>Witton Country Park Car Park 2</urlname>
+    <sym>Parking Area</sym>
+    <type>Waypoint|Parking Area</type>
+  </wpt>
+  <wpt lat="53.738883" lon="-2.513617">
+    <time>2007-10-23T07:53:00.267</time>
+    <name>MG15R2K</name>
+    <cmt>There is now a parking charge of 50p for 2 hours - or £1.50 all day. </cmt>
+    <desc>Witton Country Park Car Park 1</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=adcbd355-e1ae-45c5-9ca2-18dc05ef0a81</url>
+    <urlname>Witton Country Park Car Park 1</urlname>
+    <sym>Parking Area</sym>
+    <type>Waypoint|Parking Area</type>
+  </wpt>
+  <wpt lat="53.73655" lon="-2.5232">
+    <time>2007-10-23T07:56:55.48</time>
+    <name>WG15R2K</name>
+    <cmt>There is now a parking charge of 50p for 2 hours - or £1.50 all day. </cmt>
+    <desc>Witton Country Park Car Park 2</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=47158322-ce62-49b4-b8f4-ebb66b74b81c</url>
+    <urlname>Witton Country Park Car Park 2</urlname>
+    <sym>Parking Area</sym>
+    <type>Waypoint|Parking Area</type>
+  </wpt>
+  <wpt lat="53.738883" lon="-2.513617">
+    <time>2007-10-23T13:03:35.59</time>
+    <name>MG15R31</name>
+    <cmt />
+    <desc>Witton Country Park Car Park 1</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=90fcae8a-dcd5-43ad-8b3c-81bcc3019d4f</url>
+    <urlname>Witton Country Park Car Park 1</urlname>
+    <sym>Parking Area</sym>
+    <type>Waypoint|Parking Area</type>
+  </wpt>
+  <wpt lat="53.73655" lon="-2.5232">
+    <time>2007-10-23T13:04:57.53</time>
+    <name>WG15R31</name>
+    <cmt />
+    <desc>Witton Country Park Car Park 2</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=7ff32754-55a5-4596-961b-eda741fea8e3</url>
+    <urlname>Witton Country Park Car Park 2</urlname>
+    <sym>Parking Area</sym>
+    <type>Waypoint|Parking Area</type>
+  </wpt>
+  <wpt lat="53.738883" lon="-2.513617">
+    <time>2007-10-23T12:39:16.09</time>
+    <name>MG15R3V</name>
+    <cmt />
+    <desc>Witton Country Park Car Park 1</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=4198de2c-7e78-4f0e-82ba-87d5e9de24b4</url>
+    <urlname>Witton Country Park Car Park 1</urlname>
+    <sym>Parking Area</sym>
+    <type>Waypoint|Parking Area</type>
+  </wpt>
+  <wpt lat="53.73655" lon="-2.5232">
+    <time>2007-10-23T12:45:47.28</time>
+    <name>WG15R3V</name>
+    <cmt />
+    <desc>Witton Country Park Car Park 2</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=530670ef-a53f-440b-bff8-511abe175a13</url>
+    <urlname>Witton Country Park Car Park 2</urlname>
+    <sym>Parking Area</sym>
+    <type>Waypoint|Parking Area</type>
+  </wpt>
+  <wpt lat="53.73655" lon="-2.5232">
+    <time>2007-10-23T13:17:52.787</time>
+    <name>WG15R4E</name>
+    <cmt />
+    <desc>Witton Country Park Car Park 2</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=693d08e7-9424-4883-9f29-302e1092a7d1</url>
+    <urlname>Witton Country Park Car Park 2</urlname>
+    <sym>Parking Area</sym>
+    <type>Waypoint|Parking Area</type>
+  </wpt>
+  <wpt lat="53.665633" lon="-2.564767">
+    <time>2008-03-02T05:45:55.77</time>
+    <name>ME19VGY</name>
+    <cmt />
+    <desc>Adit entrance</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=9edb18a3-b099-4059-ac82-310d00158735</url>
+    <urlname>Adit entrance</urlname>
+    <sym>Reference Point</sym>
+    <type>Waypoint|Reference Point</type>
+  </wpt>
+  <wpt lat="53.64795" lon="-2.543167">
+    <time>2008-09-10T13:42:10.377</time>
+    <name>WL1G5TT</name>
+    <cmt>The alleged position of the holy well.  I've not visited here, but if a cache turns up here, I'll gladly remove this waypoint!</cmt>
+    <desc>Holy Well</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=0704b815-1dea-48cc-aaf8-5951f17b462d</url>
+    <urlname>Holy Well</urlname>
+    <sym>Reference Point</sym>
+    <type>Waypoint|Reference Point</type>
+  </wpt>
+  <wpt lat="53.646817" lon="-2.536617">
+    <time>2009-07-15T07:10:34.353</time>
+    <name>FP1VYTX</name>
+    <cmt />
+    <desc>Leave the main path HERE</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=c27e612f-3521-4619-8f40-6707fd6cb770</url>
+    <urlname>Leave the main path HERE</urlname>
+    <sym>Reference Point</sym>
+    <type>Waypoint|Reference Point</type>
+  </wpt>
+  <wpt lat="53.693317" lon="-2.599233">
+    <time>2011-11-27T12:13:24.76</time>
+    <name>CP2R26J</name>
+    <cmt />
+    <desc>closest off road parking</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=9ec62343-6c40-430a-8301-99ea66f0dca0</url>
+    <urlname>closest off road parking</urlname>
+    <sym>Parking Area</sym>
+    <type>Waypoint|Parking Area</type>
+  </wpt>
+  <wpt lat="53.733733" lon="-2.518233">
+    <time>2013-07-31T08:42:31.08</time>
+    <name>PK4HJDM</name>
+    <cmt />
+    <desc>Parking</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=da1e04e9-abd9-4989-aced-a5041b48e543</url>
+    <urlname>Parking</urlname>
+    <sym>Parking Area</sym>
+    <type>Waypoint|Parking Area</type>
+  </wpt>
+  <wpt lat="53.65755" lon="-2.473">
+    <time>2015-06-07T08:44:23.06</time>
+    <name>C14J7XR</name>
+    <cmt>A good example of cross-bedding here.</cmt>
+    <desc>Cross-bedding sample 1</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=23caf6e6-0092-47eb-b9e5-1bb506b45568</url>
+    <urlname>Cross-bedding sample 1</urlname>
+    <sym>Reference Point</sym>
+    <type>Waypoint|Reference Point</type>
+  </wpt>
+  <wpt lat="53.657333" lon="-2.474083">
+    <time>2015-06-07T08:45:16.077</time>
+    <name>C24J7XR</name>
+    <cmt>A second good example of cross-bedding here.</cmt>
+    <desc>Cross-bedding sample 2</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=86d348a9-595f-4589-8dfa-096a0abdf7e3</url>
+    <urlname>Cross-bedding sample 2</urlname>
+    <sym>Reference Point</sym>
+    <type>Waypoint|Reference Point</type>
+  </wpt>
+  <wpt lat="53.656583" lon="-2.473917">
+    <time>2015-06-07T08:46:32.93</time>
+    <name>C34J7XR</name>
+    <cmt>A third good example of cross-bedding here.</cmt>
+    <desc>Cross-bedding sample 3</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=e9348290-486f-401c-b49c-21cbf4a0bcc9</url>
+    <urlname>Cross-bedding sample 3</urlname>
+    <sym>Reference Point</sym>
+    <type>Waypoint|Reference Point</type>
+  </wpt>
+  <wpt lat="53.640833" lon="-2.47445">
+    <time>2015-06-08T02:49:02.25</time>
+    <name>F14J7XR</name>
+    <cmt>If parking at waypoint PARKNG, this is the nearest Public Footpath entrance.</cmt>
+    <desc>Pulic footpath nearest to PARKNG waypoint</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=01e2e25e-6034-4b8e-9cbd-f029d8805460</url>
+    <urlname>Pulic footpath nearest to PARKNG waypoint</urlname>
+    <sym>Trailhead</sym>
+    <type>Waypoint|Trailhead</type>
+  </wpt>
+  <wpt lat="53.643867" lon="-2.459367">
+    <time>2015-06-08T02:50:51.457</time>
+    <name>F24J7XR</name>
+    <cmt>If parking at waypoint PARKN2, this is the nearest Public Footpath entrance.</cmt>
+    <desc>Public footpath nearest to PARKN2 waypoint</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=64d8a675-7bde-463d-8009-12523493fed1</url>
+    <urlname>Public footpath nearest to PARKN2 waypoint</urlname>
+    <sym>Trailhead</sym>
+    <type>Waypoint|Trailhead</type>
+  </wpt>
+  <wpt lat="53.657617" lon="-2.47255">
+    <time>2015-06-07T08:42:55.41</time>
+    <name>MM4J7XR</name>
+    <cmt>There are some man-made marks carved into the rock here - describe them.</cmt>
+    <desc>Man-made markings</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=bf46be7c-06db-442e-ba2e-e2296167f5ff</url>
+    <urlname>Man-made markings</urlname>
+    <sym>Reference Point</sym>
+    <type>Waypoint|Reference Point</type>
+  </wpt>
+  <wpt lat="53.645267" lon="-2.45575">
+    <time>2015-06-08T02:02:32.507</time>
+    <name>P24J7XR</name>
+    <cmt>Lay-by big enough for 3 or 4 cars.</cmt>
+    <desc>GC4J7XR Parking 2</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=047b26fa-4804-4cb0-a9a5-5e51c21984b0</url>
+    <urlname>GC4J7XR Parking 2</urlname>
+    <sym>Parking Area</sym>
+    <type>Waypoint|Parking Area</type>
+  </wpt>
+  <wpt lat="53.640067" lon="-2.4744">
+    <time>2015-06-08T02:00:35.32</time>
+    <name>PK4J7XR</name>
+    <cmt>There's a stone verge here at the roadside where one car can be parked.</cmt>
+    <desc>GC4J7XR Parking</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=4a211bc3-4e00-49fe-b0f4-842463fd928e</url>
+    <urlname>GC4J7XR Parking</urlname>
+    <sym>Parking Area</sym>
+    <type>Waypoint|Parking Area</type>
+  </wpt>
+  <wpt lat="53.72315" lon="-2.470767">
+    <time>2013-08-27T09:38:16.76</time>
+    <name>PK4M0JK</name>
+    <cmt>Car Park</cmt>
+    <desc>Parking</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=d67cc139-4972-4310-a678-bca39b7b0e94</url>
+    <urlname>Parking</urlname>
+    <sym>Parking Area</sym>
+    <type>Waypoint|Parking Area</type>
+  </wpt>
+  <wpt lat="53.726483" lon="-2.471533">
+    <time>2013-08-27T09:38:16.763</time>
+    <name>T14M0JK</name>
+    <cmt>Follow river down stream from here</cmt>
+    <desc>Trailhead</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=42b285fb-8183-4a38-9e91-ef3784484d6c</url>
+    <urlname>Trailhead</urlname>
+    <sym>Trailhead</sym>
+    <type>Waypoint|Trailhead</type>
+  </wpt>
+  <wpt lat="53.72315" lon="-2.470767">
+    <time>2013-08-27T09:52:35.337</time>
+    <name>PK4M0KV</name>
+    <cmt />
+    <desc>Parking</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=251da29d-a11b-4498-a115-bd48819f5281</url>
+    <urlname>Parking</urlname>
+    <sym>Parking Area</sym>
+    <type>Waypoint|Parking Area</type>
+  </wpt>
+  <wpt lat="53.662983" lon="-2.446117">
+    <time>2013-08-31T09:14:26.057</time>
+    <name>PK4M9KG</name>
+    <cmt>Single parking spot</cmt>
+    <desc>Parking</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=07f4e74a-de90-4cef-8e55-e96d894f7c47</url>
+    <urlname>Parking</urlname>
+    <sym>Parking Area</sym>
+    <type>Waypoint|Parking Area</type>
+  </wpt>
+  <wpt lat="53.738883" lon="-2.513617">
+    <time>2014-03-09T15:57:39.41</time>
+    <name>CP4ZZ3M</name>
+    <cmt>Main Car Park</cmt>
+    <desc>Parking 1</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=1ae49b87-8e53-4153-b624-c6f9508e9bf5</url>
+    <urlname>Parking 1</urlname>
+    <sym>Parking Area</sym>
+    <type>Waypoint|Parking Area</type>
+  </wpt>
+  <wpt lat="53.73655" lon="-2.5232">
+    <time>2014-03-09T15:57:39.407</time>
+    <name>PK4ZZ3M</name>
+    <cmt>Alternative Parking</cmt>
+    <desc>Parking 2</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=191f01ef-0b33-41ab-ab61-84219ac93404</url>
+    <urlname>Parking 2</urlname>
+    <sym>Parking Area</sym>
+    <type>Waypoint|Parking Area</type>
+  </wpt>
+  <wpt lat="53.740267" lon="-2.518">
+    <time>2014-03-23T14:59:18.413</time>
+    <name>S14ZZ3M</name>
+    <cmt>This is where you start the trail.  You will need to (virtually) pick something up here in order to continue.</cmt>
+    <desc>GC4ZZ3M Starting Point</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=827ef3a1-e5ed-4a2d-938b-8a8a92271f1c</url>
+    <urlname>GC4ZZ3M Starting Point</urlname>
+    <sym>Reference Point</sym>
+    <type>Waypoint|Reference Point</type>
+  </wpt>
+  <wpt lat="53.674333" lon="-2.4548">
+    <time>2014-03-14T04:16:49.53</time>
+    <name>PK508A4</name>
+    <cmt />
+    <desc>GC508A4 Parking</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=82539aa7-b566-4ba1-a819-4c038f08f0c1</url>
+    <urlname>GC508A4 Parking</urlname>
+    <sym>Parking Area</sym>
+    <type>Waypoint|Parking Area</type>
+  </wpt>
+  <wpt lat="53.663083" lon="-2.562067">
+    <time>2014-08-11T15:34:28.66</time>
+    <name>FN5AQZ0</name>
+    <cmt />
+    <desc>Final Location</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=a289f636-210b-44ad-93e8-3b34f1943e02</url>
+    <urlname>Final Location</urlname>
+    <sym>Final Location</sym>
+    <type>Waypoint|Final Location</type>
+  </wpt>
+  <wpt lat="53.6745" lon="-2.4548">
+    <time>2015-04-04T08:51:29.547</time>
+    <name>P15QPX1</name>
+    <cmt>This is also the starting point for GC47RF7</cmt>
+    <desc>car parking</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=6b35b251-33b0-4c1f-a0b4-a7558b6d1edf</url>
+    <urlname>car parking</urlname>
+    <sym>Parking Area</sym>
+    <type>Waypoint|Parking Area</type>
+  </wpt>
+  <wpt lat="53.7288" lon="-2.47185">
+    <time>2016-01-28T12:45:32.253</time>
+    <name>P06ADTC</name>
+    <cmt />
+    <desc>Free Parking </desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=3faccccc-78c2-4d0c-8ba4-7da250ea37f1</url>
+    <urlname>Free Parking </urlname>
+    <sym>Parking Area</sym>
+    <type>Waypoint|Parking Area</type>
+  </wpt>
+  <wpt lat="53.726833" lon="-2.474433">
+    <time>2016-03-14T06:10:04.147</time>
+    <name>P06DAG7</name>
+    <cmt />
+    <desc>Fishmoor Football Club</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=7e04b12f-3d6f-46d7-8be2-d2efd85bc362</url>
+    <urlname>Fishmoor Football Club</urlname>
+    <sym>Parking Area</sym>
+    <type>Waypoint|Parking Area</type>
+  </wpt>
+  <wpt lat="53.662193" lon="-2.508302">
+    <time>2016-12-01T01:54:00.47</time>
+    <name>P06XN2G</name>
+    <cmt />
+    <desc>Layby Parking</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=a6c3bd56-a91b-4517-8b8c-b0ff5bf81675</url>
+    <urlname>Layby Parking</urlname>
+    <sym>Parking Area</sym>
+    <type>Waypoint|Parking Area</type>
+  </wpt>
+  <wpt lat="53.700733" lon="-2.433383">
+    <time>2017-08-05T11:34:11.427</time>
+    <name>P07A2Y5</name>
+    <cmt>Easy parking you could also park anywhere on the road.</cmt>
+    <desc>car park.</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=876f4aff-d804-466b-9402-e88bdc2f6150</url>
+    <urlname>car park.</urlname>
+    <sym>Parking Area</sym>
+    <type>Waypoint|Parking Area</type>
+  </wpt>
+  <wpt lat="53.703983" lon="-2.424417">
+    <time>2017-08-05T14:31:57.78</time>
+    <name>T07A396</name>
+    <cmt />
+    <desc>Stile Footpath.</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=caeb7ef5-5830-458c-9b1f-6a478afe5c00</url>
+    <urlname>Stile Footpath.</urlname>
+    <sym>Trailhead</sym>
+    <type>Waypoint|Trailhead</type>
+  </wpt>
+  <wpt lat="53.7005" lon="-2.42815">
+    <time>2017-08-05T14:39:11.837</time>
+    <name>T07A39G</name>
+    <cmt>correct path.</cmt>
+    <desc>Stile</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=f2ad1733-984d-4887-bae1-4d2a2338224c</url>
+    <urlname>Stile</urlname>
+    <sym>Trailhead</sym>
+    <type>Waypoint|Trailhead</type>
+  </wpt>
+  <wpt lat="53.73488" lon="-2.543614">
+    <time>2017-08-28T13:45:24.917</time>
+    <name>P07BHK4</name>
+    <cmt>Parking</cmt>
+    <desc>Parking</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=793be8b2-eff9-49e4-b689-9905d60bf894</url>
+    <urlname>Parking</urlname>
+    <sym>Parking Area</sym>
+    <type>Waypoint|Parking Area</type>
+  </wpt>
+  <wpt lat="53.734485" lon="-2.514281">
+    <time>2018-06-12T15:20:12.947</time>
+    <name>P07R56H</name>
+    <cmt>On-street parking</cmt>
+    <desc>Feniscliffe Drive</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=3910d935-67d2-48aa-a23f-d26e4cc1e951</url>
+    <urlname>Feniscliffe Drive</urlname>
+    <sym>Parking Area</sym>
+    <type>Waypoint|Parking Area</type>
+  </wpt>
+  <wpt lat="53.67435" lon="-2.424467">
+    <time>2018-07-12T11:25:41.07</time>
+    <name>017T6KV</name>
+    <cmt>There is parking here for maybe 2 cars.</cmt>
+    <desc>Parking</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=6fb033db-d7c3-4e09-b61e-57dfca07192e</url>
+    <urlname>Parking</urlname>
+    <sym>Parking Area</sym>
+    <type>Waypoint|Parking Area</type>
+  </wpt>
+  <wpt lat="53.673667" lon="-2.42365">
+    <time>2018-07-12T11:25:41.11</time>
+    <name>027T6KV</name>
+    <cmt>This is another area to park if you so wish.</cmt>
+    <desc>Parking</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=70d54221-987d-4211-b8d4-78a1f2fae98c</url>
+    <urlname>Parking</urlname>
+    <sym>Parking Area</sym>
+    <type>Waypoint|Parking Area</type>
+  </wpt>
+  <wpt lat="53.678183" lon="-2.43765">
+    <time>2018-07-12T11:54:48.77</time>
+    <name>017T6MK</name>
+    <cmt>To the stile then left down the road.</cmt>
+    <desc>Stlie</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=fb76ea56-9b48-42c0-a992-ae1742d5e63e</url>
+    <urlname>Stlie</urlname>
+    <sym>Trailhead</sym>
+    <type>Waypoint|Trailhead</type>
+  </wpt>
+  <wpt lat="53.682267" lon="-2.447433">
+    <time>2018-07-12T12:05:59.29</time>
+    <name>017T6MT</name>
+    <cmt>This is for the footpath to number 7.</cmt>
+    <desc>Footpath</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=3e07b3c2-bf98-4d24-98b0-81c7e52df7c6</url>
+    <urlname>Footpath</urlname>
+    <sym>Trailhead</sym>
+    <type>Waypoint|Trailhead</type>
+  </wpt>
+  <wpt lat="53.683167" lon="-2.44385">
+    <time>2018-07-12T12:10:43.8</time>
+    <name>017T6N0</name>
+    <cmt>From here walk across field to Number 8.</cmt>
+    <desc>Parking</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=28d0f2a9-7bc4-4e57-9bf4-f7556a20850b</url>
+    <urlname>Parking</urlname>
+    <sym>Trailhead</sym>
+    <type>Waypoint|Trailhead</type>
+  </wpt>
+  <wpt lat="53.68465" lon="-2.438867">
+    <time>2018-07-12T12:21:12.33</time>
+    <name>017T6N4</name>
+    <cmt>Walk up the hill towards the farm, at this waypoint i take the right track round through the farmyard.</cmt>
+    <desc>Through The Farmyard.</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=1f6c7f97-943b-48b1-aab5-cecc669ea9a5</url>
+    <urlname>Through The Farmyard.</urlname>
+    <sym>Trailhead</sym>
+    <type>Waypoint|Trailhead</type>
+  </wpt>
+  <wpt lat="53.68445" lon="-2.4382">
+    <time>2018-07-12T12:21:12.343</time>
+    <name>027T6N4</name>
+    <cmt>Just keep walking through and round. You may encounter barking dogs which have always been harmless.</cmt>
+    <desc>Farmyard.</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=5d4192bf-9dff-446e-8596-3d2a7809d958</url>
+    <urlname>Farmyard.</urlname>
+    <sym>Trailhead</sym>
+    <type>Waypoint|Trailhead</type>
+  </wpt>
+  <wpt lat="53.684917" lon="-2.438017">
+    <time>2018-07-12T12:21:12.363</time>
+    <name>037T6N4</name>
+    <cmt>Now take the right path upto number 9.</cmt>
+    <desc>Farmyard exit.</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=0807210e-a644-4903-a879-28b17d91e058</url>
+    <urlname>Farmyard exit.</urlname>
+    <sym>Trailhead</sym>
+    <type>Waypoint|Trailhead</type>
+  </wpt>
+  <wpt lat="53.687617" lon="-2.436083">
+    <time>2018-07-12T12:25:53.733</time>
+    <name>017T6N6</name>
+    <cmt>This is for the footpath turn off the Road.</cmt>
+    <desc>Footpath</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=f7567842-d860-498f-a4e6-55bdbfa84c3b</url>
+    <urlname>Footpath</urlname>
+    <sym>Trailhead</sym>
+    <type>Waypoint|Trailhead</type>
+  </wpt>
+  <wpt lat="53.68785" lon="-2.434317">
+    <time>2018-07-12T12:32:44.59</time>
+    <name>017T6NA</name>
+    <cmt>The stile to get over to number 11.</cmt>
+    <desc>Stile </desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=833c316d-908d-4d2a-bb54-f3c9c60ba870</url>
+    <urlname>Stile </urlname>
+    <sym>Trailhead</sym>
+    <type>Waypoint|Trailhead</type>
+  </wpt>
+  <wpt lat="53.689017" lon="-2.434833">
+    <time>2018-07-12T12:32:44.6</time>
+    <name>027T6NA</name>
+    <cmt>Second stile.</cmt>
+    <desc>Stile 2.</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=55f3cd68-c42b-482f-9c5f-d4b73ae1802d</url>
+    <urlname>Stile 2.</urlname>
+    <sym>Trailhead</sym>
+    <type>Waypoint|Trailhead</type>
+  </wpt>
+  <wpt lat="53.6912" lon="-2.4369">
+    <time>2018-07-12T12:38:42.39</time>
+    <name>017T6NC</name>
+    <cmt>Stile to get to number 12.</cmt>
+    <desc>Stile.</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=67441dbe-a633-49cb-bbb9-cd481bf8616b</url>
+    <urlname>Stile.</urlname>
+    <sym>Trailhead</sym>
+    <type>Waypoint|Trailhead</type>
+  </wpt>
+  <wpt lat="53.693533" lon="-2.430383">
+    <time>2018-07-12T13:09:17.447</time>
+    <name>017T6NJ</name>
+    <cmt>Stile to number 14. could be a horse in the field? its always been ok with me.</cmt>
+    <desc>Stile</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=3c63dc7e-1f64-47be-97d3-e360c3665a59</url>
+    <urlname>Stile</urlname>
+    <sym>Trailhead</sym>
+    <type>Waypoint|Trailhead</type>
+  </wpt>
+  <wpt lat="53.693417" lon="-2.428483">
+    <time>2018-09-02T10:04:43.18</time>
+    <name>027T6NJ</name>
+    <cmt />
+    <desc>Way to GZ.</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=89684d98-1952-4256-8e0c-26178f8ee4c1</url>
+    <urlname>Way to GZ.</urlname>
+    <sym>Trailhead</sym>
+    <type>Waypoint|Trailhead</type>
+  </wpt>
+  <wpt lat="53.693733" lon="-2.428217">
+    <time>2018-07-12T13:13:40.76</time>
+    <name>017T6NN</name>
+    <cmt>Over the stile up the overground path then right at the top.</cmt>
+    <desc>Stile</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=11c007f9-09bd-4d5a-b99d-2722ebdf4488</url>
+    <urlname>Stile</urlname>
+    <sym>Trailhead</sym>
+    <type>Waypoint|Trailhead</type>
+  </wpt>
+  <wpt lat="53.689767" lon="-2.4238">
+    <time>2018-07-12T13:22:58.567</time>
+    <name>017T6NX</name>
+    <cmt>Correct way to number17.</cmt>
+    <desc>Stile</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=54fe2aba-6d58-4e34-95fe-460bed966df4</url>
+    <urlname>Stile</urlname>
+    <sym>Trailhead</sym>
+    <type>Waypoint|Trailhead</type>
+  </wpt>
+  <wpt lat="53.688283" lon="-2.422733">
+    <time>2018-07-12T13:22:58.59</time>
+    <name>027T6NX</name>
+    <cmt />
+    <desc>Another Stile</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=38318abb-e8e7-4cbf-9fd8-82111c6d0049</url>
+    <urlname>Another Stile</urlname>
+    <sym>Trailhead</sym>
+    <type>Waypoint|Trailhead</type>
+  </wpt>
+  <wpt lat="53.687733" lon="-2.423233">
+    <time>2018-07-12T13:22:58.603</time>
+    <name>037T6NX</name>
+    <cmt>The path now up to 17 is tough under foot please be careful.</cmt>
+    <desc>Over Fence here</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=6af1c84d-1860-4869-b466-74b912e2ee82</url>
+    <urlname>Over Fence here</urlname>
+    <sym>Trailhead</sym>
+    <type>Waypoint|Trailhead</type>
+  </wpt>
+  <wpt lat="53.68635" lon="-2.42425">
+    <time>2018-07-12T13:26:22.86</time>
+    <name>017T6NZ</name>
+    <cmt />
+    <desc>Stile</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=fca44e75-7901-465d-9a55-ce662e75116f</url>
+    <urlname>Stile</urlname>
+    <sym>Trailhead</sym>
+    <type>Waypoint|Trailhead</type>
+  </wpt>
+  <wpt lat="53.685817" lon="-2.4247">
+    <time>2018-07-12T13:26:22.873</time>
+    <name>027T6NZ</name>
+    <cmt />
+    <desc>Stile</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=935897ea-959f-4627-aae0-4a6a9c098a74</url>
+    <urlname>Stile</urlname>
+    <sym>Trailhead</sym>
+    <type>Waypoint|Trailhead</type>
+  </wpt>
+  <wpt lat="53.684133" lon="-2.42615">
+    <time>2018-07-12T13:29:18.467</time>
+    <name>017T6P2</name>
+    <cmt>After getting over stile walk across field to the fence keep it on your left and walk up to number 19.</cmt>
+    <desc>Stile</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=e692dc2a-207d-46d8-9d58-346f1de0eb56</url>
+    <urlname>Stile</urlname>
+    <sym>Trailhead</sym>
+    <type>Waypoint|Trailhead</type>
+  </wpt>
+  <wpt lat="53.682767" lon="-2.42665">
+    <time>2018-07-12T13:32:00.713</time>
+    <name>017T6P6</name>
+    <cmt>From number 19 . get over the gate and walk across the field . The correct path on OS maps seems to have been fenced off.</cmt>
+    <desc>Field Crossing.</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=acf7cd39-bb00-4fd4-9cad-7dbb5a8e86bd</url>
+    <urlname>Field Crossing.</urlname>
+    <sym>Trailhead</sym>
+    <type>Waypoint|Trailhead</type>
+  </wpt>
+  <wpt lat="53.6823" lon="-2.4261">
+    <time>2018-07-17T12:15:30.003</time>
+    <name>027T6P6</name>
+    <cmt>At the gate turn right up the track to 20. </cmt>
+    <desc>Gate .</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=29504b5e-bbe0-4b3c-8684-78257c994956</url>
+    <urlname>Gate .</urlname>
+    <sym>Trailhead</sym>
+    <type>Waypoint|Trailhead</type>
+  </wpt>
+  <wpt lat="53.664367" lon="-2.576567">
+    <time>2018-12-12T11:43:32.373</time>
+    <name>01819P7</name>
+    <cmt />
+    <desc>Stile</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=09b71865-6360-4020-a03e-5761153038ab</url>
+    <urlname>Stile</urlname>
+    <sym>Reference Point</sym>
+    <type>Waypoint|Reference Point</type>
+  </wpt>
+  <wpt lat="53.663017" lon="-2.57595">
+    <time>2018-12-12T11:46:04.113</time>
+    <name>02819P7</name>
+    <cmt />
+    <desc>Unnatural stone objects</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=27d52119-165f-47b1-b466-d8edda845271</url>
+    <urlname>Unnatural stone objects</urlname>
+    <sym>Virtual Stage</sym>
+    <type>Waypoint|Virtual Stage</type>
+  </wpt>
+  <wpt lat="53.6636" lon="-2.57675">
+    <time>2018-12-15T08:05:36.56</time>
+    <name>04819P7</name>
+    <cmt>This path fork provides a comparatively safe route which circles in a clockwise direction to the top of the quarry. It is still uneven underfoot though and can be slippy of the ground is wet to please wear decent footwear and go carefully!</cmt>
+    <desc>Path fork to top of quarry</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=817c2b37-4fbe-4cfb-8037-6fae37b1106c</url>
+    <urlname>Path fork to top of quarry</urlname>
+    <sym>Trailhead</sym>
+    <type>Waypoint|Trailhead</type>
+  </wpt>
+  <wpt lat="53.66635" lon="-2.576417">
+    <time>2018-12-12T11:39:08.34</time>
+    <name>P0819P7</name>
+    <cmt>Through the gate and over the water</cmt>
+    <desc>Kissing gate</desc>
+    <url>http://www.geocaching.com/seek/wpt.aspx?WID=9ead515c-4c9d-4a02-8688-0850e50dda89</url>
+    <urlname>Kissing gate</urlname>
+    <sym>Trailhead</sym>
+    <type>Waypoint|Trailhead</type>
+  </wpt>
+</gpx>

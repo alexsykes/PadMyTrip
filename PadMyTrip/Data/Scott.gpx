@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gpx version="1.0" creator="GPSBabel - http://www.gpsbabel.org" xmlns="http://www.topografix.com/GPX/1/0">
+  <time>2019-10-11T09:24:10.476Z</time>
+  <bounds minlat="54.384876203" minlon="-2.038490046" maxlat="54.440251811" maxlon="-1.805934069"/>
+  <wpt lat="54.423065600" lon="-2.001938061">
+    <ele>0.000</ele>
+    <name>CB Inn</name>
+    <cmt>CB Inn</cmt>
+    <desc>CB Inn</desc>
+  </wpt>
+  <wpt lat="54.422084810" lon="-1.805934069">
+    <ele>0.000</ele>
+    <name>Start Field</name>
+    <cmt>Feldom Lane,
+DL11 7LS</cmt>
+    <desc>Feldom Lane,
+DL11 7LS</desc>
+  </wpt>
+  <wpt lat="54.384876203" lon="-1.902832636">
+    <ele>0.000</ele>
+    <name>1, 13 &amp; 14 - Reels Head / Underbanks</name>
+    <cmt>09:55 - Reels Head 1
+
+14:10 - Reels Head 2
+
+14:20 - Underbanks</cmt>
+    <desc>09:55 - Reels Head 1
+
+14:10 - Reels Head 2
+
+14:20 - Underbanks</desc>
+  </wpt>
+  <wpt lat="54.400468941" lon="-1.959037481">
+    <ele>0.000</ele>
+    <name>2 - Lane to Rawcroft</name>
+    <cmt>10:15
+2 Sections
+20 minutes walk</cmt>
+    <desc>10:15
+2 Sections
+20 minutes walk</desc>
+  </wpt>
+  <wpt lat="54.438617320" lon="-1.995043369">
+    <ele>0.000</ele>
+    <name>3 &amp; 4 - Bridge End / Shaw Gutter</name>
+    <cmt>Just past CB Inn
+Food
+Toilets
+
+Bridge End - 10:30
+Shaw Gutter - 10:40</cmt>
+    <desc>Just past CB Inn
+Food
+Toilets
+
+Bridge End - 10:30
+Shaw Gutter - 10:40</desc>
+  </wpt>
+  <wpt lat="54.440251811" lon="-2.038490046">
+    <ele>0.000</ele>
+    <name>5 - Whaw Bridge</name>
+    <cmt>11:55</cmt>
+    <desc>11:55</desc>
+  </wpt>
+  <wpt lat="54.417281000" lon="-2.005707000">
+    <ele>0.000</ele>
+    <name>6, 7 &amp; 8 - Blackhills/Tubby's Tank Trap/Grand Canyon</name>
+    <cmt>12:10 - Blackhills
+Walk course in reverse from TTT
+12:15 - Tubby's Tank Trap
+Short walk from road to right
+12:20 - Grand Canyon
+1/4 mile walk from road</cmt>
+    <desc>12:10 - Blackhills
+Walk course in reverse from TTT
+12:15 - Tubby's Tank Trap
+Short walk from road to right
+12:20 - Grand Canyon
+1/4 mile walk from road</desc>
+  </wpt>
+  <wpt lat="54.404798552" lon="-2.012690428">
+    <ele>0.000</ele>
+    <name>9 - Bypass</name>
+    <cmt>12:25 - 3 sections and food</cmt>
+    <desc>12:25 - 3 sections and food</desc>
+  </wpt>
+  <wpt lat="54.394966547" lon="-2.018268212">
+    <ele>0.000</ele>
+    <name>10 &amp; 11 - Surrender/Roy's Rocks</name>
+    <cmt>13:25 - Surrender
+Toilets
+13:45 - Roy's Rocks</cmt>
+    <desc>13:25 - Surrender
+Toilets
+13:45 - Roy's Rocks</desc>
+  </wpt>
+  <wpt lat="54.398346974" lon="-1.954355267">
+    <ele>0.000</ele>
+    <name>12 - Sleeper Stones</name>
+    <cmt>14:00
+Half mile walk</cmt>
+    <desc>14:00
+Half mile walk</desc>
+  </wpt>
+  <wpt lat="54.415278409" lon="-1.818003749">
+    <ele>0.000</ele>
+    <name>15 - Clapgate</name>
+    <cmt>15:00 - Clapgate</cmt>
+    <desc>15:00 - Clapgate</desc>
+  </wpt>
+</gpx>
+

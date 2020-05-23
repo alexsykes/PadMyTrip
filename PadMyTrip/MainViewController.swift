@@ -13,8 +13,6 @@ import Foundation
 
 class MainViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIDocumentPickerDelegate, MKMapViewDelegate, SettingsDelegate, TrackDetailDelegate, NewTableViewCellDelegate, XMLParserDelegate {
     
-    
-    
     // MARK: Properties
     // MARK: Outlets
     @IBOutlet weak var mapView: MKMapView!
@@ -52,6 +50,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     var lat: String!
     var date: String!
     var elementName: String!
+    var xMLUtilities: XMLUtilities!
     
     // MARK: Actions
     // + Button clicked
@@ -80,6 +79,8 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     override func viewDidLoad() {
         super.viewDidLoad()
         print("ViewDidLoad")
+         var parser = XMLUtilities()
+        let data = parser.XML2CSV()
         defaults = UserDefaults.standard
         nextTrackID = defaults.integer(forKey: "nextTrackID")
         

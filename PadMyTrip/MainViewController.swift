@@ -79,7 +79,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     override func viewDidLoad() {
         super.viewDidLoad()
         print("ViewDidLoad")
-         var parser = XMLUtilities()
+        var parser = XMLUtilities()
         let data = parser.XML2CSV()
         defaults = UserDefaults.standard
         nextTrackID = defaults.integer(forKey: "nextTrackID")

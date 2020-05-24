@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		FA2304862455B135004C0819 /* Structs.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2304852455B135004C0819 /* Structs.swift */; };
 		FA675506247944C400BB3128 /* XMLUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA675505247944C400BB3128 /* XMLUtilities.swift */; };
+		FA67550824798C0000BB3128 /* Tracks.gpx in Resources */ = {isa = PBXBuildFile; fileRef = FA67550724798C0000BB3128 /* Tracks.gpx */; };
+		FA67550A2479903D00BB3128 /* Groundspeak.gpx in Resources */ = {isa = PBXBuildFile; fileRef = FA6755092479903D00BB3128 /* Groundspeak.gpx */; };
+		FA67550C2479905500BB3128 /* Scott.gpx in Resources */ = {isa = PBXBuildFile; fileRef = FA67550B2479905500BB3128 /* Scott.gpx */; };
+		FA67550E247991FF00BB3128 /* Current.gpx in Resources */ = {isa = PBXBuildFile; fileRef = FA67550D247991FF00BB3128 /* Current.gpx */; };
 		FA6EA99B245429C0002F6C85 /* Track.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6EA99A245429C0002F6C85 /* Track.swift */; };
 		FA75E83E245BFC5000E9A26F /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA75E83D245BFC5000E9A26F /* MapKit.framework */; };
 		FA75E844245C3D5300E9A26F /* TrackViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA75E843245C3D5300E9A26F /* TrackViewCell.swift */; };
@@ -41,10 +45,11 @@
 /* Begin PBXFileReference section */
 		FA2304852455B135004C0819 /* Structs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Structs.swift; sourceTree = "<group>"; };
 		FA571A27245B078A0086A9E6 /* PadMyTripRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PadMyTripRelease.entitlements; sourceTree = "<group>"; };
-		FA675501247944A700BB3128 /* Scott.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Scott.gpx; sourceTree = "<group>"; };
-		FA675502247944A700BB3128 /* Groundspeak.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Groundspeak.gpx; sourceTree = "<group>"; };
-		FA675503247944A700BB3128 /* Track.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Track.gpx; sourceTree = "<group>"; };
 		FA675505247944C400BB3128 /* XMLUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLUtilities.swift; sourceTree = "<group>"; };
+		FA67550724798C0000BB3128 /* Tracks.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Tracks.gpx; sourceTree = "<group>"; };
+		FA6755092479903D00BB3128 /* Groundspeak.gpx */ = {isa = PBXFileReference; lastKnownFileType = text; path = Groundspeak.gpx; sourceTree = "<group>"; };
+		FA67550B2479905500BB3128 /* Scott.gpx */ = {isa = PBXFileReference; lastKnownFileType = text; path = Scott.gpx; sourceTree = "<group>"; };
+		FA67550D247991FF00BB3128 /* Current.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Current.gpx; sourceTree = "<group>"; };
 		FA6EA99A245429C0002F6C85 /* Track.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Track.swift; sourceTree = "<group>"; };
 		FA75E83D245BFC5000E9A26F /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		FA75E843245C3D5300E9A26F /* TrackViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackViewCell.swift; sourceTree = "<group>"; };
@@ -91,6 +96,10 @@
 		FA675500247944A700BB3128 /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				FA67550D247991FF00BB3128 /* Current.gpx */,
+				FA67550724798C0000BB3128 /* Tracks.gpx */,
+				FA6755092479903D00BB3128 /* Groundspeak.gpx */,
+				FA67550B2479905500BB3128 /* Scott.gpx */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -125,9 +134,6 @@
 		FA96A57E245304FC001863CA /* PadMyTrip */ = {
 			isa = PBXGroup;
 			children = (
-				FA675501247944A700BB3128 /* Scott.gpx */,
-				FA675503247944A700BB3128 /* Track.gpx */,
-				FA675502247944A700BB3128 /* Groundspeak.gpx */,
 				FA675500247944A700BB3128 /* Data */,
 				FAFBA0B82460447B00FB7A98 /* PersistentContainer.swift */,
 				FA675505247944C400BB3128 /* XMLUtilities.swift */,
@@ -244,8 +250,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				FA96A58C245304FD001863CA /* LaunchScreen.storyboard in Resources */,
+				FA67550E247991FF00BB3128 /* Current.gpx in Resources */,
 				FA96A589245304FD001863CA /* Assets.xcassets in Resources */,
 				FA96A587245304FC001863CA /* Main.storyboard in Resources */,
+				FA67550C2479905500BB3128 /* Scott.gpx in Resources */,
+				FA67550A2479903D00BB3128 /* Groundspeak.gpx in Resources */,
+				FA67550824798C0000BB3128 /* Tracks.gpx in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

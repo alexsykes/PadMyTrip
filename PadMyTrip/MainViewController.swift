@@ -50,7 +50,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     var lat: String!
     var date: String!
     var elementName: String!
-    var xMLUtilities: XMLUtilities!
+   // var xMLUtilities: XMLUtilities!
     
     // MARK: Actions
     // + Button clicked

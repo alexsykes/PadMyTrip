@@ -80,7 +80,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         super.viewDidLoad()
         print("ViewDidLoad")
    //    var parser = XMLUtilities()
-   //     let data = parser.XML2CSV()
+    //    var trackData: [TrackData] = parser.XML2CSV()
         defaults = UserDefaults.standard
         nextTrackID = defaults.integer(forKey: "nextTrackID")
         
@@ -91,9 +91,12 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         trackTableView.allowsMultipleSelection = true
         
         // Setup currentMap and populate from data in JSON data
-        trackData = []
+       // trackData = []
         readStoredJSONMapData()
         readStoredJSONTrackData()
+        
+        
+     //   trackData.append(contentsOf: parser.XML2CSV())
         
         currentMap = Map(mapData: map)
         
@@ -293,7 +296,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
                 points.append(newLocation)
                 locations.append(loc)
             }
-            trackData.append(TrackData.init(name: filename, isVisible: true, _id: nextTrackID, points: points, style: 0))
+           // trackData.append(TrackData.init(name: filename, isVisible: true, _id: nextTrackID, points: points, style: 0))
            // currentMap.trackIDs.append(nextTrackID)
             nextTrackID += 1
             defaults.set(nextTrackID, forKey: "nextTrackID")
@@ -677,7 +680,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         track.name = newName!
         track.isVisible = isTrackIncluded
         track.style = Int(trackDetails["lineStyle"]!)!
-        self.trackData.append(track)
+       // self.trackData.append(track)
         saveFileData()
         trackTableView.reloadData()
     }

@@ -79,8 +79,8 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     override func viewDidLoad() {
         super.viewDidLoad()
         print("ViewDidLoad")
-        var parser = XMLUtilities()
-        let data = parser.XML2CSV()
+   //    var parser = XMLUtilities()
+   //     let data = parser.XML2CSV()
         defaults = UserDefaults.standard
         nextTrackID = defaults.integer(forKey: "nextTrackID")
         
@@ -251,7 +251,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         
         for trackURL in importFileURLs {
-         //   let filename = trackURL.lastPathComponent
+            let filename = trackURL.lastPathComponent
             let path = trackURL.path
             
             // Start again
@@ -278,24 +278,24 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
                     parser.parse()
                 }
             }
-//            print("GPX file")
-//            print("Points: \(pointData.count)")
-//            var points :[Location] = []
-//            var locations :[CLLocation] = []
-//            for point in pointData {
-//                let location = point.split(separator: ",")
-//                let lat = Double(location[0])!
-//                let long = Double(location[1])!
-//                let elev = Double(location[4])!
-//
-//                let newLocation = Location(long: long, lat: lat, elevation: elev)
-//                let loc = CLLocation(latitude: lat, longitude: long)
-//                points.append(newLocation)
-//                locations.append(loc)
-//            }
-//            trackData.append(TrackData.init(name: filename, isVisible: true, _id: nextTrackID, points: points, style: 0))
-//            // currentMap.trackIDs.append(nextTrackID)
-//            nextTrackID += 1
+            print("GPX file")
+            print("Points: \(pointData.count)")
+            var points :[Location] = []
+            var locations :[CLLocation] = []
+            for point in pointData {
+                let location = point.split(separator: ",")
+                let lat = Double(location[0])!
+                let long = Double(location[1])!
+                let elev = Double(location[4])!
+
+                let newLocation = Location(long: long, lat: lat, elevation: elev)
+                let loc = CLLocation(latitude: lat, longitude: long)
+                points.append(newLocation)
+                locations.append(loc)
+            }
+            trackData.append(TrackData.init(name: filename, isVisible: true, _id: nextTrackID, points: points, style: 0))
+           // currentMap.trackIDs.append(nextTrackID)
+            nextTrackID += 1
             defaults.set(nextTrackID, forKey: "nextTrackID")
             
             mapRefresh()

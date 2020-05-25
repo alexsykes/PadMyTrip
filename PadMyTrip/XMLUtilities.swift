@@ -43,7 +43,7 @@ class XMLUtilities: NSObject, XMLParserDelegate {
     
     func XML2CSV() -> String {
         var csv = ""
-        if let path = Bundle.main.url(forResource: "Current", withExtension: "gpx") {
+        if let path = Bundle.main.url(forResource: "Tracks", withExtension: "gpx") {
             if let parser = XMLParser(contentsOf: path) {
                 parser.delegate = self
                 parser.parse()
@@ -91,8 +91,8 @@ class XMLUtilities: NSObject, XMLParserDelegate {
                 print("\(pointCount ?? 0) points")
                 
                 //  pointData contains CSV String of lat, long, hacc, vacc, elev ,??, date
-                let point: String = lat + "," + long + ",0,0," + ele + "," + date
-                pointData.append(point)
+              //  let point: String = lat + "," + long + ",0,0," + ele + "," + date
+             //   pointData.append(point)
             }
             else if elementName == "trkseg" {
                 print("Track ended")
@@ -120,7 +120,7 @@ class XMLUtilities: NSObject, XMLParserDelegate {
     /// - Function
         func parserDidEndDocument(_ parser: XMLParser) {
             print("parserDidEndDocument")
-            
+            var trackData: [TrackData] = []
             
             /// At this stage, we have all tracks imported and held in tracksRead array
 
